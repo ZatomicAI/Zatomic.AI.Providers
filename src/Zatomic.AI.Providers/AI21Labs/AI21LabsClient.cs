@@ -135,24 +135,14 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 		private AIException BuildAIException(Exception ex, AI21LabsRequest request, string responseString = null)
 		{
-			// Create a new request object without the messages to avoid potential
-			// data bloat in the exception and any unwanted logging of messages
-			var strippedRequest = new AI21LabsRequest
-			{
-				MaxTokens = request.MaxTokens,
-				Model = request.Model,
-				N = request.N,
-				ResponseFormat = request.ResponseFormat,
-				Stream = request.Stream,
-				Stop = request.Stop,
-				Temperature = request.Temperature,
-				TopP = request.TopP
-			};
+			// Clear the messages from the request to avoid data bloat
+			// in the exception and any unwanted logging of messages
+			request.Messages.Clear();
 
 			var aiEx = new AIException(ex.Message)
 			{
 				Provider = "AI21 Labs",
-				Request = JsonConvert.SerializeObject(strippedRequest)
+				Request = JsonConvert.SerializeObject(request)
 			};
 
 			if (!responseString.IsNullOrEmpty())
