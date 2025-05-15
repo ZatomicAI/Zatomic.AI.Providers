@@ -13,6 +13,7 @@
     <Version>0.1.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AI;AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;Meta;Mistral;OpenAI;TogetherAI;xAI</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
