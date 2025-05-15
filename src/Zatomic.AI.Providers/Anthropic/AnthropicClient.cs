@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.AI21Labs
+namespace Zatomic.AI.Providers.Anthropic
 {
-	public class AI21LabsClient
+	public class AnthropicClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.ai21.com/studio/v1/chat/completions";
+		public string ApiUrl { get; set; } = "https://api.anthropic.com/v1/messages";
+		public string ApiVersion { get; set; } = "2023-06-01";
+		public List<string> BetaVersions { get; private set; }
 
-		public AI21LabsClient()
+		public AnthropicClient()
 		{
+			BetaVersions = new List<string>();
 		}
 
-		public AI21LabsClient(string apiKey) : this()
+		public AnthropicClient(string apiKey) : this()
 		{
 			ApiKey = apiKey;
 		}
 
-		public async Task<AI21LabsResponse> ChatAsync(AI21LabsRequest request)
+		public async Task<AnthropicResponse> ChatAsync(AnthropicRequest request)
 		{
-			AI21LabsResponse response = null;
+			AnthropicResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("Anthropic-Version", ApiVersion);
+
+				if (BetaVersions.Count > 0)
+				{
+					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
+				}
 
 				var requestString = JsonConvert.SerializeObject(request);
 				var content = new StringContent(requestString, Encoding.UTF8, "application/json");
@@ -49,7 +57,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 					stopwatch.Stop();
 
-					response = JsonConvert.DeserializeObject<AI21LabsResponse>(responseString);
+					response = JsonConvert.DeserializeObject<AnthropicResponse>(responseString);
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
@@ -62,15 +70,19 @@ namespace Zatomic.AI.Providers.AI21Labs
 			return response;
 		}
 
-		public async IAsyncEnumerable<StreamResult> ChatStreamAsync(AI21LabsRequest request)
+		public async IAsyncEnumerable<StreamResult> ChatStreamAsync(AnthropicRequest request)
 		{
-			// N must be 1 when streaming
 			request.Stream = true;
-			request.N = 1;
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("X-Api-Key", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("Anthropic-Version", ApiVersion);
+
+				if (BetaVersions.Count > 0)
+				{
+					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
+				}
 
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
 				{
@@ -92,6 +104,9 @@ namespace Zatomic.AI.Providers.AI21Labs
 				}
 
 				var streamComplete = false;
+				var chunk = "";
+				var inputTokens = 0;
+				var outputTokens = 0;
 				var stopwatch = Stopwatch.StartNew();
 
 				using (var stream = await postResponse.Content.ReadAsStreamAsync())
@@ -112,27 +127,42 @@ namespace Zatomic.AI.Providers.AI21Labs
 							throw aiEx;
 						}
 
-						if (!line.IsNullOrEmpty())
+						// Anthropic streams two types of lines: one that starts with "event:" and one that
+						// starts with "data:". The "event:" lines basically tell you what kind of "data:" line
+						// is next, but that bit of info is also in the "data:" line, so we only care about those.
+						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							// Ignore everything before the first curly brace
-							var index = line.IndexOf("{");
-							if (index != -1)
+							if (line.Contains(AnthropicStreamEventTypes.MessageStart))
 							{
-								line = line.Substring(index);
+								// Anthropic puts the input token count in the message start event
+								var messageStart = JsonConvert.DeserializeObject<AnthropicStreamMessageStart>(line.Substring(6));
+								inputTokens = messageStart.Message.Usage.InputTokens;
 							}
 
-							var rsp = JsonConvert.DeserializeObject<AI21LabsResponse>(line);
-							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
+							if (line.Contains(AnthropicStreamEventTypes.MessageDelta))
+							{
+								// Anthropic puts the output token count in the message delta event
+								var messageDelta = JsonConvert.DeserializeObject<AnthropicStreamMessageDelta>(line.Substring(6));
+								outputTokens = messageDelta.Usage.OutputTokens;
+							}
+
+							if (line.Contains(AnthropicStreamEventTypes.MessageStop))
 							{
 								streamComplete = true;
 								stopwatch.Stop();
 							}
 
-							var result = new StreamResult { Chunk = rsp.Choices[0].Delta.Content };
+							if (line.Contains(AnthropicStreamEventTypes.ContentBlockDelta))
+							{
+								var delta = JsonConvert.DeserializeObject<AnthropicStreamContentBlockDelta>(line.Substring(6));
+								chunk = delta.Delta.Text;
+							}
+
+							var result = new StreamResult { Chunk = chunk };
 							if (streamComplete)
 							{
-								result.InputTokens = rsp.Usage.PromptTokens;
-								result.OutputTokens = rsp.Usage.CompletionTokens;
+								result.InputTokens = inputTokens;
+								result.OutputTokens = outputTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
@@ -143,7 +173,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 			}
 		}
 
-		private AIException BuildAIException(Exception ex, AI21LabsRequest request, string responseString = null)
+		private AIException BuildAIException(Exception ex, AnthropicRequest request, string responseString = null)
 		{
 			// Clear the messages from the request to avoid data bloat
 			// in the exception and any unwanted logging of messages
@@ -151,7 +181,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 			var aiEx = new AIException(ex.Message)
 			{
-				Provider = "AI21 Labs",
+				Provider = "Anthropic",
 				Request = JsonConvert.SerializeObject(request)
 			};
 
