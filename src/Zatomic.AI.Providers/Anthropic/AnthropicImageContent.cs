@@ -6,8 +6,5 @@ namespace Zatomic.AI.Providers.Anthropic
 	{
 		[JsonProperty("source")]
 		public AnthropicImageContentSource Source { get; set; }
-
-		[JsonProperty("type")]
-		public string Type { get; set; } = "image";
 	}
 }

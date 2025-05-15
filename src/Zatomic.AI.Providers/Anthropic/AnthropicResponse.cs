@@ -6,7 +6,8 @@ namespace Zatomic.AI.Providers.Anthropic
 	public class AnthropicResponse
 	{
 		[JsonProperty("content")]
-		public List<BaseAnthropicContent> Content { get; private set; }
+		[JsonConverter(typeof(AnthropicContentListConverter))]
+		public List<BaseAnthropicContent> Content { get; set; }
 
 		[JsonProperty("duration")]
 		public decimal? Duration { get; set; }

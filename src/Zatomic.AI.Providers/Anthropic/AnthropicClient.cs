@@ -5,7 +5,6 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
@@ -42,8 +41,7 @@ namespace Zatomic.AI.Providers.Anthropic
 					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
 				}
 
-				var requestString = JsonConvert.SerializeObject(request);
-				var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+				var content = new StringContent(request.Serialize(), Encoding.UTF8, "application/json");
 
 				string responseString = null;
 
@@ -57,7 +55,10 @@ namespace Zatomic.AI.Providers.Anthropic
 
 					stopwatch.Stop();
 
-					response = JsonConvert.DeserializeObject<AnthropicResponse>(responseString);
+					response = responseString.Deserialize<AnthropicResponse>();
+
+					//if (response.Type == "text") response.Content = response.Content.ToObject<AnthropicTextContent>();
+
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
@@ -86,7 +87,7 @@ namespace Zatomic.AI.Providers.Anthropic
 
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
 				{
-					Content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json")
+					Content = new StringContent(request.Serialize(), Encoding.UTF8, "application/json")
 				};
 
 				HttpResponseMessage postResponse = null;
@@ -135,14 +136,14 @@ namespace Zatomic.AI.Providers.Anthropic
 							if (line.Contains(AnthropicStreamEventTypes.MessageStart))
 							{
 								// Anthropic puts the input token count in the message start event
-								var messageStart = JsonConvert.DeserializeObject<AnthropicStreamMessageStart>(line.Substring(6));
+								var messageStart = line.Substring(6).Deserialize<AnthropicStreamMessageStart>();
 								inputTokens = messageStart.Message.Usage.InputTokens;
 							}
 
 							if (line.Contains(AnthropicStreamEventTypes.MessageDelta))
 							{
 								// Anthropic puts the output token count in the message delta event
-								var messageDelta = JsonConvert.DeserializeObject<AnthropicStreamMessageDelta>(line.Substring(6));
+								var messageDelta = line.Substring(6).Deserialize<AnthropicStreamMessageDelta>();
 								outputTokens = messageDelta.Usage.OutputTokens;
 							}
 
@@ -154,7 +155,7 @@ namespace Zatomic.AI.Providers.Anthropic
 
 							if (line.Contains(AnthropicStreamEventTypes.ContentBlockDelta))
 							{
-								var delta = JsonConvert.DeserializeObject<AnthropicStreamContentBlockDelta>(line.Substring(6));
+								var delta = line.Substring(6).Deserialize<AnthropicStreamContentBlockDelta>();
 								chunk = delta.Delta.Text;
 							}
 
@@ -182,7 +183,7 @@ namespace Zatomic.AI.Providers.Anthropic
 			var aiEx = new AIException(ex.Message)
 			{
 				Provider = "Anthropic",
-				Request = JsonConvert.SerializeObject(request)
+				Request = request.Serialize()
 			};
 
 			if (!responseString.IsNullOrEmpty())

@@ -6,8 +6,5 @@ namespace Zatomic.AI.Providers.Anthropic
 	{
 		[JsonProperty("text")]
 		public string Text { get; set; }
-
-		[JsonProperty("type")]
-		public string Type { get; set; } = "text";
 	}
 }

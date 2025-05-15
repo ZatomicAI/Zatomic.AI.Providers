@@ -1,7 +1,10 @@
-﻿namespace Zatomic.AI.Providers.Anthropic
+﻿using Newtonsoft.Json;
+
+namespace Zatomic.AI.Providers.Anthropic
 {
 	public abstract class BaseAnthropicContent
 	{
-		// Just a marker class
+		[JsonProperty("type")]
+		public string Type { get; set; }
 	}
 }
