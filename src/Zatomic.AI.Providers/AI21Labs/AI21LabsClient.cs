@@ -121,18 +121,18 @@ namespace Zatomic.AI.Providers.AI21Labs
 								line = line.Substring(index);
 							}
 
-							var obj = JsonConvert.DeserializeObject<AI21LabsResponse>(line);
-							if (!obj.Choices[0].FinishReason.IsNullOrEmpty() && obj.Choices[0].FinishReason == "stop")
+							var rsp = JsonConvert.DeserializeObject<AI21LabsResponse>(line);
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
 							{
 								streamComplete = true;
 								stopwatch.Stop();
 							}
 
-							var result = new StreamResult { Chunk = obj.Choices[0].Delta.Content };
+							var result = new StreamResult { Chunk = rsp.Choices[0].Delta.Content };
 							if (streamComplete)
 							{
-								result.InputTokens = obj.Usage.PromptTokens;
-								result.OutputTokens = obj.Usage.CompletionTokens;
+								result.InputTokens = rsp.Usage.PromptTokens;
+								result.OutputTokens = rsp.Usage.CompletionTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
