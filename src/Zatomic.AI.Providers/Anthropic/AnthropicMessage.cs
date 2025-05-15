@@ -6,7 +6,7 @@ namespace Zatomic.AI.Providers.Anthropic
 	public class AnthropicMessage
 	{
 		[JsonProperty("content")]
-		public List<BaseAnthropicContent> Content { get; private set; }
+		public List<BaseAnthropicContent> Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }

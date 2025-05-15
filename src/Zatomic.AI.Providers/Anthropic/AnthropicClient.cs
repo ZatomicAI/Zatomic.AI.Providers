@@ -15,7 +15,7 @@ namespace Zatomic.AI.Providers.Anthropic
 		public string ApiKey { get; set; }
 		public string ApiUrl { get; set; } = "https://api.anthropic.com/v1/messages";
 		public string ApiVersion { get; set; } = "2023-06-01";
-		public List<string> BetaVersions { get; private set; }
+		public List<string> BetaVersions { get; set; }
 
 		public AnthropicClient()
 		{
@@ -41,29 +41,27 @@ namespace Zatomic.AI.Providers.Anthropic
 					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
 				}
 
-				var content = new StringContent(request.Serialize(), Encoding.UTF8, "application/json");
+				var requestJson = request.Serialize();
+				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-				string responseString = null;
+				string responseJson = null;
 
 				try
 				{
 					var stopwatch = Stopwatch.StartNew();
 
 					var postResponse = await httpClient.PostAsync(ApiUrl, content);
-					responseString = await postResponse.Content.ReadAsStringAsync();
+					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
 					stopwatch.Stop();
 
-					response = responseString.Deserialize<AnthropicResponse>();
-
-					//if (response.Type == "text") response.Content = response.Content.ToObject<AnthropicTextContent>();
-
+					response = responseJson.Deserialize<AnthropicResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = BuildAIException(ex, request, responseString);
+					var aiEx = BuildAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -71,7 +69,7 @@ namespace Zatomic.AI.Providers.Anthropic
 			return response;
 		}
 
-		public async IAsyncEnumerable<StreamResult> ChatStreamAsync(AnthropicRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AnthropicRequest request)
 		{
 			request.Stream = true;
 
@@ -85,9 +83,10 @@ namespace Zatomic.AI.Providers.Anthropic
 					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
 				}
 
+				var requestJson = request.Serialize();
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
 				{
-					Content = new StringContent(request.Serialize(), Encoding.UTF8, "application/json")
+					Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
 				};
 
 				HttpResponseMessage postResponse = null;
@@ -159,7 +158,7 @@ namespace Zatomic.AI.Providers.Anthropic
 								chunk = delta.Delta.Text;
 							}
 
-							var result = new StreamResult { Chunk = chunk };
+							var result = new AIStreamResult { Chunk = chunk };
 							if (streamComplete)
 							{
 								result.InputTokens = inputTokens;
@@ -174,22 +173,17 @@ namespace Zatomic.AI.Providers.Anthropic
 			}
 		}
 
-		private AIException BuildAIException(Exception ex, AnthropicRequest request, string responseString = null)
+		private AIException BuildAIException(Exception ex, AnthropicRequest request, string responseJson = null)
 		{
-			// Clear the messages from the request to avoid data bloat
-			// in the exception and any unwanted logging of messages
+			// Clear messages from the request to avoid data bloat in the exception and any unwanted logging of messages downstream
 			request.Messages.Clear();
 
 			var aiEx = new AIException(ex.Message)
 			{
 				Provider = "Anthropic",
-				Request = request.Serialize()
+				Request = request.Serialize(),
+				Response = responseJson
 			};
-
-			if (!responseString.IsNullOrEmpty())
-			{
-				aiEx.Response = responseString;
-			}
 
 			return aiEx;
 		}

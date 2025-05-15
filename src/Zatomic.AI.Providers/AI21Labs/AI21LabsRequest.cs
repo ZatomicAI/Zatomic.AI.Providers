@@ -9,7 +9,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<AI21LabsMessage> Messages { get; private set; }
+		public List<AI21LabsMessage> Messages { get; set; }
 
 		[JsonProperty("model")]
 		public string Model { get; set; }

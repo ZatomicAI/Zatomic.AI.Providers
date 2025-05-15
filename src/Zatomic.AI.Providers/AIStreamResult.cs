@@ -2,7 +2,7 @@
 
 namespace Zatomic.AI.Providers
 {
-	public class StreamResult
+	public class AIStreamResult
 	{
 		[JsonProperty("chunk")]
 		public string Chunk { get; set; }

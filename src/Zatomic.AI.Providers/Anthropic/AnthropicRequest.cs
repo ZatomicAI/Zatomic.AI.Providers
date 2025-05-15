@@ -9,7 +9,7 @@ namespace Zatomic.AI.Providers.Anthropic
 		public int MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<AnthropicMessage> Messages { get; private set; }
+		public List<AnthropicMessage> Messages { get; set; }
 
 		[JsonProperty("metadata", NullValueHandling = NullValueHandling.Ignore)]
 		public AnthropicMetadata Metadata { get; set; }

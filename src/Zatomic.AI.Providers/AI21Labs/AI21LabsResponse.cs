@@ -6,7 +6,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 	public class AI21LabsResponse
 	{
 		[JsonProperty("choices")]
-		public List<AI21LabsChoice> Choices { get; private set; }
+		public List<AI21LabsChoice> Choices { get; set; }
 
 		[JsonProperty("duration")]
 		public decimal? Duration { get; set; }

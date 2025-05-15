@@ -19,7 +19,6 @@ namespace Zatomic.AI.Providers.Anthropic
 				var type = token["type"]?.Value<string>();
 
 				if (type == "text") item = token.ToObject<AnthropicTextContent>(serializer);
-				else if (type == "image") item = token.ToObject<AnthropicImageContent>(serializer);
 				else if (type == "thinking") item = token.ToObject<AnthropicThinkingContent>(serializer);
 				else if (type == "redacted_thinking") item = token.ToObject<AnthropicRedactedThinkingContent>(serializer);
 				else throw new JsonSerializationException($"Unknown content type: {type}");

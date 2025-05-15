@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
@@ -34,27 +33,27 @@ namespace Zatomic.AI.Providers.AI21Labs
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
-				var requestString = JsonConvert.SerializeObject(request);
-				var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+				var requestJson = request.Serialize();
+				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-				string responseString = null;
+				string responseJson = null;
 
 				try
 				{
 					var stopwatch = Stopwatch.StartNew();
 
 					var postResponse = await httpClient.PostAsync(ApiUrl, content);
-					responseString = await postResponse.Content.ReadAsStringAsync();
+					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
 					stopwatch.Stop();
 
-					response = JsonConvert.DeserializeObject<AI21LabsResponse>(responseString);
+					response = responseJson.Deserialize<AI21LabsResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = BuildAIException(ex, request, responseString);
+					var aiEx = BuildAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -62,7 +61,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 			return response;
 		}
 
-		public async IAsyncEnumerable<StreamResult> ChatStreamAsync(AI21LabsRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AI21LabsRequest request)
 		{
 			// N must be 1 when streaming
 			request.Stream = true;
@@ -72,9 +71,10 @@ namespace Zatomic.AI.Providers.AI21Labs
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
+				var requestJson = request.Serialize();
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
 				{
-					Content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json")
+					Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
 				};
 
 				HttpResponseMessage postResponse = null;
@@ -121,14 +121,14 @@ namespace Zatomic.AI.Providers.AI21Labs
 								line = line.Substring(index);
 							}
 
-							var rsp = JsonConvert.DeserializeObject<AI21LabsResponse>(line);
+							var rsp = line.Deserialize<AI21LabsResponse>();
 							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
 							{
 								streamComplete = true;
 								stopwatch.Stop();
 							}
 
-							var result = new StreamResult { Chunk = rsp.Choices[0].Delta.Content };
+							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 							if (streamComplete)
 							{
 								result.InputTokens = rsp.Usage.PromptTokens;
@@ -143,22 +143,17 @@ namespace Zatomic.AI.Providers.AI21Labs
 			}
 		}
 
-		private AIException BuildAIException(Exception ex, AI21LabsRequest request, string responseString = null)
+		private AIException BuildAIException(Exception ex, AI21LabsRequest request, string responseJson = null)
 		{
-			// Clear the messages from the request to avoid data bloat
-			// in the exception and any unwanted logging of messages
+			// Clear messages from the request to avoid data bloat in the exception and any unwanted logging of messages downstream
 			request.Messages.Clear();
 
 			var aiEx = new AIException(ex.Message)
 			{
 				Provider = "AI21 Labs",
-				Request = JsonConvert.SerializeObject(request)
+				Request = request.Serialize(),
+				Response = responseJson
 			};
-
-			if (!responseString.IsNullOrEmpty())
-			{
-				aiEx.Response = responseString;
-			}
 
 			return aiEx;
 		}
