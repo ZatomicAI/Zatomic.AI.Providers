@@ -10,6 +10,7 @@
     <Description>.NET SDK for integrating with AI model providers like Anthropic, Amazon Bedrock, Azure, Google, and more.</Description>
     <RepositoryUrl>https://github.com/ZatomicAI/Zatomic.AI.Providers</RepositoryUrl>
     <PackageReadmeFile></PackageReadmeFile>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
