@@ -14,6 +14,9 @@ namespace Zatomic.AI.Providers.AI21Labs
 		[JsonProperty("usage")]
 		public AI21LabsUsage Usage { get; set; }
 
+		[JsonProperty("duration")]
+		public decimal? Duration { get; set; }
+
 		public AI21LabsResponse()
 		{
 			Choices = new List<AI21LabsChoice>();

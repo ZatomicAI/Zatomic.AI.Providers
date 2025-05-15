@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -40,10 +41,16 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 				try
 				{
+					var stopwatch = Stopwatch.StartNew();
+
 					var postResponse = await httpClient.PostAsync(ApiUrl, content);
 					responseString = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
+
+					stopwatch.Stop();
+
 					response = JsonConvert.DeserializeObject<AI21LabsResponse>(responseString);
+					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
@@ -85,6 +92,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 				}
 
 				var streamComplete = false;
+				var stopwatch = Stopwatch.StartNew();
 
 				using (var stream = await postResponse.Content.ReadAsStreamAsync())
 				using (var reader = new StreamReader(stream))
@@ -117,6 +125,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 							if (!obj.Choices[0].FinishReason.IsNullOrEmpty() && obj.Choices[0].FinishReason == "stop")
 							{
 								streamComplete = true;
+								stopwatch.Stop();
 							}
 
 							var result = new StreamResult { Chunk = obj.Choices[0].Delta.Content };
@@ -124,6 +133,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 							{
 								result.InputTokens = obj.Usage.PromptTokens;
 								result.OutputTokens = obj.Usage.CompletionTokens;
+								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
 							yield return result;
