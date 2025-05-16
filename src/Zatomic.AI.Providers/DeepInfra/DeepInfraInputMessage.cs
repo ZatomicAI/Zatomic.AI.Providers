@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.DeepInfra
 {
-	public class DeepInfraMessage
+	public class DeepInfraInputMessage
 	{
 		[JsonProperty("content")]
 		public List<DeepInfraContent> Content { get; set; }
@@ -11,7 +11,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
-		public DeepInfraMessage()
+		public DeepInfraInputMessage()
 		{
 			Content = new List<DeepInfraContent>();
 		}

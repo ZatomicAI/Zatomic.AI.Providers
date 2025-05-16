@@ -14,6 +14,6 @@ namespace Zatomic.AI.Providers.DeepInfra
 		public int Index { get; set; }
 
 		[JsonProperty("message")]
-		public DeepInfraMessage Message { get; set; }
+		public DeepInfraOutputMessage Message { get; set; }
 	}
 }

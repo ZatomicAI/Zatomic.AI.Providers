@@ -12,7 +12,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<DeepInfraMessage> Messages { get; set; }
+		public List<DeepInfraInputMessage> Messages { get; set; }
 
 		[JsonProperty("model")]
 		public string Model { get; set; }
@@ -40,7 +40,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 
 		public DeepInfraRequest()
 		{
-			Messages = new List<DeepInfraMessage>();
+			Messages = new List<DeepInfraInputMessage>();
 		}
 
 		public void AddAssistantMessage(string content)
@@ -60,7 +60,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 
 		private void AddMessage(string role, string content)
 		{
-			var msg = new DeepInfraMessage { Role = role };
+			var msg = new DeepInfraInputMessage { Role = role };
 			msg.Content.Add(new DeepInfraContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
