@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Cohere
 {
@@ -13,5 +13,11 @@ namespace Zatomic.AI.Providers.Cohere
 
 		[JsonProperty("token_ids")]
 		public List<int> TokenIds { get; set; }
+
+		public CohereLogProb()
+		{
+			LogProbs = new List<float>();
+			TokenIds = new List<int>();
+		}
 	}
 }

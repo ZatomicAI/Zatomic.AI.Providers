@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Cohere
 {
@@ -11,5 +11,10 @@ namespace Zatomic.AI.Providers.Cohere
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
+
+		public CohereInputMessage()
+		{
+			Content = new List<BaseCohereContent>();
+		}
 	}
 }

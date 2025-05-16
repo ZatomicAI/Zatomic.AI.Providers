@@ -10,5 +10,10 @@ namespace Zatomic.AI.Providers.Cohere
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
+
+		public CohereOutputMessage()
+		{
+			Content = new List<CohereTextContent>();
+		}
 	}
 }
