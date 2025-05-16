@@ -5,19 +5,24 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <Title>Zatomic AI Providers</Title>
-    <Authors>zatomic,arcware</Authors>
+    <Authors>Zatomic AI, Dave Donaldson</Authors>
     <Company>Zatomic AI</Company>
     <Description>.NET SDK for integrating with various AI model providers.</Description>
     <RepositoryUrl>https://github.com/ZatomicAI/Zatomic.AI.Providers</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.2.2</Version>
+    <Version>0.2.3</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AI;AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;Meta;Mistral;OpenAI;TogetherAI;xAI</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
