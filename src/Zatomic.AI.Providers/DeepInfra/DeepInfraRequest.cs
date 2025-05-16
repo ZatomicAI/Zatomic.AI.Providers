@@ -42,5 +42,27 @@ namespace Zatomic.AI.Providers.DeepInfra
 		{
 			Messages = new List<DeepInfraMessage>();
 		}
+
+		public void AddAssistantMessage(string content)
+		{
+			AddMessage("assistant", content);
+		}
+
+		public void AddSystemMessage(string content)
+		{
+			AddMessage("system", content);
+		}
+
+		public void AddUserMessage(string content)
+		{
+			AddMessage("user", content);
+		}
+
+		private void AddMessage(string role, string content)
+		{
+			var msg = new DeepInfraMessage { Role = role };
+			msg.Content.Add(new DeepInfraContent { Type = "text", Text = content });
+			Messages.Add(msg);
+		}
 	}
 }
