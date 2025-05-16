@@ -4,6 +4,7 @@ using Zatomic.AI.Providers.Anthropic;
 using Zatomic.AI.Providers.Cohere;
 using Zatomic.AI.Providers.DeepInfra;
 using Zatomic.AI.Providers.Extensions;
+using Zatomic.AI.Providers.FireworksAI;
 
 namespace Zatomic.AI.Providers.Exceptions
 {
@@ -43,7 +44,15 @@ namespace Zatomic.AI.Providers.Exceptions
 			var clonedReq = request.Clone<DeepInfraRequest>();
 			clonedReq.Messages.Clear();
 
-			return BuildAIException("DeepInfra", ex, clonedReq, responseJson);
+			return BuildAIException("Deep Infra", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildFireworksAIAIException(Exception ex, FireworksAIRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<FireworksAIRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("Fireworks AI", ex, clonedReq, responseJson);
 		}
 
 		private static AIException BuildAIException(string provider, Exception ex, BaseRequest request, string responseJson = null)
