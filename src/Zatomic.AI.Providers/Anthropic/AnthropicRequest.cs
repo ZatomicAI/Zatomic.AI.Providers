@@ -42,5 +42,48 @@ namespace Zatomic.AI.Providers.Anthropic
 		{
 			Messages = new List<AnthropicMessage>();
 		}
+
+		public void AddAssistantMessage(string content)
+		{
+			AddMessage("assistant", content);
+		}
+
+		public void AddUserMessage(string content)
+		{
+			AddMessage("user", content);
+		}
+
+		public void AddUserMessage(string content, string imageUrl)
+		{
+			AddMessage("user", content, imageUrl);
+		}
+
+		public void AddUserMessage(string content, string imageMediaType, string imageBase64Data)
+		{
+			AddMessage("user", content, imageMediaType, imageBase64Data);
+		}
+
+		private void AddMessage(string role, string content)
+		{
+			var msg = new AnthropicMessage { Role = role };
+			msg.Content.Add(new AnthropicTextContent { Type = "text", Text = content });
+			Messages.Add(msg);
+		}
+
+		private void AddMessage(string role, string content, string imageUrl)
+		{
+			var msg = new AnthropicMessage { Role = role };
+			msg.Content.Add(new AnthropicTextContent { Type = "text", Text = content });
+			msg.Content.Add(new AnthropicImageContent { Type = "image", Source = new AnthropicImageContentSource { Type = "url", Url = imageUrl } });
+			Messages.Add(msg);
+		}
+
+		private void AddMessage(string role, string content, string imageMediaType, string imageBase64Data)
+		{
+			var msg = new AnthropicMessage { Role = role };
+			msg.Content.Add(new AnthropicTextContent { Type = "text", Text = content });
+			msg.Content.Add(new AnthropicImageContent { Type = "image", Source = new AnthropicImageContentSource { Type = "base64", MediaType = imageMediaType, Data = imageBase64Data } });
+			Messages.Add(msg);
+		}
 	}
 }

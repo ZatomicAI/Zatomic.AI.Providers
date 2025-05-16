@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Zatomic.AI.Providers.AI21Labs
 {
@@ -35,6 +35,26 @@ namespace Zatomic.AI.Providers.AI21Labs
 		public AI21LabsRequest()
 		{
 			Messages = new List<AI21LabsMessage>();
+		}
+
+		public void AddAssistantMessage(string content)
+		{
+			AddMessage("assistant", content);
+		}
+
+		public void AddSystemMessage(string content)
+		{
+			AddMessage("system", content);
+		}
+
+		public void AddUserMessage(string content)
+		{
+			AddMessage("user", content);
+		}
+
+		private void AddMessage(string role, string content)
+		{
+			Messages.Add(new AI21LabsMessage { Role = role, Content = content });
 		}
 	}
 }
