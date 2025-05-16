@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Zatomic.AI.Providers.AI21Labs
 {
-	public class AI21LabsRequest
+	public class AI21LabsRequest : BaseRequest
 	{
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }

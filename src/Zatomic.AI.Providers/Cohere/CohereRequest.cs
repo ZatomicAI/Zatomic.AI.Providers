@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereRequest
+	public class CohereRequest : BaseRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }

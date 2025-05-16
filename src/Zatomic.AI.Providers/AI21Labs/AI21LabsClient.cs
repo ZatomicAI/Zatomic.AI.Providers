@@ -53,7 +53,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 				}
 				catch (Exception ex)
 				{
-					var aiEx = BuildAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildAI21LabsAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -87,7 +87,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 				}
 				catch (Exception ex)
 				{
-					var aiEx = BuildAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildAI21LabsAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -108,7 +108,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 						}
 						catch (Exception ex)
 						{
-							var aiEx = BuildAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildAI21LabsAIException(ex, request);
 							throw aiEx;
 						}
 
@@ -141,21 +141,6 @@ namespace Zatomic.AI.Providers.AI21Labs
 					}
 				}
 			}
-		}
-
-		private AIException BuildAIException(Exception ex, AI21LabsRequest request, string responseJson = null)
-		{
-			// Clear messages from the request to avoid data bloat in the exception and any unwanted logging of messages downstream
-			request.Messages.Clear();
-
-			var aiEx = new AIException(ex.Message)
-			{
-				Provider = "AI21 Labs",
-				Request = request.Serialize(),
-				Response = responseJson
-			};
-
-			return aiEx;
 		}
 	}
 }

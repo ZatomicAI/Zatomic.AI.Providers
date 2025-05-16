@@ -9,35 +9,29 @@ using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.Cohere
+namespace Zatomic.AI.Providers.DeepInfra
 {
-	public class CohereClient
+	public class DeepInfraClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.cohere.com/v2/chat";
-		public string ClientName { get; set; }
+		public string ApiUrl { get; set; } = "https://api.deepinfra.com/v1/openai/chat/completions";
 
-		public CohereClient()
+		public DeepInfraClient()
 		{
 		}
 
-		public CohereClient(string apiKey) : this()
+		public DeepInfraClient(string apiKey) : this()
 		{
 			ApiKey = apiKey;
 		}
 
-		public async Task<CohereResponse> ChatAsync(CohereRequest request)
+		public async Task<DeepInfraResponse> ChatAsync(DeepInfraRequest request)
 		{
-			CohereResponse response = null;
+			DeepInfraResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
-
-				if (!ClientName.IsNullOrEmpty())
-				{
-					httpClient.DefaultRequestHeaders.Add("X-Client-Name", ClientName);
-				}
 
 				var requestJson = request.Serialize();
 				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
@@ -54,12 +48,12 @@ namespace Zatomic.AI.Providers.Cohere
 
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<CohereResponse>();
+					response = responseJson.Deserialize<DeepInfraResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildCohereAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -67,18 +61,13 @@ namespace Zatomic.AI.Providers.Cohere
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(CohereRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(DeepInfraRequest request)
 		{
 			request.Stream = true;
 
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
-
-				if (!ClientName.IsNullOrEmpty())
-				{
-					httpClient.DefaultRequestHeaders.Add("X-Client-Name", ClientName);
-				}
 
 				var requestJson = request.Serialize();
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
@@ -96,14 +85,11 @@ namespace Zatomic.AI.Providers.Cohere
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildCohereAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request);
 					throw aiEx;
 				}
 
 				var streamComplete = false;
-				var chunk = "";
-				var inputTokens = 0;
-				var outputTokens = 0;
 				var stopwatch = Stopwatch.StartNew();
 
 				using (var stream = await postResponse.Content.ReadAsStreamAsync())
@@ -120,36 +106,27 @@ namespace Zatomic.AI.Providers.Cohere
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildCohereAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request);
 							throw aiEx;
 						}
 
-						// Cohere streams two types of lines: one that starts with "event:" and one that starts
-						// with "data:". The "event:" lines basically tell you what kind of "data:" line is next,
-						// but that bit of info is also in the "data:" line, so we only care about those.
+						// Deep Infra streams event lines with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							if (line.Contains(CohereStreamEventTypes.ContentDelta))
-							{
-								var rsp = line.Substring(6).Deserialize<CohereStreamResponse>();
-								chunk = rsp.Delta.Message.Content.Text;
-							}
+							var rsp = line.Substring(6).Deserialize<DeepInfraResponse>();
+							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 
-							if (line.Contains(CohereStreamEventTypes.MessageEnd))
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
 							{
-								var rsp = line.Substring(6).Deserialize<CohereStreamResponse>();
-								inputTokens = rsp.Delta.Usage.Tokens.InputTokens;
-								outputTokens = rsp.Delta.Usage.Tokens.OutputTokens;
 								streamComplete = true;
 								stopwatch.Stop();
-							}
 
-							var result = new AIStreamResult { Chunk = chunk };
-							if (streamComplete)
-							{
-								result.InputTokens = inputTokens;
-								result.OutputTokens = outputTokens;
-								result.Duration = stopwatch.ToDurationInSeconds(2);
+								if (rsp.Usage != null)
+								{
+									result.InputTokens = rsp.Usage.PromptTokens;
+									result.OutputTokens = rsp.Usage.CompletionTokens;
+									result.Duration = stopwatch.ToDurationInSeconds(2);
+								}
 							}
 
 							yield return result;

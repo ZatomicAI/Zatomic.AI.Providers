@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Anthropic
 {
-	public class AnthropicRequest
+	public class AnthropicRequest : BaseRequest
 	{
 		[JsonProperty("max_tokens")]
 		public int MaxTokens { get; set; }
