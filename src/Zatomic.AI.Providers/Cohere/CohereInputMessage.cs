@@ -7,14 +7,14 @@ namespace Zatomic.AI.Providers.Cohere
 	{
 		[JsonProperty("content")]
 		[JsonConverter(typeof(CohereContentListConverter))]
-		public List<BaseCohereContent> Content { get; set; }
+		public List<CohereBaseContent> Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
 		public CohereInputMessage()
 		{
-			Content = new List<BaseCohereContent>();
+			Content = new List<CohereBaseContent>();
 		}
 	}
 }

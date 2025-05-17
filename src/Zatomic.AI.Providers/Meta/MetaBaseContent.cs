@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.xAI
+namespace Zatomic.AI.Providers.Meta
 {
-	public abstract class BasexAIContent
+	public abstract class MetaBaseContent
 	{
 		[JsonProperty("type")]
 		public string Type { get; set; }

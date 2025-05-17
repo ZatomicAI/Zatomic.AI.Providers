@@ -5,16 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.xAI
 {
-	public class xAIContentListConverter : JsonConverter<List<BasexAIContent>>
+	public class xAIContentListConverter : JsonConverter<List<xAIBaseContent>>
 	{
-		public override List<BasexAIContent> ReadJson(JsonReader reader, Type objectType, List<BasexAIContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override List<xAIBaseContent> ReadJson(JsonReader reader, Type objectType, List<xAIBaseContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			var array = JArray.Load(reader);
-			var items = new List<BasexAIContent>();
+			var items = new List<xAIBaseContent>();
 
 			foreach (var token in array)
 			{
-				BasexAIContent item;
+				xAIBaseContent item;
 
 				var type = token["type"]?.Value<string>();
 
@@ -28,7 +28,7 @@ namespace Zatomic.AI.Providers.xAI
 			return items;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<BasexAIContent> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, List<xAIBaseContent> value, JsonSerializer serializer)
 		{
 			writer.WriteStartArray();
 

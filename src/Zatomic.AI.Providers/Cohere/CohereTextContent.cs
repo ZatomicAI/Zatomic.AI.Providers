@@ -2,7 +2,7 @@
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereTextContent : BaseCohereContent
+	public class CohereTextContent : CohereBaseContent
 	{
 		[JsonProperty("text")]
 		public string Text { get; set; }

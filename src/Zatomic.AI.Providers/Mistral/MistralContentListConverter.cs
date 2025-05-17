@@ -5,16 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.Mistral
 {
-	public class MistralContentListConverter : JsonConverter<List<BaseMistralContent>>
+	public class MistralContentListConverter : JsonConverter<List<MistralBaseContent>>
 	{
-		public override List<BaseMistralContent> ReadJson(JsonReader reader, Type objectType, List<BaseMistralContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override List<MistralBaseContent> ReadJson(JsonReader reader, Type objectType, List<MistralBaseContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			var array = JArray.Load(reader);
-			var items = new List<BaseMistralContent>();
+			var items = new List<MistralBaseContent>();
 
 			foreach (var token in array)
 			{
-				BaseMistralContent item;
+				MistralBaseContent item;
 
 				var type = token["type"]?.Value<string>();
 
@@ -28,7 +28,7 @@ namespace Zatomic.AI.Providers.Mistral
 			return items;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<BaseMistralContent> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, List<MistralBaseContent> value, JsonSerializer serializer)
 		{
 			writer.WriteStartArray();
 

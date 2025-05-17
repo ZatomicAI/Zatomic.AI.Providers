@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.Meta
+namespace Zatomic.AI.Providers.Cohere
 {
-	public abstract class BaseMetaContent
+	public abstract class CohereBaseContent
 	{
 		[JsonProperty("type")]
 		public string Type { get; set; }

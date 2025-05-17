@@ -5,16 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereContentListConverter : JsonConverter<List<BaseCohereContent>>
+	public class CohereContentListConverter : JsonConverter<List<CohereBaseContent>>
 	{
-		public override List<BaseCohereContent> ReadJson(JsonReader reader, Type objectType, List<BaseCohereContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override List<CohereBaseContent> ReadJson(JsonReader reader, Type objectType, List<CohereBaseContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			var array = JArray.Load(reader);
-			var items = new List<BaseCohereContent>();
+			var items = new List<CohereBaseContent>();
 
 			foreach (var token in array)
 			{
-				BaseCohereContent item;
+				CohereBaseContent item;
 
 				var type = token["type"]?.Value<string>();
 
@@ -28,7 +28,7 @@ namespace Zatomic.AI.Providers.Cohere
 			return items;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<BaseCohereContent> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, List<CohereBaseContent> value, JsonSerializer serializer)
 		{
 			writer.WriteStartArray();
 

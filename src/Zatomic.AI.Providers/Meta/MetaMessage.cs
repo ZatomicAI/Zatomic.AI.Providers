@@ -7,14 +7,14 @@ namespace Zatomic.AI.Providers.Meta
 	{
 		[JsonProperty("content")]
 		[JsonConverter(typeof(MetaContentListConverter))]
-		public List<BaseMetaContent> Content { get; set; }
+		public List<MetaBaseContent> Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
 		public MetaMessage()
 		{
-			Content = new List<BaseMetaContent>();
+			Content = new List<MetaBaseContent>();
 		}
 	}
 }

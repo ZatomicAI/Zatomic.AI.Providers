@@ -7,14 +7,14 @@ namespace Zatomic.AI.Providers.xAI
 	{
 		[JsonProperty("content")]
 		[JsonConverter(typeof(xAIContentListConverter))]
-		public List<BasexAIContent> Content { get; set; }
+		public List<xAIBaseContent> Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
 		public xAIInputMessage()
 		{
-			Content = new List<BasexAIContent>();
+			Content = new List<xAIBaseContent>();
 		}
 	}
 }

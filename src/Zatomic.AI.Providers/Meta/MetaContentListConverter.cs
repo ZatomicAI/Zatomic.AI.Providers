@@ -5,16 +5,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.Meta
 {
-	public class MetaContentListConverter : JsonConverter<List<BaseMetaContent>>
+	public class MetaContentListConverter : JsonConverter<List<MetaBaseContent>>
 	{
-		public override List<BaseMetaContent> ReadJson(JsonReader reader, Type objectType, List<BaseMetaContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override List<MetaBaseContent> ReadJson(JsonReader reader, Type objectType, List<MetaBaseContent> existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
 			var array = JArray.Load(reader);
-			var items = new List<BaseMetaContent>();
+			var items = new List<MetaBaseContent>();
 
 			foreach (var token in array)
 			{
-				BaseMetaContent item;
+				MetaBaseContent item;
 
 				var type = token["type"]?.Value<string>();
 
@@ -28,7 +28,7 @@ namespace Zatomic.AI.Providers.Meta
 			return items;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<BaseMetaContent> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, List<MetaBaseContent> value, JsonSerializer serializer)
 		{
 			writer.WriteStartArray();
 

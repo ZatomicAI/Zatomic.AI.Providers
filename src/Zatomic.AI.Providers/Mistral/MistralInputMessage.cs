@@ -7,14 +7,14 @@ namespace Zatomic.AI.Providers.Mistral
 	{
 		[JsonProperty("content")]
 		[JsonConverter(typeof(MistralContentListConverter))]
-		public List<BaseMistralContent> Content { get; set; }
+		public List<MistralBaseContent> Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
 		public MistralInputMessage()
 		{
-			Content = new List<BaseMistralContent>();
+			Content = new List<MistralBaseContent>();
 		}
 	}
 }
