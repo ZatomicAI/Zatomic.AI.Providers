@@ -35,7 +35,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 		[JsonProperty("repetition_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? RepetitionPenalty { get; set; }
 
-		[JsonProperty("response_format")]
+		[JsonProperty("response_format", NullValueHandling = NullValueHandling.Ignore)]
 		public TogetherAIResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("safety_model")]

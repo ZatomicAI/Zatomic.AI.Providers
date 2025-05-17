@@ -20,7 +20,7 @@ namespace Zatomic.AI.Providers.Mistral
 		[JsonProperty("n", NullValueHandling = NullValueHandling.Ignore)]
 		public int? N { get; set; }
 
-		[JsonProperty("prediction")]
+		[JsonProperty("prediction", NullValueHandling = NullValueHandling.Ignore)]
 		public MistralPrediction Prediction { get; set; }
 
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
@@ -29,7 +29,7 @@ namespace Zatomic.AI.Providers.Mistral
 		[JsonProperty("random_seed", NullValueHandling = NullValueHandling.Ignore)]
 		public int? RandomSeed { get; set; }
 
-		[JsonProperty("response_format")]
+		[JsonProperty("response_format", NullValueHandling = NullValueHandling.Ignore)]
 		public MistralResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("safe_prompt", NullValueHandling = NullValueHandling.Ignore)]
