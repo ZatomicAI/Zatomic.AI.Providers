@@ -11,6 +11,6 @@ namespace Zatomic.AI.Providers.TogetherAI
 		public string Role { get; set; }
 
 		[JsonProperty("token_id")]
-		public int TokenId { get; set; }
+		public int? TokenId { get; set; }
 	}
 }
