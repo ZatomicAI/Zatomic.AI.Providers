@@ -8,6 +8,7 @@ using Zatomic.AI.Providers.FireworksAI;
 using Zatomic.AI.Providers.Meta;
 using Zatomic.AI.Providers.Mistral;
 using Zatomic.AI.Providers.TogetherAI;
+using Zatomic.AI.Providers.xAI;
 
 namespace Zatomic.AI.Providers.Exceptions
 {
@@ -80,6 +81,14 @@ namespace Zatomic.AI.Providers.Exceptions
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Together AI", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildxAIAIException(Exception ex, xAIRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<xAIRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("xAI", ex, clonedReq, responseJson);
 		}
 
 		private static AIException BuildAIException(string provider, Exception ex, BaseRequest request, string responseJson = null)

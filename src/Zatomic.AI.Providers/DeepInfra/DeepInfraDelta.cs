@@ -6,8 +6,5 @@ namespace Zatomic.AI.Providers.DeepInfra
 	{
 		[JsonProperty("content")]
 		public string Content { get; set; }
-
-		[JsonProperty("role")]
-		public string Role { get; set; }
 	}
 }

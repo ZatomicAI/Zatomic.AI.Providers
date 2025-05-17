@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AI21Labs
+namespace Zatomic.AI.Providers.xAI
 {
-	public class AI21LabsDelta
+	public class xAIDelta
 	{
 		[JsonProperty("content")]
 		public string Content { get; set; }

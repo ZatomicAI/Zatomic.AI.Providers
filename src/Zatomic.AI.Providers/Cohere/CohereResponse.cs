@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Cohere
 {
@@ -14,18 +13,10 @@ namespace Zatomic.AI.Providers.Cohere
 		[JsonProperty("finish_reason")]
 		public string FinishReason { get; set; }
 
-		[JsonProperty("logprobs")]
-		public List<CohereLogProb> LogProbs { get; set; }
-
 		[JsonProperty("message")]
 		public CohereOutputMessage Message { get; set; }
 
 		[JsonProperty("usage")]
 		public CohereUsage Usage { get; set; }
-
-		public CohereResponse()
-		{
-			LogProbs = new List<CohereLogProb>();
-		}
 	}
 }

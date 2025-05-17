@@ -11,9 +11,6 @@ namespace Zatomic.AI.Providers.Cohere
 		[JsonProperty("k", NullValueHandling = NullValueHandling.Ignore)]
 		public float? K { get; set; }
 
-		[JsonProperty("logprobs", NullValueHandling = NullValueHandling.Ignore)]
-		public bool? LogProbs { get; set; }
-
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }
 

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.Mistral
+namespace Zatomic.AI.Providers.xAI
 {
-	public class MistralImageUrl
+	public class xAIImageUrl
 	{
 		[JsonProperty("detail", NullValueHandling = NullValueHandling.Ignore)]
 		public string Detail { get; set; }
