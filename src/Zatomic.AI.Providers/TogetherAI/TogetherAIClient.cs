@@ -125,6 +125,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 								{
 									result.InputTokens = rsp.Usage.PromptTokens;
 									result.OutputTokens = rsp.Usage.CompletionTokens;
+									result.TotalTokens = rsp.Usage.TotalTokens;
 									result.Duration = stopwatch.ToDurationInSeconds(2);
 								}
 							}
