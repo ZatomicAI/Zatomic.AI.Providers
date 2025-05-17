@@ -12,7 +12,7 @@ namespace Zatomic.AI.Providers.Mistral
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<MistralMessage> Messages { get; set; }
+		public List<MistralInputMessage> Messages { get; set; }
 
 		[JsonProperty("model")]
 		public string Model { get; set; }
@@ -49,7 +49,7 @@ namespace Zatomic.AI.Providers.Mistral
 
 		public MistralRequest()
 		{
-			Messages = new List<MistralMessage>();
+			Messages = new List<MistralInputMessage>();
 		}
 
 		public void AddAssistantMessage(string content)
@@ -74,14 +74,14 @@ namespace Zatomic.AI.Providers.Mistral
 
 		private void AddMessage(string role, string content)
 		{
-			var msg = new MistralMessage { Role = role };
+			var msg = new MistralInputMessage { Role = role };
 			msg.Content.Add(new MistralTextContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 
 		private void AddMessage(string role, string content, string imageUrl, string imageDetail)
 		{
-			var msg = new MistralMessage { Role = role };
+			var msg = new MistralInputMessage { Role = role };
 			msg.Content.Add(new MistralTextContent { Type = "text", Text = content });
 			msg.Content.Add(new MistralImageUrlContent { Type = "image_url", ImageUrl = new MistralImageUrl { Url = imageUrl, Detail = imageDetail } });
 			Messages.Add(msg);

@@ -14,6 +14,6 @@ namespace Zatomic.AI.Providers.Mistral
 		public int Index { get; set; }
 
 		[JsonProperty("message")]
-		public MistralMessage Message { get; set; }
+		public MistralOutputMessage Message { get; set; }
 	}
 }

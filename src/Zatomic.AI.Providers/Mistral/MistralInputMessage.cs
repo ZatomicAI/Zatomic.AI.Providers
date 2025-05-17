@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Mistral
 {
-	public class MistralMessage
+	public class MistralInputMessage
 	{
 		[JsonProperty("content")]
 		[JsonConverter(typeof(MistralContentListConverter))]
@@ -12,7 +12,7 @@ namespace Zatomic.AI.Providers.Mistral
 		[JsonProperty("role")]
 		public string Role { get; set; }
 
-		public MistralMessage()
+		public MistralInputMessage()
 		{
 			Content = new List<BaseMistralContent>();
 		}
