@@ -20,17 +20,17 @@ namespace Zatomic.AI.Providers.Exceptions
 		// objects is to ensure thread safety). When the response JSON gets logged it will contain
 		// the error response from the provider, not AI assistant responses.
 
-		public static AIException BuildAI21LabsAIException(Exception ex, AI21LabsRequest request, string responseJson = null)
+		public static AIException BuildAI21LabsAIException(Exception ex, AI21LabsChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<AI21LabsRequest>();
+			var clonedReq = request.Clone<AI21LabsChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("AI21 Labs", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildAnthropicAIException(Exception ex, AnthropicRequest request, string responseJson = null)
+		public static AIException BuildAnthropicAIException(Exception ex, AnthropicChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<AnthropicRequest>();
+			var clonedReq = request.Clone<AnthropicChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Anthropic", ex, clonedReq, responseJson);
@@ -44,57 +44,57 @@ namespace Zatomic.AI.Providers.Exceptions
 			return BuildAIException("Azure Serverless", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildCohereAIException(Exception ex, CohereRequest request, string responseJson = null)
+		public static AIException BuildCohereAIException(Exception ex, CohereChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<CohereRequest>();
+			var clonedReq = request.Clone<CohereChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Cohere", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildDeepInfraAIException(Exception ex, DeepInfraRequest request, string responseJson = null)
+		public static AIException BuildDeepInfraAIException(Exception ex, DeepInfraChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<DeepInfraRequest>();
+			var clonedReq = request.Clone<DeepInfraChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Deep Infra", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildFireworksAIAIException(Exception ex, FireworksAIRequest request, string responseJson = null)
+		public static AIException BuildFireworksAIAIException(Exception ex, FireworksAIChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<FireworksAIRequest>();
+			var clonedReq = request.Clone<FireworksAIChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Fireworks AI", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildMetaAIException(Exception ex, MetaRequest request, string responseJson = null)
+		public static AIException BuildMetaAIException(Exception ex, MetaChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<MetaRequest>();
+			var clonedReq = request.Clone<MetaChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Meta", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildMistralAIException(Exception ex, MistralRequest request, string responseJson = null)
+		public static AIException BuildMistralAIException(Exception ex, MistralChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<MistralRequest>();
+			var clonedReq = request.Clone<MistralChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Mistral", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildTogetherAIAIException(Exception ex, TogetherAIRequest request, string responseJson = null)
+		public static AIException BuildTogetherAIAIException(Exception ex, TogetherAIChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<TogetherAIRequest>();
+			var clonedReq = request.Clone<TogetherAIChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Together AI", ex, clonedReq, responseJson);
 		}
 
-		public static AIException BuildxAIAIException(Exception ex, xAIRequest request, string responseJson = null)
+		public static AIException BuildxAIAIException(Exception ex, xAIChatRequest request, string responseJson = null)
 		{
-			var clonedReq = request.Clone<xAIRequest>();
+			var clonedReq = request.Clone<xAIChatRequest>();
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("xAI", ex, clonedReq, responseJson);
