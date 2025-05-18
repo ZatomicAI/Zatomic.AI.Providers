@@ -54,14 +54,14 @@ namespace Zatomic.AI.Providers.Cohere
 			Model = model;
 		}
 
-		public CohereChatRequest(string model, string responseFormat) : this(model)
-		{
-			ResponseFormat = new CohereChatResponseFormat { Type = responseFormat };
-		}
-
-		public CohereChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		public CohereChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
+		}
+
+		public CohereChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
+		{
+			ResponseFormat = new CohereChatResponseFormat { Type = responseFormat };
 		}
 
 		public void AddAssistantMessage(string content)

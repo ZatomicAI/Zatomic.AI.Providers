@@ -69,14 +69,14 @@ namespace Zatomic.AI.Providers.TogetherAI
 			Model = model;
 		}
 
-		public TogetherAIChatRequest(string model, string responseFormat) : this(model)
-		{
-			ResponseFormat = new TogetherAIChatResponseFormat { Type = responseFormat };
-		}
-
-		public TogetherAIChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		public TogetherAIChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
+		}
+
+		public TogetherAIChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
+		{
+			ResponseFormat = new TogetherAIChatResponseFormat { Type = responseFormat };
 		}
 
 		public void AddAssistantMessage(string content)

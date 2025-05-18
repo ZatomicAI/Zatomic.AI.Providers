@@ -48,14 +48,14 @@ namespace Zatomic.AI.Providers.AzureServerless
 			Model = model;
 		}
 
-		public AzureServerlessChatRequest(string model, string responseFormat) : this(model)
-		{
-			ResponseFormat = new AzureServerlessChatResponseFormat { Type = responseFormat };
-		}
-
-		public AzureServerlessChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		public AzureServerlessChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
+		}
+
+		public AzureServerlessChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
+		{
+			ResponseFormat = new AzureServerlessChatResponseFormat { Type = responseFormat };
 		}
 
 		public void AddAssistantMessage(string content)

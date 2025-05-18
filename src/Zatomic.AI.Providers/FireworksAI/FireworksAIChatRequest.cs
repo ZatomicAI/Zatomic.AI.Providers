@@ -69,14 +69,14 @@ namespace Zatomic.AI.Providers.FireworksAI
 			Model = model;
 		}
 
-		public FireworksAIChatRequest(string model, string responseFormat) : this(model)
-		{
-			ResponseFormat = new FireworksAIChatResponseFormat { Type = responseFormat };
-		}
-
-		public FireworksAIChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		public FireworksAIChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
+		}
+
+		public FireworksAIChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
+		{
+			ResponseFormat = new FireworksAIChatResponseFormat { Type = responseFormat };
 		}
 
 		public void AddAssistantMessage(string content)
