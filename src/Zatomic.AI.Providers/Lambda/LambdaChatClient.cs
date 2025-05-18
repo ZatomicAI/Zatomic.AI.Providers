@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.DeepInfra
+namespace Zatomic.AI.Providers.Lambda
 {
-	public class DeepInfraChatClient
+	public class LambdaChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.deepinfra.com/v1/openai/chat/completions";
+		public string ApiUrl { get; set; } = "https://api.lambda.ai/v1/chat/completions";
 
-		public DeepInfraChatClient()
+		public LambdaChatClient()
 		{
 		}
 
-		public DeepInfraChatClient(string apiKey) : this()
+		public LambdaChatClient(string apiKey) : this()
 		{
 			ApiKey = apiKey;
 		}
 
-		public async Task<DeepInfraChatResponse> ChatAsync(DeepInfraChatRequest request)
+		public async Task<LambdaChatResponse> ChatAsync(LambdaChatRequest request)
 		{
-			DeepInfraChatResponse response = null;
+			LambdaChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
@@ -45,15 +45,15 @@ namespace Zatomic.AI.Providers.DeepInfra
 					var postResponse = await httpClient.PostAsync(ApiUrl, content);
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
-
+					
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<DeepInfraChatResponse>();
+					response = responseJson.Deserialize<LambdaChatResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildLambdaAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(DeepInfraChatRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(LambdaChatRequest request)
 		{
 			request.Stream = true;
 
@@ -85,7 +85,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildLambdaAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -106,14 +106,14 @@ namespace Zatomic.AI.Providers.DeepInfra
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildDeepInfraAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildLambdaAIException(ex, request);
 							throw aiEx;
 						}
 
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							var rsp = line.Substring(6).Deserialize<DeepInfraChatResponse>();
+							var rsp = line.Substring(6).Deserialize<LambdaChatResponse>();
 							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 
 							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
@@ -126,7 +126,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 								{
 									result.InputTokens = rsp.Usage.PromptTokens;
 									result.OutputTokens = rsp.Usage.CompletionTokens;
-									result.TotalTokens = rsp.Usage.TotalTokens;
+									result.TotalTokens = rsp.Usage.TotalTokens;	
 								}
 							}
 

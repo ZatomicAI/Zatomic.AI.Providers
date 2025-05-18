@@ -133,6 +133,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 							{
 								result.InputTokens = rsp.Usage.PromptTokens;
 								result.OutputTokens = rsp.Usage.CompletionTokens;
+								result.TotalTokens = rsp.Usage.TotalTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 

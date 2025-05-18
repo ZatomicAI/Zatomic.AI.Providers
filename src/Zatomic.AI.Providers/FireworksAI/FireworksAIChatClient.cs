@@ -120,13 +120,13 @@ namespace Zatomic.AI.Providers.FireworksAI
 							{
 								streamComplete = true;
 								stopwatch.Stop();
+								result.Duration = stopwatch.ToDurationInSeconds(2);
 
 								if (rsp.Usage != null)
 								{
 									result.InputTokens = rsp.Usage.PromptTokens;
 									result.OutputTokens = rsp.Usage.CompletionTokens;
 									result.TotalTokens = rsp.Usage.TotalTokens;
-									result.Duration = stopwatch.ToDurationInSeconds(2);
 								}
 							}
 
