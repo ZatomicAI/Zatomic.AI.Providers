@@ -31,12 +31,12 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 
 		public async Task<AmazonBedrockChatResponse> ChatAsync(AmazonBedrockChatRequest request)
 		{
+			InitializeRuntimeClient();
+
 			AmazonBedrockChatResponse response = null;
 
 			try
 			{
-				InitializeRuntimeClient();
-
 				var stopwatch = Stopwatch.StartNew();
 
 				var converseReq = ConvertToConverseRequest(request);
@@ -57,6 +57,8 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 
 		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AmazonBedrockChatRequest request)
 		{
+			InitializeRuntimeClient();
+
 			var converseReq = ConvertToConverseRequest(request);
 			var converseStreamReq = new ConverseStreamRequest
 			{
