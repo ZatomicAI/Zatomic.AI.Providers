@@ -45,5 +45,40 @@ namespace Zatomic.AI.Providers.Lambda
 		{
 			Messages = new List<LambdaChatInputMessage>();
 		}
+
+		public void AddAssistantMessage(string content)
+		{
+			AddMessage("assistant", content);
+		}
+
+		public void AddSystemMessage(string content)
+		{
+			AddMessage("system", content);
+		}
+
+		public void AddUserMessage(string content)
+		{
+			AddMessage("user", content);
+		}
+
+		public void AddUserMessage(string content, string imageUrl, string imageDetail)
+		{
+			AddMessage("user", content, imageUrl, imageDetail);
+		}
+
+		private void AddMessage(string role, string content)
+		{
+			var msg = new LambdaChatInputMessage { Role = role };
+			msg.Content.Add(new LambdaChatTextContent { Type = "text", Text = content });
+			Messages.Add(msg);
+		}
+
+		private void AddMessage(string role, string content, string imageUrl, string imageDetail)
+		{
+			var msg = new LambdaChatInputMessage { Role = role };
+			msg.Content.Add(new LambdaChatTextContent { Type = "text", Text = content });
+			msg.Content.Add(new LambdaChatImageUrlContent { Type = "image_url", ImageUrl = new LambdaChatImageUrl { Url = imageUrl } });
+			Messages.Add(msg);
+		}
 	}
 }
