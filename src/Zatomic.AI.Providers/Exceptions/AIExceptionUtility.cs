@@ -1,5 +1,6 @@
 ﻿using System;
 using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.AmazonBedrock;
 using Zatomic.AI.Providers.Anthropic;
 using Zatomic.AI.Providers.AzureServerless;
 using Zatomic.AI.Providers.Cohere;
@@ -27,6 +28,14 @@ namespace Zatomic.AI.Providers.Exceptions
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("AI21 Labs", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildAmazonBedrockAIException(Exception ex, AmazonBedrockChatRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<AmazonBedrockChatRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("Amazon Bedrock", ex, clonedReq, responseJson);
 		}
 
 		public static AIException BuildAnthropicAIException(Exception ex, AnthropicChatRequest request, string responseJson = null)
