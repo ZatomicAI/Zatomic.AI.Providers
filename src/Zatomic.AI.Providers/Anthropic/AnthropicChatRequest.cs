@@ -43,17 +43,13 @@ namespace Zatomic.AI.Providers.Anthropic
 			Messages = new List<AnthropicChatMessage>();
 		}
 
-		public AnthropicChatRequest(string model) : this()
+		public AnthropicChatRequest(string model, int maxTokens) : this()
 		{
 			Model = model;
+			MaxTokens = maxTokens;
 		}
 
-		public AnthropicChatRequest(string model, string system) : this(model)
-		{
-			System = system;
-		}
-
-		public AnthropicChatRequest(string model, string system, float temperature) : this(model, system)
+		public AnthropicChatRequest(string model, int maxTokens, float temperature) : this(model, maxTokens)
 		{
 			Temperature = temperature;
 		}
