@@ -3,35 +3,51 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.xAI
+namespace Zatomic.AI.Providers.AzureServerless
 {
-	public class xAIClient
+	public class AzureServerlessChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.x.ai/v1/chat/completions";
+		public string ApiVersion { get; set; }
 
-		public xAIClient()
+		public Uri ApiUrl
+		{
+			get
+			{
+				var apiUrl = new Uri(new Uri(Endpoint), "/chat/completions");
+				if (!ApiVersion.IsNullOrEmpty())
+				{
+					apiUrl = new Uri(apiUrl, $"?api-version={ApiVersion}");
+				}
+
+				return apiUrl;
+			}
+		}
+		
+		public string Endpoint { get; set; }
+
+		public AzureServerlessChatClient()
 		{
 		}
 
-		public xAIClient(string apiKey) : this()
+		public AzureServerlessChatClient(string endpoint, string apiKey) : this()
 		{
+			Endpoint = endpoint;
 			ApiKey = apiKey;
 		}
 
-		public async Task<xAIResponse> ChatAsync(xAIRequest request)
+		public async Task<AzureServerlessChatResponse> ChatAsync(AzureServerlessChatRequest request)
 		{
-			xAIResponse response = null;
+			AzureServerlessChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
 
 				var requestJson = request.Serialize();
 				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
@@ -48,12 +64,12 @@ namespace Zatomic.AI.Providers.xAI
 
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<xAIResponse>();
+					response = responseJson.Deserialize<AzureServerlessChatResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildAzureServerlessAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -61,14 +77,13 @@ namespace Zatomic.AI.Providers.xAI
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(xAIRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AzureServerlessChatRequest request)
 		{
 			request.Stream = true;
-			request.StreamOptions = new xAIStreamOptions { IncludeUsage = true };
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
 
 				var requestJson = request.Serialize();
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
@@ -86,7 +101,7 @@ namespace Zatomic.AI.Providers.xAI
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildAzureServerlessAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -107,7 +122,7 @@ namespace Zatomic.AI.Providers.xAI
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildAzureServerlessAIException(ex, request);
 							throw aiEx;
 						}
 
@@ -116,17 +131,17 @@ namespace Zatomic.AI.Providers.xAI
 						{
 							var result = new AIStreamResult();
 
-							var rsp = line.Substring(6).Deserialize<xAIResponse>();
+							var rsp = line.Substring(6).Deserialize<AzureServerlessChatResponse>();
 							if (rsp.Choices.Count > 0)
 							{
 								result.Chunk = rsp.Choices[0].Delta.Content;
 							}
 
-							// Using xAI's stream options to include usage means that they return an additional chunk
-							// with the usage information right before the final [DONE] chunk (whereas all prior chunks
-							// won't have usage in them). This means that we can key off that to determine if the stream
-							// is complete instead of looking at the finish reason. The finish reason comes in the chunk
-							// just before the usage chunk, so if we keyed off that we would never get the usage information.
+							// Azure Serverless usage is only included in the chunk right before the final [DONE]
+							// chunk (whereas all prior chunks won't have usage in them). This means that we can key
+							// off that to determine if the stream is complete instead of looking at the finish reason.
+							// The finish reason comes in the chunk just before the usage chunk, so if we keyed off
+							// that we would never get the usage information.
 
 							if (rsp.Usage != null)
 							{
