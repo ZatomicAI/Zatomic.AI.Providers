@@ -46,6 +46,21 @@ namespace Zatomic.AI.Providers.Lambda
 			Messages = new List<LambdaChatInputMessage>();
 		}
 
+		public LambdaChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public LambdaChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new LambdaChatResponseFormat { Type = responseFormat };
+		}
+
+		public LambdaChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

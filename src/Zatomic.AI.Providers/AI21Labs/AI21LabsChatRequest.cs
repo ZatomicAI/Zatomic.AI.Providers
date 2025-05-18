@@ -37,6 +37,21 @@ namespace Zatomic.AI.Providers.AI21Labs
 			Messages = new List<AI21LabsChatMessage>();
 		}
 
+		public AI21LabsChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public AI21LabsChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new AI21LabsChatResponseFormat { Type = responseFormat };
+		}
+
+		public AI21LabsChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

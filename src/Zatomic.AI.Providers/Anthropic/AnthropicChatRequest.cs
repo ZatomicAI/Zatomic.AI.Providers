@@ -43,6 +43,21 @@ namespace Zatomic.AI.Providers.Anthropic
 			Messages = new List<AnthropicChatMessage>();
 		}
 
+		public AnthropicChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public AnthropicChatRequest(string model, string system) : this(model)
+		{
+			System = system;
+		}
+
+		public AnthropicChatRequest(string model, string system, float temperature) : this(model, system)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

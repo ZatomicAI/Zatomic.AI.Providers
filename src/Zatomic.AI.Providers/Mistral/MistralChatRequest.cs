@@ -52,6 +52,21 @@ namespace Zatomic.AI.Providers.Mistral
 			Messages = new List<MistralChatInputMessage>();
 		}
 
+		public MistralChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public MistralChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new MistralChatResponseFormat { Type = responseFormat };
+		}
+
+		public MistralChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

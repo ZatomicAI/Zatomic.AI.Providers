@@ -43,6 +43,21 @@ namespace Zatomic.AI.Providers.DeepInfra
 			Messages = new List<DeepInfraChatInputMessage>();
 		}
 
+		public DeepInfraChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public DeepInfraChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new DeepInfraChatResponseFormat { Type = responseFormat };
+		}
+
+		public DeepInfraChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

@@ -55,6 +55,21 @@ namespace Zatomic.AI.Providers.xAI
 			Messages = new List<xAIChatInputMessage>();
 		}
 
+		public xAIChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public xAIChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new xAIChatResponseFormat { Type = responseFormat };
+		}
+
+		public xAIChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

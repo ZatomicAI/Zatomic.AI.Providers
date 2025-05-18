@@ -37,6 +37,21 @@ namespace Zatomic.AI.Providers.Meta
 			Messages = new List<MetaChatMessage>();
 		}
 
+		public MetaChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public MetaChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new MetaChatResponseFormat { Type = responseFormat };
+		}
+
+		public MetaChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);

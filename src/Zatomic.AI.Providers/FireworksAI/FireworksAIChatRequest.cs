@@ -64,6 +64,21 @@ namespace Zatomic.AI.Providers.FireworksAI
 			Messages = new List<FireworksAIChatMessage>();
 		}
 
+		public FireworksAIChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public FireworksAIChatRequest(string model, string responseFormat) : this(model)
+		{
+			ResponseFormat = new FireworksAIChatResponseFormat { Type = responseFormat };
+		}
+
+		public FireworksAIChatRequest(string model, string responseFormat, float temperature) : this(model, responseFormat)
+		{
+			Temperature = temperature;
+		}
+
 		public void AddAssistantMessage(string content)
 		{
 			AddMessage("assistant", content);
