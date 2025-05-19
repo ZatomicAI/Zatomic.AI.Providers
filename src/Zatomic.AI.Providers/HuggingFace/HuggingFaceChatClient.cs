@@ -63,7 +63,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> CompleteChatStreamAsync(HuggingFaceChatRequest request)
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(HuggingFaceChatRequest request)
 		{
 			request.Stream = true;
 			request.StreamOptions = new HuggingFaceChatStreamOptions { IncludeUsage = true };
