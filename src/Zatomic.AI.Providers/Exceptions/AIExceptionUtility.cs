@@ -7,6 +7,7 @@ using Zatomic.AI.Providers.Cohere;
 using Zatomic.AI.Providers.DeepInfra;
 using Zatomic.AI.Providers.Extensions;
 using Zatomic.AI.Providers.FireworksAI;
+using Zatomic.AI.Providers.HuggingFace;
 using Zatomic.AI.Providers.Hyperbolic;
 using Zatomic.AI.Providers.Lambda;
 using Zatomic.AI.Providers.Meta;
@@ -77,6 +78,14 @@ namespace Zatomic.AI.Providers.Exceptions
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Fireworks AI", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildHuggingFaceAIException(Exception ex, HuggingFaceChatRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<HuggingFaceChatRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("Hugging Face", ex, clonedReq, responseJson);
 		}
 
 		public static AIException BuildHyperbolicAIException(Exception ex, HyperbolicChatRequest request, string responseJson = null)
