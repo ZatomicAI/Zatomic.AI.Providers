@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
@@ -57,6 +60,34 @@ namespace Zatomic.AI.Providers.Meta
 			}
 
 			return response;
+		}
+
+		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(MetaChatRequest request)
+		{
+			// Meta's Llama API doesn't yet support streaming, so we're simulating it with a basic hack
+			// by splitting the non-stream response into words and spaces and using a 10ms sleep in between
+			// returning chunks. When Meta supports streaming we'll update this method with a real implementation.
+
+			var stopwatch = Stopwatch.StartNew();
+
+			var result = await ChatAsync(request);
+
+			var matches = Regex.Matches(result.CompletionMessage.Content.Text, @"\S+|\s+");
+			foreach (Match match in matches)
+			{
+				Thread.Sleep(10);
+				yield return new AIStreamResult { Chunk = match.Value };
+			}
+
+			stopwatch.Stop();
+
+			yield return new AIStreamResult
+			{
+				InputTokens = result.Usage.PromptTokens,
+				OutputTokens = result.Usage.CompletionTokens,
+				TotalTokens = result.Usage.TotalTokens,
+				Duration = stopwatch.ToDurationInSeconds(2)
+			};
 		}
 	}
 }
