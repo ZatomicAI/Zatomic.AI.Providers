@@ -4,7 +4,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 {
     public abstract class GoogleGeminiChatBasePart
 	{
-		[JsonProperty("type")]
+		[JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
 		public string Type { get; set; }
 	}
 }
