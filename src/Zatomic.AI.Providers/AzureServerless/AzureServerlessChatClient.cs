@@ -14,35 +14,20 @@ namespace Zatomic.AI.Providers.AzureServerless
 	{
 		public string ApiKey { get; set; }
 		public string ApiVersion { get; set; }
-
-		public string ApiUrl
-		{
-			get
-			{
-				var apiUrl = new Uri(new Uri(Endpoint), "/chat/completions");
-				if (!ApiVersion.IsNullOrEmpty())
-				{
-					apiUrl = new Uri(apiUrl, $"?api-version={ApiVersion}");
-				}
-
-				return apiUrl.ToString();
-			}
-		}
 		
-		public string Endpoint { get; set; }
-
 		public AzureServerlessChatClient()
 		{
 		}
 
-		public AzureServerlessChatClient(string endpoint, string apiKey) : this()
+		public AzureServerlessChatClient(string apiKey) : this()
 		{
-			Endpoint = endpoint;
 			ApiKey = apiKey;
 		}
 
 		public async Task<AzureServerlessChatResponse> ChatAsync(AzureServerlessChatRequest request)
 		{
+			var apiUrl = GetApiUrl(request.Endpoint);
+
 			AzureServerlessChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
@@ -58,7 +43,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await httpClient.PostAsync(apiUrl, content);
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -79,6 +64,8 @@ namespace Zatomic.AI.Providers.AzureServerless
 
 		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AzureServerlessChatRequest request)
 		{
+			var apiUrl = GetApiUrl(request.Endpoint);
+
 			request.Stream = true;
 
 			using (var httpClient = new HttpClient())
@@ -86,7 +73,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
 
 				var requestJson = request.Serialize();
-				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
+				var postRequest = new HttpRequestMessage(HttpMethod.Post, apiUrl)
 				{
 					Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
 				};
@@ -159,6 +146,17 @@ namespace Zatomic.AI.Providers.AzureServerless
 					}
 				}
 			}
+		}
+
+		public string GetApiUrl(string endpoint)
+		{
+			var apiUrl = new Uri(new Uri(endpoint), "/chat/completions");
+			if (!ApiVersion.IsNullOrEmpty())
+			{
+				apiUrl = new Uri(apiUrl, $"?api-version={ApiVersion}");
+			}
+
+			return apiUrl.ToString();
 		}
 	}
 }

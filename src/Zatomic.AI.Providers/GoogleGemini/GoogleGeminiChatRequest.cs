@@ -11,6 +11,9 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		[JsonProperty("generationConfig", NullValueHandling = NullValueHandling.Ignore)]
 		public GoogleGeminiChatGenerationConfig GenerationConfig { get; set; }
 
+		[JsonIgnore]
+		public string Model { get; set; }
+
 		[JsonProperty("systemInstruction", NullValueHandling = NullValueHandling.Ignore)]
 		public GoogleGeminiChatSystemInstruction SystemInstruction { get; set; }
 
@@ -19,7 +22,12 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			Contents = new List<GoogleGeminiChatContent>();
 		}
 
-		public GoogleGeminiChatRequest(float temperature) : this()
+		public GoogleGeminiChatRequest(string model) : this()
+		{
+			Model = model;
+		}
+
+		public GoogleGeminiChatRequest(string model, float temperature) : this(model)
 		{
 			if (GenerationConfig == null)
 			{
@@ -31,7 +39,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			}
 		}
 
-		public GoogleGeminiChatRequest(float temperature, string responseMimeType) : this(temperature)
+		public GoogleGeminiChatRequest(string model, float temperature, string responseMimeType) : this(model, temperature)
 		{
 			GenerationConfig = new GoogleGeminiChatGenerationConfig { ResponseMimeType = responseMimeType };
 		}

@@ -14,21 +14,20 @@ namespace Zatomic.AI.Providers.HuggingFace
 	public class HuggingFaceChatClient
 	{
 		public string AccessToken { get; set; }
-		public string ApiUrl { get { return new Uri(new Uri(Endpoint), "/v1/chat/completions").ToString(); } }
-		public string Endpoint { get; set; }
 
 		public HuggingFaceChatClient()
 		{
 		}
 
-		public HuggingFaceChatClient(string accessToken, string endpoint) : this()
+		public HuggingFaceChatClient(string accessToken) : this()
 		{
 			AccessToken = accessToken;
-			Endpoint = endpoint;
 		}
 
 		public async Task<HuggingFaceChatResponse> ChatAsync(HuggingFaceChatRequest request)
 		{
+			var apiUrl = GetApiUrl(request.Endpoint);
+
 			HuggingFaceChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
@@ -44,7 +43,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await httpClient.PostAsync(apiUrl, content);
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -65,6 +64,8 @@ namespace Zatomic.AI.Providers.HuggingFace
 
 		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(HuggingFaceChatRequest request)
 		{
+			var apiUrl = GetApiUrl(request.Endpoint);
+
 			request.Stream = true;
 			request.StreamOptions = new HuggingFaceChatStreamOptions { IncludeUsage = true };
 
@@ -73,7 +74,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
 				var requestJson = request.Serialize();
-				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
+				var postRequest = new HttpRequestMessage(HttpMethod.Post, apiUrl)
 				{
 					Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
 				};
@@ -146,6 +147,11 @@ namespace Zatomic.AI.Providers.HuggingFace
 					}
 				}
 			}
+		}
+
+		private string GetApiUrl(string endpoint)
+		{
+			return new Uri(new Uri(endpoint), "/v1/chat/completions").ToString();
 		}
 	}
 }

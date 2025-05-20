@@ -14,21 +14,20 @@ namespace Zatomic.AI.Providers.GoogleGemini
 	public class GoogleGeminiChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get { return $"https://generativelanguage.googleapis.com/v1beta/models/{Model}:generateContent?key={ApiKey}"; } }
-		public string Model { get; set; }
 
 		public GoogleGeminiChatClient()
 		{
 		}
 
-		public GoogleGeminiChatClient(string model, string apiKey) : this()
+		public GoogleGeminiChatClient(string apiKey) : this()
 		{
-			Model = model;
 			ApiKey = apiKey;
 		}
 
 		public async Task<GoogleGeminiChatResponse> ChatAsync(GoogleGeminiChatRequest request)
 		{
+			var apiUrl = $"https://generativelanguage.googleapis.com/v1beta/models/{request.Model}:generateContent?key={ApiKey}";
+
 			GoogleGeminiChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
@@ -42,7 +41,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await httpClient.PostAsync(apiUrl, content);
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -74,8 +73,8 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			// 
 			// For reference, here are the two endpoints:
 			//
-			// https://generativelanguage.googleapis.com/v1beta/models/{Model}:generateContent?key={ApiKey}
-			// https://generativelanguage.googleapis.com/v1beta/models/{Model}:streamGenerateContent?key={ApiKey}
+			// https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api-key}
+			// https://generativelanguage.googleapis.com/v1beta/models/{model}:streamGenerateContent?key={api-key}
 
 			var stopwatch = Stopwatch.StartNew();
 
