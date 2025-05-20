@@ -44,7 +44,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		public void AddSystemMessage(string content)
 		{
 			SystemInstruction = new GoogleGeminiChatSystemInstruction();
-			SystemInstruction.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
+			SystemInstruction.Parts.Add(new GoogleGeminiChatTextPart { Type = "text", Text = content });
 		}
 
 		public void AddUserMessage(string content)
