@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.FireworksAI
 	public class FireworksAIChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.fireworks.ai/inference/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.fireworks.ai/inference/v1/chat/completions";
 
 		public FireworksAIChatClient()
 		{

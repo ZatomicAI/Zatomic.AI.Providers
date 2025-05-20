@@ -15,7 +15,7 @@ namespace Zatomic.AI.Providers.Meta
 	public class MetaChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.llama.com/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.llama.com/v1/chat/completions";
 
 		public MetaChatClient()
 		{

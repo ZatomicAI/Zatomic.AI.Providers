@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 	public class TogetherAIChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.together.xyz/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.together.xyz/v1/chat/completions";
 
 		public TogetherAIChatClient()
 		{

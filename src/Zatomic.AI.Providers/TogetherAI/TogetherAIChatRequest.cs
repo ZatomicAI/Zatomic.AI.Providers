@@ -54,7 +54,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 		public float? Temperature { get; set; }
 
 		[JsonProperty("top_k", NullValueHandling = NullValueHandling.Ignore)]
-		public float? TopK { get; set; }
+		public int? TopK { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }

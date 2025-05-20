@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 	public class HuggingFaceChatClient
 	{
 		public string AccessToken { get; set; }
-		public Uri ApiUrl { get { return new Uri(new Uri(Endpoint), "/v1/chat/completions"); } }
+		public string ApiUrl { get { return new Uri(new Uri(Endpoint), "/v1/chat/completions").ToString(); } }
 		public string Endpoint { get; set; }
 
 		public HuggingFaceChatClient()

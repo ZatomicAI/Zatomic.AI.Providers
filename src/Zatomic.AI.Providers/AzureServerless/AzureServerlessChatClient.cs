@@ -15,7 +15,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 		public string ApiKey { get; set; }
 		public string ApiVersion { get; set; }
 
-		public Uri ApiUrl
+		public string ApiUrl
 		{
 			get
 			{
@@ -25,7 +25,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 					apiUrl = new Uri(apiUrl, $"?api-version={ApiVersion}");
 				}
 
-				return apiUrl;
+				return apiUrl.ToString();
 			}
 		}
 		

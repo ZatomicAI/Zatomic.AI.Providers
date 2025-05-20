@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 	public class DeepInfraChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.deepinfra.com/v1/openai/chat/completions";
+		public string ApiUrl { get; } = "https://api.deepinfra.com/v1/openai/chat/completions";
 
 		public DeepInfraChatClient()
 		{

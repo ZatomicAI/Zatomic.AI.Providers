@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 	public class AI21LabsChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.ai21.com/studio/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.ai21.com/studio/v1/chat/completions";
 
 		public AI21LabsChatClient()
 		{

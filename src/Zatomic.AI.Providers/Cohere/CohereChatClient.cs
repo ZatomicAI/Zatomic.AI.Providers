@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.Cohere
 	public class CohereChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.cohere.com/v2/chat";
+		public string ApiUrl { get; } = "https://api.cohere.com/v2/chat";
 		public string ClientName { get; set; }
 
 		public CohereChatClient()

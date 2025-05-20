@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.Lambda
 	public class LambdaChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.lambda.ai/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.lambda.ai/v1/chat/completions";
 
 		public LambdaChatClient()
 		{

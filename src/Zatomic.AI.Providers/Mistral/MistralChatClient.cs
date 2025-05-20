@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.Mistral
 	public class MistralChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.mistral.ai/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.mistral.ai/v1/chat/completions";
 
 		public MistralChatClient()
 		{

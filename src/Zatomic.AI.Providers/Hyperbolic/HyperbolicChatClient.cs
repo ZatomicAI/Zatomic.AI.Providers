@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.Hyperbolic
 	public class HyperbolicChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.hyperbolic.xyz/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.hyperbolic.xyz/v1/chat/completions";
 
 		public HyperbolicChatClient()
 		{

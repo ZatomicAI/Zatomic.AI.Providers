@@ -13,7 +13,7 @@ namespace Zatomic.AI.Providers.Anthropic
 	public class AnthropicChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.anthropic.com/v1/messages";
+		public string ApiUrl { get; } = "https://api.anthropic.com/v1/messages";
 		public string ApiVersion { get; set; } = "2023-06-01";
 		public List<string> BetaVersions { get; set; }
 

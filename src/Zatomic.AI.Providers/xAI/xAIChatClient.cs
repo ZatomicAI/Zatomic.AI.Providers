@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.xAI
 	public class xAIChatClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; set; } = "https://api.x.ai/v1/chat/completions";
+		public string ApiUrl { get; } = "https://api.x.ai/v1/chat/completions";
 
 		public xAIChatClient()
 		{
