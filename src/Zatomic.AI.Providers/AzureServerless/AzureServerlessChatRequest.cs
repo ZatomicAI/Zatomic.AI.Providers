@@ -5,9 +5,6 @@ namespace Zatomic.AI.Providers.AzureServerless
 {
 	public class AzureServerlessChatRequest : BaseRequest
 	{
-		[JsonIgnore]
-		public string Endpoint { get; set; }
-
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
 
@@ -16,6 +13,9 @@ namespace Zatomic.AI.Providers.AzureServerless
 
 		[JsonProperty("messages")]
 		public List<AzureServerlessChatInputMessage> Messages { get; set; }
+
+		[JsonProperty("model")]
+		public string Model { get; set; }
 
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? PresencePenalty { get; set; }
@@ -43,17 +43,17 @@ namespace Zatomic.AI.Providers.AzureServerless
 			Messages = new List<AzureServerlessChatInputMessage>();
 		}
 
-		public AzureServerlessChatRequest(string endpoint) : this()
+		public AzureServerlessChatRequest(string model) : this()
 		{
-			Endpoint = endpoint;
+			Model = model;
 		}
 
-		public AzureServerlessChatRequest(string endpoint, float temperature) : this(endpoint)
+		public AzureServerlessChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
 		}
 
-		public AzureServerlessChatRequest(string endpoint, float temperature, string responseFormat) : this(endpoint, temperature)
+		public AzureServerlessChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
 		{
 			ResponseFormat = new AzureServerlessChatResponseFormat { Type = responseFormat };
 		}

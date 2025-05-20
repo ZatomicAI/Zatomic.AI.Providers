@@ -5,9 +5,6 @@ namespace Zatomic.AI.Providers.HuggingFace
 {
 	public class HuggingFaceChatRequest : BaseRequest
 	{
-		[JsonIgnore]
-		public string Endpoint { get; set; }
-
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
 
@@ -46,13 +43,12 @@ namespace Zatomic.AI.Providers.HuggingFace
 			Messages = new List<HuggingFaceChatInputMessage>();
 		}
 
-		public HuggingFaceChatRequest(string endpoint, string model) : this()
+		public HuggingFaceChatRequest(string model) : this()
 		{
-			Endpoint = endpoint;
 			Model = model;
 		}
 
-		public HuggingFaceChatRequest(string endpoint, string model, float temperature) : this(endpoint, model)
+		public HuggingFaceChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
 		}
