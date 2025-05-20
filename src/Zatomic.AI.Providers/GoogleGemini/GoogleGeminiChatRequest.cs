@@ -44,7 +44,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		public void AddSystemMessage(string content)
 		{
 			SystemInstruction = new GoogleGeminiChatSystemInstruction();
-			SystemInstruction.Parts.Add(new GoogleGeminiChatTextPart { Type = "text", Text = content });
+			SystemInstruction.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
 		}
 
 		public void AddUserMessage(string content)
@@ -60,15 +60,15 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		private void AddMessage(string role, string content)
 		{
 			var contentObj = new GoogleGeminiChatContent { Role = role };
-			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Type = "text", Text = content });
+			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
 			Contents.Add(contentObj);
 		}
 
 		private void AddMessage(string role, string content, string mimeType, string data)
 		{
 			var contentObj = new GoogleGeminiChatContent { Role = role };
-			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Type = "text", Text = content });
-			contentObj.Parts.Add(new GoogleGeminiChatInlineDataPart { Type = "inlineData", MimeType = mimeType, Data = data });
+			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
+			contentObj.Parts.Add(new GoogleGeminiChatInlineDataPart { MimeType = mimeType, Data = data });
 			Contents.Add(contentObj);
 		}
 	}
