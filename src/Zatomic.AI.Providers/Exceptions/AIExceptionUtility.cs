@@ -14,6 +14,7 @@ using Zatomic.AI.Providers.Hyperbolic;
 using Zatomic.AI.Providers.Lambda;
 using Zatomic.AI.Providers.Meta;
 using Zatomic.AI.Providers.Mistral;
+using Zatomic.AI.Providers.OpenAI;
 using Zatomic.AI.Providers.TogetherAI;
 using Zatomic.AI.Providers.xAI;
 
@@ -136,6 +137,14 @@ namespace Zatomic.AI.Providers.Exceptions
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Mistral", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildOpenAIAIException(Exception ex, OpenAIChatRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<OpenAIChatRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("OpenAI", ex, clonedReq, responseJson);
 		}
 
 		public static AIException BuildTogetherAIAIException(Exception ex, TogetherAIChatRequest request, string responseJson = null)

@@ -46,7 +46,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 
 		public void AddModelMessage(string content)
 		{
-			AddMessage("model", content);
+			AddTextMessage("model", content);
 		}
 
 		public void AddSystemMessage(string content)
@@ -57,26 +57,26 @@ namespace Zatomic.AI.Providers.GoogleGemini
 
 		public void AddUserMessage(string content)
 		{
-			AddMessage("user", content);
+			AddTextMessage("user", content);
 		}
 
 		public void AddUserMessage(string content, string mimeType, string data)
 		{
-			AddMessage("user", content, mimeType, data);
+			AddImageMessage("user", content, mimeType, data);
 		}
 
-		private void AddMessage(string role, string content)
-		{
-			var contentObj = new GoogleGeminiChatContent { Role = role };
-			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
-			Contents.Add(contentObj);
-		}
-
-		private void AddMessage(string role, string content, string mimeType, string data)
+		private void AddImageMessage(string role, string content, string mimeType, string data)
 		{
 			var contentObj = new GoogleGeminiChatContent { Role = role };
 			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
 			contentObj.Parts.Add(new GoogleGeminiChatInlineDataPart { MimeType = mimeType, Data = data });
+			Contents.Add(contentObj);
+		}
+
+		private void AddTextMessage(string role, string content)
+		{
+			var contentObj = new GoogleGeminiChatContent { Role = role };
+			contentObj.Parts.Add(new GoogleGeminiChatTextPart { Text = content });
 			Contents.Add(contentObj);
 		}
 	}
