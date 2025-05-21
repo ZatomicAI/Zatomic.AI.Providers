@@ -2,6 +2,7 @@
 using Zatomic.AI.Providers.AI21Labs;
 using Zatomic.AI.Providers.AmazonBedrock;
 using Zatomic.AI.Providers.Anthropic;
+using Zatomic.AI.Providers.AzureOpenAI;
 using Zatomic.AI.Providers.AzureServerless;
 using Zatomic.AI.Providers.Cohere;
 using Zatomic.AI.Providers.DeepInfra;
@@ -47,6 +48,14 @@ namespace Zatomic.AI.Providers.Exceptions
 			clonedReq.Messages.Clear();
 
 			return BuildAIException("Anthropic", ex, clonedReq, responseJson);
+		}
+
+		public static AIException BuildAzureOpenAIAIException(Exception ex, AzureOpenAIChatRequest request, string responseJson = null)
+		{
+			var clonedReq = request.Clone<AzureOpenAIChatRequest>();
+			clonedReq.Messages.Clear();
+
+			return BuildAIException("Azure OpenAI", ex, clonedReq, responseJson);
 		}
 
 		public static AIException BuildAzureServerlessAIException(Exception ex, AzureServerlessChatRequest request, string responseJson = null)
