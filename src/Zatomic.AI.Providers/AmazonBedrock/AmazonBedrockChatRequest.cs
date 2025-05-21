@@ -5,14 +5,14 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 {
 	public class AmazonBedrockChatRequest : BaseRequest
 	{
-		[JsonProperty("model")]
-		public string Model { get; set; }
-
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
 		public List<AmazonBedrockChatMessage> Messages { get; set; }
+
+		[JsonProperty("model")]
+		public string Model { get; set; }
 
 		[JsonProperty("stop_sequences", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> StopSequences { get; set; }
