@@ -56,32 +56,25 @@ namespace Zatomic.AI.Providers.Anthropic
 
 		public void AddAssistantMessage(string content)
 		{
-			AddMessage("assistant", content);
+			AddTextMessage("assistant", content);
 		}
 
 		public void AddUserMessage(string content)
 		{
-			AddMessage("user", content);
+			AddTextMessage("user", content);
 		}
 
 		public void AddUserMessage(string content, string imageUrl)
 		{
-			AddMessage("user", content, imageUrl);
+			AddImageMessage("user", content, imageUrl);
 		}
 
 		public void AddUserMessage(string content, string imageMediaType, string imageBase64Data)
 		{
-			AddMessage("user", content, imageMediaType, imageBase64Data);
+			AddImageMessage("user", content, imageMediaType, imageBase64Data);
 		}
 
-		private void AddMessage(string role, string content)
-		{
-			var msg = new AnthropicChatMessage { Role = role };
-			msg.Content.Add(new AnthropicChatTextContent { Type = "text", Text = content });
-			Messages.Add(msg);
-		}
-
-		private void AddMessage(string role, string content, string imageUrl)
+		private void AddImageMessage(string role, string content, string imageUrl)
 		{
 			var msg = new AnthropicChatMessage { Role = role };
 			msg.Content.Add(new AnthropicChatTextContent { Type = "text", Text = content });
@@ -89,11 +82,18 @@ namespace Zatomic.AI.Providers.Anthropic
 			Messages.Add(msg);
 		}
 
-		private void AddMessage(string role, string content, string imageMediaType, string imageBase64Data)
+		private void AddImageMessage(string role, string content, string imageMediaType, string imageBase64Data)
 		{
 			var msg = new AnthropicChatMessage { Role = role };
 			msg.Content.Add(new AnthropicChatTextContent { Type = "text", Text = content });
 			msg.Content.Add(new AnthropicChatImageContent { Type = "image", Source = new AnthropicChatImageContentSource { Type = "base64", MediaType = imageMediaType, Data = imageBase64Data } });
+			Messages.Add(msg);
+		}
+
+		private void AddTextMessage(string role, string content)
+		{
+			var msg = new AnthropicChatMessage { Role = role };
+			msg.Content.Add(new AnthropicChatTextContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 	}

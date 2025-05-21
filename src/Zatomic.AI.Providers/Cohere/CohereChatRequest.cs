@@ -66,36 +66,36 @@ namespace Zatomic.AI.Providers.Cohere
 
 		public void AddAssistantMessage(string content)
 		{
-			AddMessage("assistant", content);
+			AddTextMessage("assistant", content);
 		}
 
 		public void AddSystemMessage(string content)
 		{
-			AddMessage("system", content);
+			AddTextMessage("system", content);
 		}
 
 		public void AddUserMessage(string content)
 		{
-			AddMessage("user", content);
+			AddTextMessage("user", content);
 		}
 
-		public void AddUserMessage(string content, string imageUrl, string imageDetail)
+		public void AddUserMessage(string content, string imageUrl, string imageDetail = null)
 		{
-			AddMessage("user", content, imageUrl, imageDetail);
+			AddImageMessage("user", content, imageUrl, imageDetail);
 		}
 
-		private void AddMessage(string role, string content)
-		{
-			var msg = new CohereChatInputMessage { Role = role };
-			msg.Content.Add(new CohereChatTextContent { Type = "text", Text = content });
-			Messages.Add(msg);
-		}
-
-		private void AddMessage(string role, string content, string imageUrl, string imageDetail)
+		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)
 		{
 			var msg = new CohereChatInputMessage { Role = role };
 			msg.Content.Add(new CohereChatTextContent { Type = "text", Text = content });
 			msg.Content.Add(new CohereChatImageUrlContent { Type = "image_url", ImageUrl = new CohereChatImageUrl { Url = imageUrl, Detail = imageDetail } });
+			Messages.Add(msg);
+		}
+
+		private void AddTextMessage(string role, string content)
+		{
+			var msg = new CohereChatInputMessage { Role = role };
+			msg.Content.Add(new CohereChatTextContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 	}

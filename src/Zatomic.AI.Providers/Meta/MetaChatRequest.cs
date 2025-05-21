@@ -54,36 +54,36 @@ namespace Zatomic.AI.Providers.Meta
 
 		public void AddAssistantMessage(string content)
 		{
-			AddMessage("assistant", content);
+			AddTextMessage("assistant", content);
 		}
 
 		public void AddSystemMessage(string content)
 		{
-			AddMessage("system", content);
+			AddTextMessage("system", content);
 		}
 
 		public void AddUserMessage(string content)
 		{
-			AddMessage("user", content);
+			AddTextMessage("user", content);
 		}
 
 		public void AddUserMessage(string content, string imageUrl)
 		{
-			AddMessage("user", content, imageUrl);
+			AddImageMessage("user", content, imageUrl);
 		}
 
-		private void AddMessage(string role, string content)
-		{
-			var msg = new MetaChatMessage { Role = role };
-			msg.Content.Add(new MetaChatTextContent { Type = "text", Text = content });
-			Messages.Add(msg);
-		}
-
-		private void AddMessage(string role, string content, string imageUrl)
+		private void AddImageMessage(string role, string content, string imageUrl)
 		{
 			var msg = new MetaChatMessage { Role = role };
 			msg.Content.Add(new MetaChatTextContent { Type = "text", Text = content });
 			msg.Content.Add(new MetaChatImageContent { Type = "image", ImageUrl = new MetaChatImageUrl { Url = imageUrl } });
+			Messages.Add(msg);
+		}
+
+		private void AddTextMessage(string role, string content)
+		{
+			var msg = new MetaChatMessage { Role = role };
+			msg.Content.Add(new MetaChatTextContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 	}
