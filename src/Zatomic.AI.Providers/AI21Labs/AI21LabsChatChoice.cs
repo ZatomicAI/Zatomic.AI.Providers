@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.AI21Labs
 {
@@ -15,5 +16,13 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 		[JsonProperty("message")]
 		public AI21LabsChatMessage Message { get; set; }
+
+		[JsonProperty("tool_calls")]
+		public List<AI21LabsChatToolCall> ToolCalls { get; set; }
+
+		public AI21LabsChatChoice()
+		{
+			ToolCalls = new List<AI21LabsChatToolCall>();
+		}
 	}
 }
