@@ -127,9 +127,7 @@ namespace Zatomic.AI.Providers.Anthropic
 							throw aiEx;
 						}
 
-						// Anthropic streams two types of lines: one that starts with "event:" and one that
-						// starts with "data:". The "event:" lines basically tell you what kind of "data:" line
-						// is next, but that bit of info is also in the "data:" line, so we only care about those.
+						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
 							// First deserialize to just get the type of event
