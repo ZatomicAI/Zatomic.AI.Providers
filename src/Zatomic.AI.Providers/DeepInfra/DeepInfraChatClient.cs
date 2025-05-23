@@ -116,7 +116,7 @@ namespace Zatomic.AI.Providers.DeepInfra
 							var rsp = line.Substring(6).Deserialize<DeepInfraChatResponse>();
 							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 
-							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();
