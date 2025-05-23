@@ -5,6 +5,12 @@ namespace Zatomic.AI.Providers.Cohere
 {
 	public class CohereChatRequest : BaseRequest
 	{
+		[JsonProperty("citation_options", NullValueHandling = NullValueHandling.Ignore)]
+		public CohereChatCitationOptions CitationOptions { get; set; }
+
+		[JsonProperty("documents", NullValueHandling = NullValueHandling.Ignore)]
+		public List<CohereChatDocument> Documents { get; set; }
+
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
 
@@ -41,8 +47,17 @@ namespace Zatomic.AI.Providers.Cohere
 		[JsonProperty("stream")]
 		public bool Stream { get; set; }
 
+		[JsonProperty("strict_tools", NullValueHandling = NullValueHandling.Ignore)]
+		public bool? StrictTools { get; set; }
+
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<CohereChatTool> Tools { get; set; }
+
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public string ToolChoice { get; set; }
 
 		public CohereChatRequest()
 		{
