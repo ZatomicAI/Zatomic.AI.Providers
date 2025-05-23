@@ -5,6 +5,9 @@ namespace Zatomic.AI.Providers.GoogleGemini
 {
     public class GoogleGeminiChatRequest : BaseRequest
 	{
+		[JsonProperty("cachedContent", NullValueHandling = NullValueHandling.Ignore)]
+		public string CachedContent { get; set; }
+
 		[JsonProperty("contents")]
 		public List<GoogleGeminiChatContent> Contents { get; set; }
 
@@ -14,8 +17,17 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		[JsonIgnore]
 		public string Model { get; set; }
 
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<GoogleGeminiChatSafetySetting> SafetySettings { get; set; }
+
 		[JsonProperty("systemInstruction", NullValueHandling = NullValueHandling.Ignore)]
 		public GoogleGeminiChatSystemInstruction SystemInstruction { get; set; }
+
+		[JsonProperty("toolConfig", NullValueHandling = NullValueHandling.Ignore)]
+		public GoogleGeminiChatToolConfig ToolConfig { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<GoogleGeminiChatTool> Tools { get; set; }
 
 		public GoogleGeminiChatRequest()
 		{

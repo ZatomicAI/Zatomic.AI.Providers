@@ -14,6 +14,12 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		[JsonProperty("modelVersion")]
 		public string ModelVersion { get; set; }
 
+		[JsonProperty("promptFeedback")]
+		public GoogleGeminiChatPromptFeedback PromptFeedback { get; set; }
+
+		[JsonProperty("responseId")]
+		public string ResponseId { get; set; }
+
 		[JsonProperty("usageMetadata")]
 		public GoogleGeminiChatUsageMetadata UsageMetadata { get; set; }
 
