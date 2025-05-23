@@ -7,6 +7,9 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("hate")]
 		public AzureOpenAIChatContentFilterSeverity Hate { get; set; }
 
+		[JsonProperty("jailbreak")]
+		public AzureOpenAIChatContentFilterDetected Jailbreak { get; set; }
+
 		[JsonProperty("protected_material_code")]
 		public AzureOpenAIChatContentFilterDetected ProtectedMaterialCode { get; set; }
 
