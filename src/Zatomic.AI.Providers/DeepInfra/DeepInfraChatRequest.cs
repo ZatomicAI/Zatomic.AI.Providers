@@ -35,6 +35,12 @@ namespace Zatomic.AI.Providers.DeepInfra
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
 
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public object ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<DeepInfraChatTool> Tools { get; set; }
+
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }
 
