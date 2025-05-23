@@ -20,6 +20,9 @@ namespace Zatomic.AI.Providers.Anthropic
 
 				if (type == "text") item = token.ToObject<AnthropicChatTextContent>(serializer);
 				else if (type == "image") item = token.ToObject<AnthropicChatImageContent>(serializer);
+				else if (type == "tool_use") item = token.ToObject<AnthropicChatToolUseContent>(serializer);
+				else if (type == "server_tool_use") item = token.ToObject<AnthropicChatServerToolUseContent>(serializer);
+				else if (type == "web_search_tool_result") item = token.ToObject<AnthropicChatWebSearchToolResultContent>(serializer);
 				else if (type == "thinking") item = token.ToObject<AnthropicChatThinkingContent>(serializer);
 				else if (type == "redacted_thinking") item = token.ToObject<AnthropicChatRedactedThinkingContent>(serializer);
 				else throw new JsonSerializationException($"Unknown content type: {type}");

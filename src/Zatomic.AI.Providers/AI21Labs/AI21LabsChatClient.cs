@@ -122,7 +122,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 							}
 
 							var rsp = line.Deserialize<AI21LabsChatResponse>();
-							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();
