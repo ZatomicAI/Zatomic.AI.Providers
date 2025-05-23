@@ -29,6 +29,12 @@ namespace Zatomic.AI.Providers.OpenAI
 		[JsonProperty("n", NullValueHandling = NullValueHandling.Ignore)]
 		public int? N { get; set; }
 
+		[JsonProperty("parallel_tool_calls", NullValueHandling = NullValueHandling.Ignore)]
+		public bool? ParallelToolCalls { get; set; }
+
+		[JsonProperty("prediction", NullValueHandling = NullValueHandling.Ignore)]
+		public OpenAIChatPrediction Prediction { get; set; }
+
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? PresencePenalty { get; set; }
 
@@ -58,6 +64,12 @@ namespace Zatomic.AI.Providers.OpenAI
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public object ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<OpenAIChatTool> Tools { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }
