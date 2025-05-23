@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Zatomic.AI.Providers.DeepInfra;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
@@ -112,29 +113,24 @@ namespace Zatomic.AI.Providers.AI21Labs
 							throw aiEx;
 						}
 
-						if (!line.IsNullOrEmpty())
+						// Event messages start with "data: ", so that's why we substring the line at 6
+						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							// Ignore everything before the first curly brace
-							var index = line.IndexOf("{");
-							if (index != -1)
-							{
-								line = line.Substring(index);
-							}
+							var rsp = line.Substring(6).Deserialize<AI21LabsChatResponse>();
+							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 
-							var rsp = line.Deserialize<AI21LabsChatResponse>();
 							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();
-							}
-
-							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
-							if (streamComplete)
-							{
-								result.InputTokens = rsp.Usage.PromptTokens;
-								result.OutputTokens = rsp.Usage.CompletionTokens;
-								result.TotalTokens = rsp.Usage.TotalTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
+
+								if (rsp.Usage != null)
+								{
+									result.InputTokens = rsp.Usage.PromptTokens;
+									result.OutputTokens = rsp.Usage.CompletionTokens;
+									result.TotalTokens = rsp.Usage.TotalTokens;
+								}
 							}
 
 							yield return result;
