@@ -8,10 +8,10 @@ namespace Zatomic.AI.Providers.HuggingFace
 	{
 		public override HuggingFaceChatBaseResponseFormat ReadJson(JsonReader reader, Type objectType, HuggingFaceChatBaseResponseFormat existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
+			HuggingFaceChatBaseResponseFormat item;
+
 			var obj = JObject.Load(reader);
 			var type = obj["type"]?.Value<string>();
-
-			HuggingFaceChatBaseResponseFormat item;
 
 			if (type == "json") item = obj.ToObject<HuggingFaceChatJsonResponseFormat>(serializer);
 			else if (type == "json_schema") item = obj.ToObject<HuggingFaceChatJsonSchemaResponseFormat>(serializer);

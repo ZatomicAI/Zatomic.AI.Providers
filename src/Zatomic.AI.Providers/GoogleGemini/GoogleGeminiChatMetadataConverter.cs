@@ -1,40 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
-	public class GoogleGeminiChatMetadataConverter : JsonConverter<List<GoogleGeminiChatBaseMetadata>>
+	public class GoogleGeminiChatMetadataConverter : JsonConverter<GoogleGeminiChatBaseMetadata>
 	{
-		public override List<GoogleGeminiChatBaseMetadata> ReadJson(JsonReader reader, Type objectType, List<GoogleGeminiChatBaseMetadata> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override GoogleGeminiChatBaseMetadata ReadJson(JsonReader reader, Type objectType, GoogleGeminiChatBaseMetadata existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
-			var array = JArray.Load(reader);
-			var items = new List<GoogleGeminiChatBaseMetadata>();
+			GoogleGeminiChatBaseMetadata item;
 
-			foreach (var token in array)
-			{
-				GoogleGeminiChatBaseMetadata item;
+			var obj = JObject.Load(reader);
 
-				if (token["videoMetadata"] != null) item = token.ToObject<GoogleGeminiChatVideoMetadata>(serializer);
-				else throw new JsonSerializationException($"Unknown content type: {token}");
+			if (obj["videoMetadata"] != null) item = obj.ToObject<GoogleGeminiChatVideoMetadata>(serializer);
+			else throw new JsonSerializationException($"Unknown content type: {obj}");
 
-				items.Add(item);
-			}
-
-			return items;
+			return item;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<GoogleGeminiChatBaseMetadata> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, GoogleGeminiChatBaseMetadata value, JsonSerializer serializer)
 		{
-			writer.WriteStartArray();
-
-			foreach (var item in value)
-			{
-				JToken.FromObject(item, serializer).WriteTo(writer);
-			}
-
-			writer.WriteEndArray();
+			JObject.FromObject(value, serializer).WriteTo(writer);
 		}
 	}
 }

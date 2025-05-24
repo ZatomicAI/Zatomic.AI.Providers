@@ -1,41 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
-	public class GoogleGeminiChatAttributionSourceConverter : JsonConverter<List<GoogleGeminiChatBaseAttributionSource>>
+	public class GoogleGeminiChatAttributionSourceConverter : JsonConverter<GoogleGeminiChatBaseAttributionSource>
 	{
-		public override List<GoogleGeminiChatBaseAttributionSource> ReadJson(JsonReader reader, Type objectType, List<GoogleGeminiChatBaseAttributionSource> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override GoogleGeminiChatBaseAttributionSource ReadJson(JsonReader reader, Type objectType, GoogleGeminiChatBaseAttributionSource existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
-			var array = JArray.Load(reader);
-			var items = new List<GoogleGeminiChatBaseAttributionSource>();
+			GoogleGeminiChatBaseAttributionSource item;
 
-			foreach (var token in array)
-			{
-				GoogleGeminiChatBaseAttributionSource item;
+			var obj = JObject.Load(reader);
+			
+			if (obj["groundingPassage"] != null) item = obj.ToObject<GoogleGeminiChatGroundingPassage>(serializer);
+			else if (obj["semanticRetrieverChunk"] != null) item = obj.ToObject<GoogleGeminiChatSemanticRetrieverChunk>(serializer);
+			else throw new JsonSerializationException($"Unknown content type: {obj}");
 
-				if (token["groundingPassage"] != null) item = token.ToObject<GoogleGeminiChatGroundingPassage>(serializer);
-				else if (token["semanticRetrieverChunk"] != null) item = token.ToObject<GoogleGeminiChatSemanticRetrieverChunk>(serializer);
-				else throw new JsonSerializationException($"Unknown content type: {token}");
-
-				items.Add(item);
-			}
-
-			return items;
+			return item;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<GoogleGeminiChatBaseAttributionSource> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, GoogleGeminiChatBaseAttributionSource value, JsonSerializer serializer)
 		{
-			writer.WriteStartArray();
-
-			foreach (var item in value)
-			{
-				JToken.FromObject(item, serializer).WriteTo(writer);
-			}
-
-			writer.WriteEndArray();
+			JObject.FromObject(value, serializer).WriteTo(writer);
 		}
 	}
 }

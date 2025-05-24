@@ -1,40 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
-	public class GoogleGeminiChatChunkTypeConverter : JsonConverter<List<GoogleGeminiChatBaseChunkType>>
+	public class GoogleGeminiChatChunkTypeConverter : JsonConverter<GoogleGeminiChatBaseChunkType>
 	{
-		public override List<GoogleGeminiChatBaseChunkType> ReadJson(JsonReader reader, Type objectType, List<GoogleGeminiChatBaseChunkType> existingValue, bool hasExistingValue, JsonSerializer serializer)
+		public override GoogleGeminiChatBaseChunkType ReadJson(JsonReader reader, Type objectType, GoogleGeminiChatBaseChunkType existingValue, bool hasExistingValue, JsonSerializer serializer)
 		{
-			var array = JArray.Load(reader);
-			var items = new List<GoogleGeminiChatBaseChunkType>();
+			GoogleGeminiChatBaseChunkType item;
 
-			foreach (var token in array)
-			{
-				GoogleGeminiChatBaseChunkType item;
+			var obj = JObject.Load(reader);
 
-				if (token["web"] != null) item = token.ToObject<GoogleGeminiChatWebChunkType>(serializer);
-				else throw new JsonSerializationException($"Unknown content type: {token}");
+			if (obj["web"] != null) item = obj.ToObject<GoogleGeminiChatWebChunkType>(serializer);
+			else throw new JsonSerializationException($"Unknown content type: {obj}");
 
-				items.Add(item);
-			}
-
-			return items;
+			return item;
 		}
 
-		public override void WriteJson(JsonWriter writer, List<GoogleGeminiChatBaseChunkType> value, JsonSerializer serializer)
+		public override void WriteJson(JsonWriter writer, GoogleGeminiChatBaseChunkType value, JsonSerializer serializer)
 		{
-			writer.WriteStartArray();
-
-			foreach (var item in value)
-			{
-				JToken.FromObject(item, serializer).WriteTo(writer);
-			}
-
-			writer.WriteEndArray();
+			JObject.FromObject(value, serializer).WriteTo(writer);
 		}
 	}
 }
