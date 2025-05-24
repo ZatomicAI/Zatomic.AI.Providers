@@ -9,6 +9,9 @@ namespace Zatomic.AI.Providers.xAI
 		[JsonProperty("choices")]
 		public List<xAIChatChoice> Choices { get; set; }
 
+		[JsonProperty("citations")]
+		public List<string> Citations { get; set; }
+
 		[JsonProperty("created")]
 		public int Created { get; set; }
 
@@ -36,6 +39,7 @@ namespace Zatomic.AI.Providers.xAI
 		public xAIChatResponse()
 		{
 			Choices = new List<xAIChatChoice>();
+			Citations = new List<string>();
 		}
 	}
 }

@@ -14,6 +14,9 @@ namespace Zatomic.AI.Providers.AzureServerless
 		[JsonProperty("messages")]
 		public List<AzureServerlessChatInputMessage> Messages { get; set; }
 
+		[JsonProperty("modalities", NullValueHandling = NullValueHandling.Ignore)]
+		public List<string> Modalities { get; set; }
+
 		[JsonProperty("model")]
 		public string Model { get; set; }
 
@@ -24,7 +27,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 		public AzureServerlessChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }
@@ -34,6 +37,12 @@ namespace Zatomic.AI.Providers.AzureServerless
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public string ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<AzureServerlessChatTool> Tools { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }

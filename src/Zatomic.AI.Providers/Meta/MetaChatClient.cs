@@ -72,7 +72,7 @@ namespace Zatomic.AI.Providers.Meta
 
 			var result = await ChatAsync(request);
 
-			var matches = Regex.Matches(result.CompletionMessage.Content.Text, @"\S+|\s+");
+			var matches = Regex.Matches(result.CompletionMessage.Content[0].Text, @"\S+|\s+");
 			foreach (Match match in matches)
 			{
 				Thread.Sleep(10);

@@ -18,7 +18,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<TogetherAIChatMessage> Messages { get; set; }
+		public List<TogetherAIChatInputMessage> Messages { get; set; }
 
 		[JsonProperty("min_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? MinP { get; set; }
@@ -42,7 +42,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 		public string SafetyModel { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }
@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.TogetherAI
 
 		public TogetherAIChatRequest()
 		{
-			Messages = new List<TogetherAIChatMessage>();
+			Messages = new List<TogetherAIChatInputMessage>();
 		}
 
 		public TogetherAIChatRequest(string model) : this()
@@ -96,7 +96,16 @@ namespace Zatomic.AI.Providers.TogetherAI
 
 		private void AddMessage(string role, string content)
 		{
-			Messages.Add(new TogetherAIChatMessage { Role = role, Content = content });
+			var msg = new TogetherAIChatInputMessage
+			{
+				Role = role,
+				Content = new List<TogetherAIChatBaseContent>
+				{
+					new TogetherAIChatTextContent { Type = "text", Text = content }
+				}
+			};
+
+			Messages.Add(msg);
 		}
 	}
 }

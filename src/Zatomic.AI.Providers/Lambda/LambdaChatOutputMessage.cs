@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Lambda
 {
@@ -12,5 +13,13 @@ namespace Zatomic.AI.Providers.Lambda
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
+
+		[JsonProperty("tool_calls")]
+		public List<LambdaChatToolCall> ToolCalls { get; set; }
+
+		public LambdaChatOutputMessage()
+		{
+			ToolCalls = new List<LambdaChatToolCall>();
+		}
 	}
 }

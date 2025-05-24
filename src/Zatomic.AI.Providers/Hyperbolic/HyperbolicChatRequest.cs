@@ -14,6 +14,9 @@ namespace Zatomic.AI.Providers.Hyperbolic
 		[JsonProperty("messages")]
 		public List<HyperbolicChatMessage> Messages { get; set; }
 
+		[JsonProperty("min_p", NullValueHandling = NullValueHandling.Ignore)]
+		public float? MinP { get; set; }
+
 		[JsonProperty("model")]
 		public string Model { get; set; }
 
@@ -22,6 +25,12 @@ namespace Zatomic.AI.Providers.Hyperbolic
 
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? PresencePenalty { get; set; }
+
+		[JsonProperty("repetition_penalty", NullValueHandling = NullValueHandling.Ignore)]
+		public float? RepetitionPenalty { get; set; }
+
+		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }

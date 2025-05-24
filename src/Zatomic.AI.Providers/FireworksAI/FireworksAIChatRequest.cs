@@ -20,6 +20,12 @@ namespace Zatomic.AI.Providers.FireworksAI
 		[JsonProperty("messages")]
 		public List<FireworksAIChatMessage> Messages { get; set; }
 
+		[JsonProperty("mirostat_lr", NullValueHandling = NullValueHandling.Ignore)]
+		public float? MirostatLearningRate { get; set; }
+
+		[JsonProperty("mirostat_target", NullValueHandling = NullValueHandling.Ignore)]
+		public float? MirostatTarget { get; set; }
+
 		[JsonProperty("model")]
 		public string Model { get; set; }
 
@@ -49,6 +55,9 @@ namespace Zatomic.AI.Providers.FireworksAI
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<FireworksAIChatTool> Tools { get; set; }
 
 		[JsonProperty("top_k", NullValueHandling = NullValueHandling.Ignore)]
 		public int? TopK { get; set; }

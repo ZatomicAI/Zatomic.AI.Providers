@@ -124,22 +124,18 @@ namespace Zatomic.AI.Providers.Cohere
 							throw aiEx;
 						}
 
-						// Cohere streams two types of lines: one that starts with "event:" and one that starts
-						// with "data:". The "event:" lines basically tell you what kind of "data:" line is next,
-						// but that bit of info is also in the "data:" line, so we only care about those.
+						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							if (line.Contains(CohereChatStreamEventTypes.ContentDelta))
+							var ev = line.Substring(6).Deserialize<CohereChatStreamEvent>();
+							if (ev.Type == "content-delta")
 							{
-								var rsp = line.Substring(6).Deserialize<CohereChatStreamResponse>();
-								chunk = rsp.Delta.Message.Content.Text;
+								chunk = ev.Delta.Message.Content.Text;
 							}
-
-							if (line.Contains(CohereChatStreamEventTypes.MessageEnd))
+							else if (ev.Type == "message-end")
 							{
-								var rsp = line.Substring(6).Deserialize<CohereChatStreamResponse>();
-								inputTokens = rsp.Delta.Usage.Tokens.InputTokens;
-								outputTokens = rsp.Delta.Usage.Tokens.OutputTokens;
+								inputTokens = ev.Delta.Usage.Tokens.InputTokens;
+								outputTokens = ev.Delta.Usage.Tokens.OutputTokens;
 								streamComplete = true;
 								stopwatch.Stop();
 							}
@@ -149,6 +145,7 @@ namespace Zatomic.AI.Providers.Cohere
 							{
 								result.InputTokens = inputTokens;
 								result.OutputTokens = outputTokens;
+								result.TotalTokens = inputTokens + outputTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 

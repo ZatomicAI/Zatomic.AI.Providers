@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.HuggingFace
 {
@@ -9,5 +10,16 @@ namespace Zatomic.AI.Providers.HuggingFace
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
+
+		[JsonProperty("tool_call_id")]
+		public string ToolCallId { get; set; }
+
+		[JsonProperty("tool_calls")]
+		public List<HuggingFaceChatToolCall> ToolCalls { get; set; }
+
+		public HuggingFaceChatOutputMessage()
+		{
+			ToolCalls = new List<HuggingFaceChatToolCall>();
+		}
 	}
 }

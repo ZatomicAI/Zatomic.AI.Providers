@@ -110,13 +110,13 @@ namespace Zatomic.AI.Providers.FireworksAI
 							throw aiEx;
 						}
 
-						// Fireworks AI streams event lines with "data: ", so that's why we substring the line at 6
+						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
 							var rsp = line.Substring(6).Deserialize<FireworksAIChatResponse>();
 							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
 
-							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty() && rsp.Choices[0].FinishReason == "stop")
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();

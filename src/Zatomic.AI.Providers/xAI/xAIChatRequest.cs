@@ -5,6 +5,9 @@ namespace Zatomic.AI.Providers.xAI
 {
 	public class xAIChatRequest : BaseRequest
 	{
+		[JsonProperty("deferred", NullValueHandling = NullValueHandling.Ignore)]
+		public bool? Deferred { get; set; }
+
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
 
@@ -29,8 +32,11 @@ namespace Zatomic.AI.Providers.xAI
 		[JsonProperty("response_format", NullValueHandling = NullValueHandling.Ignore)]
 		public xAIChatResponseFormat ResponseFormat { get; set; }
 
+		[JsonProperty("search_parameters", NullValueHandling = NullValueHandling.Ignore)]
+		public xAIChatSearchParameters SearchParameters { get; set; }
+
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }
@@ -44,11 +50,20 @@ namespace Zatomic.AI.Providers.xAI
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
 
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public object ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<xAIChatTool> Tools { get; set; }
+
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }
 
 		[JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
 		public string User { get; set; }
+
+		[JsonProperty("web_search_options", NullValueHandling = NullValueHandling.Ignore)]
+		public xAIChatWebSearchOptions WebSearchOptions { get; set; }
 
 		public xAIChatRequest()
 		{
@@ -93,15 +108,15 @@ namespace Zatomic.AI.Providers.xAI
 		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)
 		{
 			var msg = new xAIChatInputMessage { Role = role };
-			msg.Content.Add(new xAIChatTextContent { Type = "text", Text = content });
-			msg.Content.Add(new xAIChatImageUrlContent { Type = "image_url", ImageUrl = new xAIChatImageUrl { Url = imageUrl, Detail = imageDetail } });
+			msg.Content.Add(new xAIChatContent { Type = "text", Text = content });
+			msg.Content.Add(new xAIChatContent { Type = "image_url", ImageUrl = new xAIChatImageUrl { Url = imageUrl, Detail = imageDetail } });
 			Messages.Add(msg);
 		}
 
 		private void AddTextMessage(string role, string content)
 		{
 			var msg = new xAIChatInputMessage { Role = role };
-			msg.Content.Add(new xAIChatTextContent { Type = "text", Text = content });
+			msg.Content.Add(new xAIChatContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 	}

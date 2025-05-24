@@ -18,6 +18,11 @@ namespace Zatomic.AI.Providers.GoogleGemini
 
 				if (token["text"] != null) item = token.ToObject<GoogleGeminiChatTextPart>(serializer);
 				else if (token["inlineData"] != null) item = token.ToObject<GoogleGeminiChatInlineDataPart>(serializer);
+				else if (token["functionCall"] != null) item = token.ToObject<GoogleGeminiChatFunctionCallPart>(serializer);
+				else if (token["functionResponse"] != null) item = token.ToObject<GoogleGeminiChatFunctionResponsePart>(serializer);
+				else if (token["fileData"] != null) item = token.ToObject<GoogleGeminiChatFileDataPart>(serializer);
+				else if (token["executableCode"] != null) item = token.ToObject<GoogleGeminiChatExecutableCodePart>(serializer);
+				else if (token["codeExecutionResult"] != null) item = token.ToObject<GoogleGeminiChatCodeExecutionResultPart>(serializer);
 				else throw new JsonSerializationException($"Unknown content type: {token}");
 
 				items.Add(item);

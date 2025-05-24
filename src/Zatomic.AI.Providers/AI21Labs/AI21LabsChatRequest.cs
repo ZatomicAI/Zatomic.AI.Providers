@@ -5,6 +5,9 @@ namespace Zatomic.AI.Providers.AI21Labs
 {
 	public class AI21LabsChatRequest : BaseRequest
 	{
+		[JsonProperty("documents", NullValueHandling = NullValueHandling.Ignore)]
+		public List<AI21LabsChatDocument> Documents { get; set; }
+
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }
 
@@ -28,6 +31,9 @@ namespace Zatomic.AI.Providers.AI21Labs
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<AI21LabsChatTool> Tools { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }

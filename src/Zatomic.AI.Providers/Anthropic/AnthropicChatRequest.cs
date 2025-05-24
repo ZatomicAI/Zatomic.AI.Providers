@@ -32,6 +32,13 @@ namespace Zatomic.AI.Providers.Anthropic
 		[JsonProperty("thinking", NullValueHandling = NullValueHandling.Ignore)]
 		public AnthropicChatThinking Thinking { get; set; }
 
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public AnthropicChatToolChoice ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		[JsonConverter(typeof(AnthropicChatToolsListConverter))]
+		public List<AnthropicChatBaseTool> Tools { get; set; }
+
 		[JsonProperty("top_k", NullValueHandling = NullValueHandling.Ignore)]
 		public int? TopK { get; set; }
 

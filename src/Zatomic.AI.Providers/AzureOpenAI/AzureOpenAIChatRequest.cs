@@ -8,6 +8,9 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
 
+		[JsonProperty("max_completion_tokens", NullValueHandling = NullValueHandling.Ignore)]
+		public int? MaxCompletionTokens { get; set; }
+
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }
 
@@ -20,6 +23,9 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("n", NullValueHandling = NullValueHandling.Ignore)]
 		public int? N { get; set; }
 
+		[JsonProperty("parallel_tool_calls", NullValueHandling = NullValueHandling.Ignore)]
+		public bool? ParallelToolCalls { get; set; }
+
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? PresencePenalty { get; set; }
 
@@ -27,7 +33,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public AzureOpenAIChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }
@@ -40,6 +46,12 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
+
+		[JsonProperty("tool_choice", NullValueHandling = NullValueHandling.Ignore)]
+		public object ToolChoice { get; set; }
+
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<AzureOpenAIChatTool> Tools { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }

@@ -26,6 +26,9 @@ namespace Zatomic.AI.Providers.Meta
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
 
+		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		public List<MetaChatTool> Tools { get; set; }
+
 		[JsonProperty("top_k", NullValueHandling = NullValueHandling.Ignore)]
 		public int? TopK { get; set; }
 

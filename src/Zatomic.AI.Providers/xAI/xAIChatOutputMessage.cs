@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.xAI
 {
@@ -15,5 +16,13 @@ namespace Zatomic.AI.Providers.xAI
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
+
+		[JsonProperty("tool_calls")]
+		public List<xAIChatToolCall> ToolCalls { get; set; }
+
+		public xAIChatOutputMessage()
+		{
+			ToolCalls = new List<xAIChatToolCall>();
+		}
 	}
 }

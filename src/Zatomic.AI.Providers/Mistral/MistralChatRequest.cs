@@ -20,6 +20,9 @@ namespace Zatomic.AI.Providers.Mistral
 		[JsonProperty("n", NullValueHandling = NullValueHandling.Ignore)]
 		public int? N { get; set; }
 
+		[JsonProperty("parallel_tool_calls", NullValueHandling = NullValueHandling.Ignore)]
+		public bool? ParallelToolCalls { get; set; }
+
 		[JsonProperty("prediction", NullValueHandling = NullValueHandling.Ignore)]
 		public MistralChatPrediction Prediction { get; set; }
 

@@ -20,6 +20,8 @@ namespace Zatomic.AI.Providers.Mistral
 
 				if (type == "text") item = token.ToObject<MistralChatTextContent>(serializer);
 				else if (type == "image_url") item = token.ToObject<MistralChatImageUrlContent>(serializer);
+				else if (type == "document_url") item = token.ToObject<MistralChatDocumentUrlContent>(serializer);
+				else if (type == "reference") item = token.ToObject<MistralChatReferenceContent>(serializer);
 				else throw new JsonSerializationException($"Unknown content type: {type}");
 
 				items.Add(item);

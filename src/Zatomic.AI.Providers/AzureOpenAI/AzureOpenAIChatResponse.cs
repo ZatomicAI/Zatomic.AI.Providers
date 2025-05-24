@@ -27,6 +27,9 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("object")]
 		public string Object { get; set; }
 
+		[JsonProperty("prompt_filter_results")]
+		public List<AzureOpenAIChatPromptFilterResult> PromptFilterResults { get; set; }
+
 		[JsonProperty("system_fingerprint")]
 		public string SystemFingerprint { get; set; }
 
@@ -36,6 +39,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public AzureOpenAIChatResponse()
 		{
 			Choices = new List<AzureOpenAIChatChoice>();
+			PromptFilterResults = new List<AzureOpenAIChatPromptFilterResult>();
 		}
 	}
 }

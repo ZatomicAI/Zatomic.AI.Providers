@@ -127,35 +127,34 @@ namespace Zatomic.AI.Providers.Anthropic
 							throw aiEx;
 						}
 
-						// Anthropic streams two types of lines: one that starts with "event:" and one that
-						// starts with "data:". The "event:" lines basically tell you what kind of "data:" line
-						// is next, but that bit of info is also in the "data:" line, so we only care about those.
+						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							if (line.Contains(AnthropicChatStreamEventTypes.MessageStart))
+							// First deserialize to just get the type of event
+							var eventType = line.Substring(6).Deserialize<AnthropicChatStreamEventType>();
+
+							// Then deserialize to the specific type of event
+							if (eventType.Type == "message_start")
 							{
 								// Anthropic puts the input token count in the message start event
 								var messageStart = line.Substring(6).Deserialize<AnthropicChatStreamMessageStart>();
 								inputTokens = messageStart.Message.Usage.InputTokens;
 							}
-
-							if (line.Contains(AnthropicChatStreamEventTypes.MessageDelta))
-							{
-								// Anthropic puts the output token count in the message delta event
-								var messageDelta = line.Substring(6).Deserialize<AnthropicChatStreamMessageDelta>();
-								outputTokens = messageDelta.Usage.OutputTokens;
-							}
-
-							if (line.Contains(AnthropicChatStreamEventTypes.MessageStop))
-							{
-								streamComplete = true;
-								stopwatch.Stop();
-							}
-
-							if (line.Contains(AnthropicChatStreamEventTypes.ContentBlockDelta))
+							else if (eventType.Type == "content_block_delta")
 							{
 								var delta = line.Substring(6).Deserialize<AnthropicChatStreamContentBlockDelta>();
 								chunk = delta.Delta.Text;
+							}
+							else if (eventType.Type == "message_delta")
+							{
+								// Anthropic puts the output token count in the message delta event, which is right before the stop event
+								var messageDelta = line.Substring(6).Deserialize<AnthropicChatStreamMessageDelta>();
+								outputTokens = messageDelta.Usage.OutputTokens;
+							}
+							else if (eventType.Type == "message_stop")
+							{
+								streamComplete = true;
+								stopwatch.Stop();
 							}
 
 							var result = new AIStreamResult { Chunk = chunk };
@@ -163,6 +162,7 @@ namespace Zatomic.AI.Providers.Anthropic
 							{
 								result.InputTokens = inputTokens;
 								result.OutputTokens = outputTokens;
+								result.TotalTokens = inputTokens + outputTokens;
 								result.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
