@@ -15,5 +15,8 @@ namespace Zatomic.AI.Providers.Lambda
 
 		[JsonProperty("message")]
 		public LambdaChatOutputMessage Message { get; set; }
+
+		[JsonProperty("stop_reason")]
+		public string StopReason { get; set; }
 	}
 }
