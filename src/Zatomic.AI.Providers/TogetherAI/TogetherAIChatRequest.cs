@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.TogetherAI
 {
-	public class TogetherAIChatRequest : BaseRequest
+	public class TogetherAIChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("context_length_exceeded_behavior", NullValueHandling = NullValueHandling.Ignore)]
 		public string ContentLengthExceededBehavior { get; set; }
@@ -92,6 +92,11 @@ namespace Zatomic.AI.Providers.TogetherAI
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)

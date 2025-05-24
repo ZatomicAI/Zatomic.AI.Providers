@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Lambda
 {
-	public class LambdaChatRequest : BaseRequest
+	public class LambdaChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -79,6 +79,11 @@ namespace Zatomic.AI.Providers.Lambda
 		public void AddUserMessage(string content, string imageUrl)
 		{
 			AddImageMessage("user", content, imageUrl);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl)

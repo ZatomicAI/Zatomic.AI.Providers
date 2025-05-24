@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Hyperbolic
 {
-	public class HyperbolicChatRequest : BaseRequest
+	public class HyperbolicChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -78,6 +78,11 @@ namespace Zatomic.AI.Providers.Hyperbolic
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)

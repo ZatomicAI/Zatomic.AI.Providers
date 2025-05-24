@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Meta
 {
-	public class MetaChatRequest : BaseRequest
+	public class MetaChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("max_completion_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxCompletionTokens { get; set; }
@@ -73,6 +73,11 @@ namespace Zatomic.AI.Providers.Meta
 		public void AddUserMessage(string content, string imageUrl)
 		{
 			AddImageMessage("user", content, imageUrl);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl)

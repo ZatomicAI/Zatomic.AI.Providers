@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereChatRequest : BaseRequest
+	public class CohereChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("citation_options", NullValueHandling = NullValueHandling.Ignore)]
 		public CohereChatCitationOptions CitationOptions { get; set; }
@@ -97,6 +97,11 @@ namespace Zatomic.AI.Providers.Cohere
 		public void AddUserMessage(string content, string imageUrl, string imageDetail = null)
 		{
 			AddImageMessage("user", content, imageUrl, imageDetail);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)

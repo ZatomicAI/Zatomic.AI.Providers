@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.AI21Labs
 {
-	public class AI21LabsChatRequest : BaseRequest
+	public class AI21LabsChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("documents", NullValueHandling = NullValueHandling.Ignore)]
 		public List<AI21LabsChatDocument> Documents { get; set; }
@@ -71,6 +71,11 @@ namespace Zatomic.AI.Providers.AI21Labs
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)

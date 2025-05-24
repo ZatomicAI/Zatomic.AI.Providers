@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.AzureServerless
 {
-	public class AzureServerlessChatRequest : BaseRequest
+	public class AzureServerlessChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -80,6 +80,11 @@ namespace Zatomic.AI.Providers.AzureServerless
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)
