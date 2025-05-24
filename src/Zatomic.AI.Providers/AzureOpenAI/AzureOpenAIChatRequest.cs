@@ -33,7 +33,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public AzureOpenAIChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public long? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }
