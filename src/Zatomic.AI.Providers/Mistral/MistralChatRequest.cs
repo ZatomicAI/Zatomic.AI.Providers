@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Mistral
 {
-	public class MistralChatRequest : BaseRequest
+	public class MistralChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -88,6 +88,11 @@ namespace Zatomic.AI.Providers.Mistral
 		public void AddUserMessage(string content, string imageUrl, string imageDetail = null)
 		{
 			AddImageMessage("user", content, imageUrl, imageDetail);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)

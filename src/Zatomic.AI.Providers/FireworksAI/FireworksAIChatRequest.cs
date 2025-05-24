@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.FireworksAI
 {
-	public class FireworksAIChatRequest : BaseRequest
+	public class FireworksAIChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("context_length_exceeded_behavior", NullValueHandling = NullValueHandling.Ignore)]
 		public string ContentLengthExceededBehavior { get; set; }
@@ -101,6 +101,11 @@ namespace Zatomic.AI.Providers.FireworksAI
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)

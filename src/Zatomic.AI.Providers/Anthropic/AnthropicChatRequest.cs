@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.Anthropic
 {
-	public class AnthropicChatRequest : BaseRequest
+	public class AnthropicChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("max_tokens")]
 		public int MaxTokens { get; set; }
@@ -79,6 +79,11 @@ namespace Zatomic.AI.Providers.Anthropic
 		public void AddUserMessage(string content, string imageMediaType, string imageBase64Data)
 		{
 			AddImageMessage("user", content, imageMediaType, imageBase64Data);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl)

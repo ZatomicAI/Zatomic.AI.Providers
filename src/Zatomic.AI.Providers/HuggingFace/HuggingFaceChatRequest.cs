@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.HuggingFace
 {
-	public class HuggingFaceChatRequest : BaseRequest
+	public class HuggingFaceChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -84,6 +84,11 @@ namespace Zatomic.AI.Providers.HuggingFace
 		public void AddUserMessage(string content, string imageUrl)
 		{
 			AddImageMessage("user", content, imageUrl);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl)

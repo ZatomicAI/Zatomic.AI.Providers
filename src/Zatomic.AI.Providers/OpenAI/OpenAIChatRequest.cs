@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.OpenAI
 {
-	public class OpenAIChatRequest : BaseRequest
+	public class OpenAIChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("audio", NullValueHandling = NullValueHandling.Ignore)]
 		public OpenAIChatAudio Audio { get; set; }
@@ -133,6 +133,11 @@ namespace Zatomic.AI.Providers.OpenAI
 		public void AddUserMessage(string content, string imageUrl, string imageDetail = null)
 		{
 			AddImageMessage("user", content, imageUrl, imageDetail);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddAudioMessage(string role, string content, string audioData, OpenAIChatInputAudioFormat audioFormat)

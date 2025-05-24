@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.AmazonBedrock
 {
-	public class AmazonBedrockChatRequest : BaseRequest
+	public class AmazonBedrockChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxTokens { get; set; }
@@ -49,6 +49,11 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddMessage(string role, string content)

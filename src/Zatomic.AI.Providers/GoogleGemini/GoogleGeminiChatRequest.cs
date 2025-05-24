@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Amazon.BedrockRuntime.Model;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
-    public class GoogleGeminiChatRequest : BaseRequest
+    public class GoogleGeminiChatRequest : BaseRequest,  IChatRequest
 	{
 		[JsonProperty("cachedContent", NullValueHandling = NullValueHandling.Ignore)]
 		public string CachedContent { get; set; }
@@ -75,6 +76,11 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		public void AddUserMessage(string content, string mimeType, string data)
 		{
 			AddImageMessage("user", content, mimeType, data);
+		}
+
+		public void ClearMessages()
+		{
+			Contents.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string mimeType, string data)

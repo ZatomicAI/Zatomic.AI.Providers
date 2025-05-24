@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.xAI
 {
-	public class xAIChatRequest : BaseRequest
+	public class xAIChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("deferred", NullValueHandling = NullValueHandling.Ignore)]
 		public bool? Deferred { get; set; }
@@ -103,6 +103,11 @@ namespace Zatomic.AI.Providers.xAI
 		public void AddUserMessage(string content, string imageUrl, string imageDetail = null)
 		{
 			AddImageMessage("user", content, imageUrl, imageDetail);
+		}
+
+		public void ClearMessages()
+		{
+			Messages.Clear();
 		}
 
 		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)
