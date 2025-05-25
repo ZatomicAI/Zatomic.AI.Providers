@@ -127,15 +127,20 @@ namespace Zatomic.AI.Providers.Cohere
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							var ev = line.Substring(6).Deserialize<CohereChatStreamEvent>();
-							if (ev.Type == "content-delta")
+							// First deserialize to just get the type of event
+							var eventType = line.Substring(6).Deserialize<CohereChatStreamEventType>();
+
+							// Then deserialize to the specific type of event
+							if (eventType.Type == "content-delta")
 							{
-								chunk = ev.Delta.Message.Content.Text;
+								var contentDelta = line.Substring(6).Deserialize<CohereChatStreamContentDelta>();
+								chunk = contentDelta.Delta.Message.Content.Text;
 							}
-							else if (ev.Type == "message-end")
+							else if (eventType.Type == "message-end")
 							{
-								inputTokens = ev.Delta.Usage.Tokens.InputTokens;
-								outputTokens = ev.Delta.Usage.Tokens.OutputTokens;
+								var messageEnd = line.Substring(6).Deserialize<CohereChatStreamMessageEnd>();
+								inputTokens = messageEnd.Delta.Usage.Tokens.InputTokens;
+								outputTokens = messageEnd.Delta.Usage.Tokens.OutputTokens;
 								streamComplete = true;
 								stopwatch.Stop();
 							}

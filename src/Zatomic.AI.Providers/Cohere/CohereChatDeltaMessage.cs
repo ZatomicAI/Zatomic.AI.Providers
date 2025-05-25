@@ -2,7 +2,7 @@
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereChatStreamMessage
+	public class CohereChatDeltaMessage
 	{
 		[JsonProperty("content")]
 		public CohereChatTextContent Content { get; set; }

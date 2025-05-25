@@ -2,13 +2,13 @@
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereChatStreamDelta
+	public class CohereChatDelta
 	{
 		[JsonProperty("finish_reason")]
 		public string FinishReason { get; set; }
 
 		[JsonProperty("message")]
-		public CohereChatStreamMessage Message { get; set; }
+		public CohereChatDeltaMessage Message { get; set; }
 
 		[JsonProperty("usage")]
 		public CohereChatUsage Usage { get; set; }

@@ -2,13 +2,10 @@
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereChatStreamEvent
+	public class CohereChatStreamMessageEnd
 	{
 		[JsonProperty("delta")]
-		public CohereChatStreamDelta Delta { get; set; }
-
-		[JsonProperty("index")]
-		public int Index { get; set; }
+		public CohereChatDelta Delta { get; set; }
 
 		[JsonProperty("type")]
 		public string Type { get; set; }

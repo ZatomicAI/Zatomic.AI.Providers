@@ -6,7 +6,7 @@ namespace Zatomic.AI.Providers.Meta
 	public class MetaChatCompletionMessage
 	{
 		[JsonProperty("content")]
-		public List<MetaChatTextContent> Content { get; set; }
+		public MetaChatTextContent Content { get; set; }
 
 		[JsonProperty("role")]
 		public string Role { get; set; }
@@ -19,7 +19,6 @@ namespace Zatomic.AI.Providers.Meta
 
 		public MetaChatCompletionMessage()
 		{
-			Content = new List<MetaChatTextContent>();
 			ToolCalls = new List<MetaChatToolCall>();
 		}
 	}
