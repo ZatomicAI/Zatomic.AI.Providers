@@ -39,7 +39,7 @@ From within Visual Studio:
 ## Non-Stream Example - OpenAI
 
 ```csharp
-using Zatomic.AI.Providers
+using Zatomic.AI.Providers.OpenAI
 
 var openAIClient = new OpenAIChatClient { ApiKey = "[YOUR_API_KEY]" };
 
@@ -54,7 +54,7 @@ var content = response.Choices[0].Message.Content;
 ## Streaming Example - OpenAI
 
 ```csharp
-using Zatomic.AI.Providers
+using Zatomic.AI.Providers.OpenAI
 
 var openAIClient = new OpenAIChatClient { ApiKey = "[YOUR_API_KEY]" };
 
