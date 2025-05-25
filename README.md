@@ -16,7 +16,7 @@ Using the NuGet CLI:
 nuget install Zatomic.AI.Providers
 ```
 
-Using the [Package Manager Console][package-manager-console]:
+Using the Package Manager console:
 
 ```powershell
 Install-Package Zatomic.AI.Providers
