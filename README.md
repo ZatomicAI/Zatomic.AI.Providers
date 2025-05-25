@@ -47,8 +47,8 @@ var request = new OpenAIChatRequest("gpt-4.1-2025-04-14");
 request.AddSystemMessage("You are a very helpful assistant.");
 request.AddUserMessage("Why is the sky blue?");
 
-var result = await _openAIClient.ChatAsync(request);
-var content = result.Choices[0].Message.Content;
+var response = await _openAIClient.ChatAsync(request);
+var content = response.Choices[0].Message.Content;
 ```
 
 ## Streaming Example - OpenAI
@@ -62,8 +62,8 @@ var request = new OpenAIChatRequest("gpt-4.1-2025-04-14");
 request.AddSystemMessage("You are a very helpful assistant.");
 request.AddUserMessage("Why is the sky blue?");
 
-await foreach (var result in openAIClient.ChatStreamAsync(request))
+await foreach (var response in openAIClient.ChatStreamAsync(request))
 {
-    yield return result;
+    yield return response;
 }
 ```
