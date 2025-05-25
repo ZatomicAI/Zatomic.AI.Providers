@@ -16,8 +16,8 @@ namespace Zatomic.AI.Providers.TogetherAI
 		[JsonProperty("message")]
 		public TogetherAIChatOutputMessage Message { get; set; }
 
-		[JsonProperty("seed")]
-		public long Seed { get; set; }
+		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
+		public long? Seed { get; set; }
 
 		[JsonProperty("text")]
 		public string Text { get; set; }

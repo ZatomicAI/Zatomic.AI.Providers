@@ -1,6 +1,5 @@
-﻿using Amazon.BedrockRuntime.Model;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
@@ -18,7 +17,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		[JsonIgnore]
 		public string Model { get; set; }
 
-		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
+		[JsonProperty("safetySettings", NullValueHandling = NullValueHandling.Ignore)]
 		public List<GoogleGeminiChatSafetySetting> SafetySettings { get; set; }
 
 		[JsonProperty("systemInstruction", NullValueHandling = NullValueHandling.Ignore)]
