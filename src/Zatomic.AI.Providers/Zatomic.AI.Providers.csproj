@@ -10,7 +10,7 @@
     <Description>.NET SDK for integrating with various AI model providers.</Description>
     <RepositoryUrl>https://github.com/ZatomicAI/Zatomic.AI.Providers</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>1.11.0</Version>
+    <Version>1.12.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AI;AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;HuggingFace;Hyperbolic;Inference;Meta;Mistral;Lambda;OpenAI;TogetherAI;xAI</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>

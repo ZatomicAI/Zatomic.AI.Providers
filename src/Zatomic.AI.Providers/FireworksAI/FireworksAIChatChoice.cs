@@ -14,6 +14,6 @@ namespace Zatomic.AI.Providers.FireworksAI
 		public int Index { get; set; }
 
 		[JsonProperty("message")]
-		public FireworksAIChatMessage Message { get; set; }
+		public FireworksAIChatOutputMessage Message { get; set; }
 	}
 }

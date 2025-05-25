@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Zatomic.AI.Providers.FireworksAI
 {
-	public class FireworksAIChatMessage
+	public class FireworksAIChatOutputMessage
 	{
 		[JsonProperty("content")]
 		public string Content { get; set; }
@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers.FireworksAI
 		[JsonProperty("tool_calls")]
 		public List<FireworksAIChatToolCall> ToolCalls { get; set; }
 
-		public FireworksAIChatMessage()
+		public FireworksAIChatOutputMessage()
 		{
 			ToolCalls = new List<FireworksAIChatToolCall>();
 		}

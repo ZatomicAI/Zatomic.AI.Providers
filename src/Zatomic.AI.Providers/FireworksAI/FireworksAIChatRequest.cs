@@ -18,7 +18,7 @@ namespace Zatomic.AI.Providers.FireworksAI
 		public int? MaxTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<FireworksAIChatMessage> Messages { get; set; }
+		public List<FireworksAIChatInputMessage> Messages { get; set; }
 
 		[JsonProperty("mirostat_lr", NullValueHandling = NullValueHandling.Ignore)]
 		public float? MirostatLearningRate { get; set; }
@@ -70,7 +70,7 @@ namespace Zatomic.AI.Providers.FireworksAI
 
 		public FireworksAIChatRequest()
 		{
-			Messages = new List<FireworksAIChatMessage>();
+			Messages = new List<FireworksAIChatInputMessage>();
 		}
 
 		public FireworksAIChatRequest(string model) : this()
@@ -110,7 +110,7 @@ namespace Zatomic.AI.Providers.FireworksAI
 
 		private void AddMessage(string role, string content)
 		{
-			Messages.Add(new FireworksAIChatMessage { Role = role, Content = content });
+			Messages.Add(new FireworksAIChatInputMessage { Role = role, Content = content });
 		}
 	}
 }
