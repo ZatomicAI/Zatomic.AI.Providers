@@ -36,34 +36,88 @@ From within Visual Studio:
 4. Click on the _Browse_ tab and search for "Zatomic.AI.Providers".
 5. Click on the Zatomic.AI.Providers package, select the appropriate version in the right-pane, click _Install_.
 
-## Non-Stream Example - OpenAI
+## Samples
 
-```csharp
-using Zatomic.AI.Providers.OpenAI
+Samples for all AI providers can be found in the `src/Zatomic.AI.Providers.Samples` project. This is an NUnit test project, but that's simply to make it easy to run/debug the sample methods. Before running any of the sample methods, you must add an `AppSettings.Development.json` file to the root of the project. This file should contain the API keys, models, etc for the providers you want to run against.
 
-var openAIClient = new OpenAIChatClient { ApiKey = "[YOUR_API_KEY]" };
+The format of the `AppSettigns.Development.json` file is as follows:
 
-var request = new OpenAIChatRequest("gpt-4.1-2025-04-14");
-request.AddSystemMessage("You are a very helpful assistant.");
-request.AddUserMessage("Why is the sky blue?");
-
-var response = await _openAIClient.ChatAsync(request);
-var content = response.Choices[0].Message.Content;
-```
-
-## Streaming Example - OpenAI
-
-```csharp
-using Zatomic.AI.Providers.OpenAI
-
-var openAIClient = new OpenAIChatClient { ApiKey = "[YOUR_API_KEY]" };
-
-var request = new OpenAIChatRequest("gpt-4.1-2025-04-14");
-request.AddSystemMessage("You are a very helpful assistant.");
-request.AddUserMessage("Why is the sky blue?");
-
-await foreach (var response in openAIClient.ChatStreamAsync(request))
+```json
 {
-    yield return response;
+    "AI21Labs": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "AmazonBedrock": {
+        "AccessKey": "",
+        "SecretKey": "",
+        "Region": "",
+        "Model": ""
+    },
+    "Anthropic": {
+        "ApiKey": "",
+        "Model": "",
+        "MaxTokens": ""
+    },
+    "AzureOpenAI": {
+        "ApiKey": "",
+        "Endpoint": "",
+        "Deployment": "",
+        "Model": ""
+    },
+    "AzureServerless": {
+        "ApiKey": "",
+        "Endpoint": "",
+        "Model": ""
+    },
+    "Cohere": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "DeepInfra": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "FireworksAI": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "GoogleGemini": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "HuggingFace": {
+        "AccessToken": "",
+        "Endpoint": "",
+        "Model": ""
+    },
+    "Hyperbolic": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "Lambda": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "Meta": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "Mistral": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "OpenAI": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "TogetherAI": {
+        "ApiKey": "",
+        "Model": ""
+    },
+    "xAI": {
+        "ApiKey": "",
+        "Model": ""
+    }
 }
 ```
