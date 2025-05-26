@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.36105.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zatomic.AI.Providers", "Zatomic.AI.Providers\Zatomic.AI.Providers.csproj", "{0B4D74B9-09EB-42D7-B9FD-2EE73CBDD3E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zatomic.AI.Providers.Tests", "Zatomic.AI.Providers.Tests\Zatomic.AI.Providers.Tests.csproj", "{5F868A6C-5A6D-45BB-8F0F-F883A268C02D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0B4D74B9-09EB-42D7-B9FD-2EE73CBDD3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B4D74B9-09EB-42D7-B9FD-2EE73CBDD3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B4D74B9-09EB-42D7-B9FD-2EE73CBDD3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F868A6C-5A6D-45BB-8F0F-F883A268C02D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F868A6C-5A6D-45BB-8F0F-F883A268C02D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F868A6C-5A6D-45BB-8F0F-F883A268C02D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F868A6C-5A6D-45BB-8F0F-F883A268C02D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
