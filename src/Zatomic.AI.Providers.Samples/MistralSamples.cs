@@ -1,26 +1,26 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.Mistral;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class MistralSamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public MistralSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["Mistral:ApiKey"];
+			_model = Configuration["Mistral:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new MistralChatClient(_apiKey);
+			var request = new MistralChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +32,8 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new MistralChatClient(_apiKey);
+			var request = new MistralChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

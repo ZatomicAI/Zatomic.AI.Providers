@@ -9,5 +9,8 @@ namespace Zatomic.AI.Providers.Cohere
 
 		[JsonProperty("output_tokens")]
 		public int OutputTokens { get; set; }
+
+		[JsonProperty("total_tokens")]
+		public int TotalTokens { get { return InputTokens + OutputTokens; } }
 	}
 }

@@ -1,39 +1,39 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.Cohere;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class CohereSamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public CohereSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["Cohere:ApiKey"];
+			_model = Configuration["Cohere:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new CohereChatClient(_apiKey);
+			var request = new CohereChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
 			var response = await client.ChatAsync(request);
-			WriteOutput(response.Choices[0].Message.Content);
-			WriteOutput(response.Usage.PromptTokens, response.Usage.CompletionTokens, response.Usage.TotalTokens, response.Duration.Value);
+			WriteOutput(response.Message.Content[0].Text);
+			WriteOutput(response.Usage.BilledUnits.InputTokens, response.Usage.BilledUnits.OutputTokens, response.Usage.BilledUnits.TotalTokens, response.Duration.Value);
 		}
 
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new CohereChatClient(_apiKey);
+			var request = new CohereChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

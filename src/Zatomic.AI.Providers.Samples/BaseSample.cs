@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Zatomic.AI.Providers.Tests
+namespace Zatomic.AI.Providers.Samples
 {
 	public abstract class BaseSample
 	{

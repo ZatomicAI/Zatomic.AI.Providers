@@ -45,7 +45,7 @@ namespace Zatomic.AI.Providers.OpenAI
 		public OpenAIChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public long? Seed { get; set; }
+		public decimal? Seed { get; set; }
 
 		[JsonProperty("service_tier", NullValueHandling = NullValueHandling.Ignore)]
 		public string ServiceTier { get; set; }

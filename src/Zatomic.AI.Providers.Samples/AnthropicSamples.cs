@@ -1,40 +1,43 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.Anthropic;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class AnthropicSamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _model;
+		private readonly int _maxTokens;
 
-		public AI21LabsSamples()
+		public AnthropicSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["Anthropic:ApiKey"];
+			_model = Configuration["Anthropic:Model"];
+			_maxTokens = Convert.ToInt32(Configuration["Anthropic:MaxTokens"]);
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
-			request.AddSystemMessage(SystemPrompt);
+			var client = new AnthropicChatClient(_apiKey);
+			var request = new AnthropicChatRequest(_model, _maxTokens);
+			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);
 
 			var response = await client.ChatAsync(request);
-			WriteOutput(response.Choices[0].Message.Content);
-			WriteOutput(response.Usage.PromptTokens, response.Usage.CompletionTokens, response.Usage.TotalTokens, response.Duration.Value);
+			WriteOutput(((AnthropicChatTextContent)response.Content[0]).Text);
+			WriteOutput(response.Usage.InputTokens, response.Usage.OutputTokens, response.Usage.TotalTokens, response.Duration.Value);
 		}
 
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
-			request.AddSystemMessage(SystemPrompt);
+			var client = new AnthropicChatClient(_apiKey);
+			var request = new AnthropicChatRequest(_model, _maxTokens);
+			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);
 
 			int inputTokens = 0;

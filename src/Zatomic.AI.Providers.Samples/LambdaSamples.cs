@@ -1,26 +1,26 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.Lambda;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class LambdaSamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public LambdaSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["Lambda:ApiKey"];
+			_model = Configuration["Lambda:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new LambdaChatClient(_apiKey);
+			var request = new LambdaChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +32,8 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new LambdaChatClient(_apiKey);
+			var request = new LambdaChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

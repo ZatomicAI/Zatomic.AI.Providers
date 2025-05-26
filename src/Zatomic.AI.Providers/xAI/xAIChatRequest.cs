@@ -36,7 +36,7 @@ namespace Zatomic.AI.Providers.xAI
 		public xAIChatSearchParameters SearchParameters { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public long? Seed { get; set; }
+		public decimal? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }

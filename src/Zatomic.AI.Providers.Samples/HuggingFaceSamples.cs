@@ -1,26 +1,28 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.HuggingFace;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class HuggingFaceSamples : BaseSample
 	{
-		private readonly string _apiKey;
+		private readonly string _accessToken;
+		private readonly string _endpoint;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public HuggingFaceSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_accessToken = Configuration["HuggingFace:AccessToken"];
+			_endpoint = Configuration["HuggingFace:Endpoint"];
+			_model = Configuration["HuggingFace:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new HuggingFaceChatClient(_endpoint, _accessToken);
+			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +34,8 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new HuggingFaceChatClient(_endpoint, _accessToken);
+			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

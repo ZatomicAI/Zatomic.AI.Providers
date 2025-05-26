@@ -1,39 +1,39 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.GoogleGemini;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class GoogleGeminiSamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public GoogleGeminiSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["GoogleGemini:ApiKey"];
+			_model = Configuration["GoogleGemini:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new GoogleGeminiChatClient(_apiKey);
+			var request = new GoogleGeminiChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
 			var response = await client.ChatAsync(request);
-			WriteOutput(response.Choices[0].Message.Content);
-			WriteOutput(response.Usage.PromptTokens, response.Usage.CompletionTokens, response.Usage.TotalTokens, response.Duration.Value);
+			WriteOutput(((GoogleGeminiChatTextPart)response.Candidates[0].Content.Parts[0]).Text);
+			WriteOutput(response.UsageMetadata.PromptTokenCount, response.UsageMetadata.CandidatesTokenCount, response.UsageMetadata.TotalTokenCount, response.Duration.Value);
 		}
 
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new GoogleGeminiChatClient(_apiKey);
+			var request = new GoogleGeminiChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

@@ -27,7 +27,7 @@ namespace Zatomic.AI.Providers.Lambda
 		public LambdaChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public int? Seed { get; set; }
+		public decimal? Seed { get; set; }
 
 		[JsonProperty("stop", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> Stop { get; set; }

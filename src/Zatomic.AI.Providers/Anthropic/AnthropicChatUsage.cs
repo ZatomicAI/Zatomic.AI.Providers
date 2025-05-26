@@ -15,5 +15,8 @@ namespace Zatomic.AI.Providers.Anthropic
 
 		[JsonProperty("output_tokens")]
 		public int OutputTokens { get; set; }
+
+		[JsonProperty("total_tokens")]
+		public int TotalTokens { get { return InputTokens + OutputTokens; } }
 	}
 }

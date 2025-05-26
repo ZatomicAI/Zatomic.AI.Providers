@@ -139,8 +139,8 @@ namespace Zatomic.AI.Providers.Cohere
 							else if (eventType.Type == "message-end")
 							{
 								var messageEnd = line.Substring(6).Deserialize<CohereChatStreamMessageEnd>();
-								inputTokens = messageEnd.Delta.Usage.Tokens.InputTokens;
-								outputTokens = messageEnd.Delta.Usage.Tokens.OutputTokens;
+								inputTokens = messageEnd.Delta.Usage.BilledUnits.InputTokens;
+								outputTokens = messageEnd.Delta.Usage.BilledUnits.OutputTokens;
 								streamComplete = true;
 								stopwatch.Stop();
 							}

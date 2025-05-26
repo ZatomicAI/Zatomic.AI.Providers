@@ -1,26 +1,32 @@
-﻿using System.Threading.Tasks;
-using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+﻿using NUnit.Framework;
+using System.Threading.Tasks;
+using Zatomic.AI.Providers.AzureServerless;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class AzureServerlessSamples : BaseSample
 	{
 		private readonly string _apiKey;
-		private readonly string _model;
+		private readonly string _endpoint;
+		private readonly string _modelName;
 
-		public AI21LabsSamples()
+		public AzureServerlessSamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["AzureServerless:ApiKey"];
+			_endpoint = Configuration["AzureServerless:Endpoint"];
+			_modelName = Configuration["AzureServerless:ModelName"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new AzureServerlessChatClient(_endpoint, _apiKey)
+			{
+				Endpoint = _endpoint
+			};
+
+			var request = new AzureServerlessChatRequest(_modelName);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +38,12 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new AzureServerlessChatClient(_endpoint, _apiKey)
+			{
+				Endpoint = _endpoint
+			};
+
+			var request = new AzureServerlessChatRequest(_modelName);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

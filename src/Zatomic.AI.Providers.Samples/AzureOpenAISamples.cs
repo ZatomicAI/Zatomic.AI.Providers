@@ -1,26 +1,35 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AI21Labs;
+using Zatomic.AI.Providers.AzureOpenAI;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AI21LabsSamples : BaseSample
+	public class AzureOpenAISamples : BaseSample
 	{
 		private readonly string _apiKey;
+		private readonly string _endpoint;
+		private readonly string _deployment;
 		private readonly string _model;
 
-		public AI21LabsSamples()
+		public AzureOpenAISamples()
 		{
-			_apiKey = Configuration["AI21Labs:ApiKey"];
-			_model = Configuration["AI21Labs:Model"];
+			_apiKey = Configuration["AzureOpenAI:ApiKey"];
+			_endpoint = Configuration["AzureOpenAI:Endpoint"];
+			_deployment = Configuration["AzureOpenAI:Deployment"];
+			_model = Configuration["AzureOpenAI:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new AzureOpenAIChatClient(_apiKey)
+			{
+				Endpoint = _endpoint,
+				DeploymentName = _deployment
+			};
+
+			var request = new AzureOpenAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +41,13 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AI21LabsChatClient(_apiKey);
-			var request = new AI21LabsChatRequest(_model);
+			var client = new AzureOpenAIChatClient(_apiKey)
+			{
+				Endpoint = _endpoint,
+				DeploymentName = _deployment
+			};
+
+			var request = new AzureOpenAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

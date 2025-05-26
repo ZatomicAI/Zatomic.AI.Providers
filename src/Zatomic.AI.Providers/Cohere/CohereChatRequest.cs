@@ -39,7 +39,7 @@ namespace Zatomic.AI.Providers.Cohere
 		public string SafetyMode { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public long? Seed { get; set; }
+		public decimal? Seed { get; set; }
 
 		[JsonProperty("stop_sequences", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> StopSequences { get; set; }

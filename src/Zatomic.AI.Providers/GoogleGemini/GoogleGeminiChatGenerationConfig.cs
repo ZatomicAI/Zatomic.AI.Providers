@@ -21,7 +21,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 		public string ResponseMimeType { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
-		public long? Seed { get; set; }
+		public decimal? Seed { get; set; }
 
 		[JsonProperty("stopSequences", NullValueHandling = NullValueHandling.Ignore)]
 		public List<string> StopSequences { get; set; }
