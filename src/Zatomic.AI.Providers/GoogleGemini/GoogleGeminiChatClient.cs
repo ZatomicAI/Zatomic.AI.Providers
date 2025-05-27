@@ -59,7 +59,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(GoogleGeminiChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(GoogleGeminiChatRequest request)
 		{
 			// Google didn't implement streaming they way everyone else did with sever-side events (SSE). Instead, what they
 			// did for their streaming endpoint was basically return the entire response as if it was for the non-streaming
@@ -83,12 +83,12 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			foreach (Match match in matches)
 			{
 				await Task.Delay(10);
-				yield return new AIStreamResult { Chunk = match.Value };
+				yield return new AIStreamResponse { Chunk = match.Value };
 			}
 
 			stopwatch.Stop();
 
-			yield return new AIStreamResult
+			yield return new AIStreamResponse
 			{
 				InputTokens = result.UsageMetadata.PromptTokenCount,
 				OutputTokens = result.UsageMetadata.CandidatesTokenCount,

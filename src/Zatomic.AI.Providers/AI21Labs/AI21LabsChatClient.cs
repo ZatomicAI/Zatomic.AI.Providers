@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.AI21Labs
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AI21LabsChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(AI21LabsChatRequest request)
 		{
 			// N must be 1 when streaming
 			request.Stream = true;
@@ -116,23 +116,23 @@ namespace Zatomic.AI.Providers.AI21Labs
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
 							var rsp = line.Substring(6).Deserialize<AI21LabsChatResponse>();
-							var result = new AIStreamResult { Chunk = rsp.Choices[0].Delta.Content };
+							var streamResponse = new AIStreamResponse { Chunk = rsp.Choices[0].Delta.Content };
 
 							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();
-								result.Duration = stopwatch.ToDurationInSeconds(2);
+								streamResponse.Duration = stopwatch.ToDurationInSeconds(2);
 
 								if (rsp.Usage != null)
 								{
-									result.InputTokens = rsp.Usage.PromptTokens;
-									result.OutputTokens = rsp.Usage.CompletionTokens;
-									result.TotalTokens = rsp.Usage.TotalTokens;
+									streamResponse.InputTokens = rsp.Usage.PromptTokens;
+									streamResponse.OutputTokens = rsp.Usage.CompletionTokens;
+									streamResponse.TotalTokens = rsp.Usage.TotalTokens;
 								}
 							}
 
-							yield return result;
+							yield return streamResponse;
 						}
 					}
 				}

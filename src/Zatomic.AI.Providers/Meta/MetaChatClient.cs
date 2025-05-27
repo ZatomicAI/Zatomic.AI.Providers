@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.Meta
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(MetaChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(MetaChatRequest request)
 		{
 			// Meta's Llama API doesn't yet support streaming, so we're simulating it with a basic hack
 			// by splitting the non-stream response into words and spaces and using a 10ms sleep in between
@@ -75,12 +75,12 @@ namespace Zatomic.AI.Providers.Meta
 			foreach (Match match in matches)
 			{
 				await Task.Delay(10);
-				yield return new AIStreamResult { Chunk = match.Value };
+				yield return new AIStreamResponse { Chunk = match.Value };
 			}
 
 			stopwatch.Stop();
 
-			yield return new AIStreamResult
+			yield return new AIStreamResponse
 			{
 				InputTokens = result.Usage.PromptTokens,
 				OutputTokens = result.Usage.CompletionTokens,
