@@ -4,14 +4,13 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.GoogleGemini
 {
-	public class GoogleGeminiChatClient
+	public class GoogleGeminiChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 
@@ -41,7 +40,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(apiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(apiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -83,7 +82,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			var matches = Regex.Matches(((GoogleGeminiChatTextPart)result.Candidates[0].Content.Parts[0]).Text, @"\S+|\s+");
 			foreach (Match match in matches)
 			{
-				Thread.Sleep(10);
+				await Task.Delay(10);
 				yield return new AIStreamResult { Chunk = match.Value };
 			}
 

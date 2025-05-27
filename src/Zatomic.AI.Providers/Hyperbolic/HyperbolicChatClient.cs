@@ -11,7 +11,7 @@ using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.Hyperbolic
 {
-	public class HyperbolicChatClient
+	public class HyperbolicChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string ApiUrl { get; } = "https://api.hyperbolic.xyz/v1/chat/completions";
@@ -42,7 +42,7 @@ namespace Zatomic.AI.Providers.Hyperbolic
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 					
@@ -80,7 +80,7 @@ namespace Zatomic.AI.Providers.Hyperbolic
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead);
+					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)

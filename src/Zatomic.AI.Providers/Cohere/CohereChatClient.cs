@@ -11,7 +11,7 @@ using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.Cohere
 {
-	public class CohereChatClient
+	public class CohereChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string ApiUrl { get; } = "https://api.cohere.com/v2/chat";
@@ -48,7 +48,7 @@ namespace Zatomic.AI.Providers.Cohere
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -91,7 +91,7 @@ namespace Zatomic.AI.Providers.Cohere
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead);
+					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
