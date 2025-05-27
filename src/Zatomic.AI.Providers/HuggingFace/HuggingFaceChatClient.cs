@@ -11,7 +11,7 @@ using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.HuggingFace
 {
-	public class HuggingFaceChatClient
+	public class HuggingFaceChatClient : BaseClient
 	{
 		public string AccessToken { get; set; }
 		public string ApiUrl { get { return new Uri(new Uri(Endpoint), "/v1/chat/completions").ToString(); } }
@@ -44,7 +44,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -83,7 +83,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead);
+					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)

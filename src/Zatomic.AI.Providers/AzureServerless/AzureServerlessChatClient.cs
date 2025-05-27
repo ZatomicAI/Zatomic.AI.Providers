@@ -10,7 +10,7 @@ using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.AzureServerless
 {
-	public class AzureServerlessChatClient
+	public class AzureServerlessChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string ApiVersion { get; set; }
@@ -58,7 +58,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -96,7 +96,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead);
+					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)

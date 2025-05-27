@@ -5,14 +5,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.Meta
 {
-	public class MetaChatClient
+	public class MetaChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string ApiUrl { get; } = "https://api.llama.com/v1/chat/completions";
@@ -43,7 +42,7 @@ namespace Zatomic.AI.Providers.Meta
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -75,7 +74,7 @@ namespace Zatomic.AI.Providers.Meta
 			var matches = Regex.Matches(result.CompletionMessage.Content.Text, @"\S+|\s+");
 			foreach (Match match in matches)
 			{
-				Thread.Sleep(10);
+				await Task.Delay(10);
 				yield return new AIStreamResult { Chunk = match.Value };
 			}
 

@@ -10,7 +10,7 @@ using Zatomic.AI.Providers.Extensions;
 
 namespace Zatomic.AI.Providers.Anthropic
 {
-	public class AnthropicChatClient
+	public class AnthropicChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string ApiUrl { get; } = "https://api.anthropic.com/v1/messages";
@@ -50,7 +50,7 @@ namespace Zatomic.AI.Providers.Anthropic
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await httpClient.PostAsync(ApiUrl, content);
+					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -94,7 +94,7 @@ namespace Zatomic.AI.Providers.Anthropic
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead);
+					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
