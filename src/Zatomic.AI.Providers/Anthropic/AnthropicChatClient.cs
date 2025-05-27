@@ -69,7 +69,7 @@ namespace Zatomic.AI.Providers.Anthropic
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AnthropicChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(AnthropicChatRequest request)
 		{
 			request.Stream = true;
 
@@ -157,16 +157,16 @@ namespace Zatomic.AI.Providers.Anthropic
 								stopwatch.Stop();
 							}
 
-							var result = new AIStreamResult { Chunk = chunk };
+							var streamResponse = new AIStreamResponse { Chunk = chunk };
 							if (streamComplete)
 							{
-								result.InputTokens = inputTokens;
-								result.OutputTokens = outputTokens;
-								result.TotalTokens = inputTokens + outputTokens;
-								result.Duration = stopwatch.ToDurationInSeconds(2);
+								streamResponse.InputTokens = inputTokens;
+								streamResponse.OutputTokens = outputTokens;
+								streamResponse.TotalTokens = inputTokens + outputTokens;
+								streamResponse.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
-							yield return result;
+							yield return streamResponse;
 						}
 					}
 				}

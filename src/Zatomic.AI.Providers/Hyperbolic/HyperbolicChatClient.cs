@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.Hyperbolic
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(HyperbolicChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(HyperbolicChatRequest request)
 		{
 			request.Stream = true;
 
@@ -113,12 +113,12 @@ namespace Zatomic.AI.Providers.Hyperbolic
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							var result = new AIStreamResult();
+							var streamResponse = new AIStreamResponse();
 
 							var rsp = line.Substring(6).Deserialize<HyperbolicChatResponse>();
 							if (rsp.Choices.Count > 0)
 							{
-								result.Chunk = rsp.Choices[0].Delta.Content;
+								streamResponse.Chunk = rsp.Choices[0].Delta.Content;
 							}
 
 							// Hyperbolic usage is only included in the chunk right before the final [DONE]
@@ -132,13 +132,13 @@ namespace Zatomic.AI.Providers.Hyperbolic
 								streamComplete = true;
 								stopwatch.Stop();
 
-								result.InputTokens = rsp.Usage.PromptTokens;
-								result.OutputTokens = rsp.Usage.CompletionTokens;
-								result.TotalTokens = rsp.Usage.TotalTokens;
-								result.Duration = stopwatch.ToDurationInSeconds(2);
+								streamResponse.InputTokens = rsp.Usage.PromptTokens;
+								streamResponse.OutputTokens = rsp.Usage.CompletionTokens;
+								streamResponse.TotalTokens = rsp.Usage.TotalTokens;
+								streamResponse.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
-							yield return result;
+							yield return streamResponse;
 						}
 					}
 				}

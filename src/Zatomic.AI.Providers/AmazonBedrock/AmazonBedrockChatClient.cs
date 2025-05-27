@@ -55,7 +55,7 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(AmazonBedrockChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(AmazonBedrockChatRequest request)
 		{
 			InitializeRuntimeClient();
 
@@ -85,7 +85,7 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 
 			foreach (var item in converseStreamRsp.Stream)
 			{
-				AIStreamResult result = null;
+				AIStreamResponse streamResponse = null;
 
 				try
 				{
@@ -93,14 +93,14 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 
 					if (item is ContentBlockDeltaEvent deltaEvent)
 					{
-						result = new AIStreamResult { Chunk = deltaEvent.Delta.Text };
+						streamResponse = new AIStreamResponse { Chunk = deltaEvent.Delta.Text };
 					}
 
 					if (item is ConverseStreamMetadataEvent metaEvent)
 					{
 						stopwatch.Stop();
 
-						result = new AIStreamResult
+						streamResponse = new AIStreamResponse
 						{
 							InputTokens = metaEvent.Usage.InputTokens,
 							OutputTokens = metaEvent.Usage.OutputTokens,
@@ -115,9 +115,9 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 					throw aiEx;
 				}
 
-				if (result != null)
+				if (streamResponse != null)
 				{
-					yield return result;
+					yield return streamResponse;
 				}
 			}
 		}

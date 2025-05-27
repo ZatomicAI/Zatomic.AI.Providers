@@ -61,7 +61,7 @@ namespace Zatomic.AI.Providers.xAI
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResult> ChatStreamAsync(xAIChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(xAIChatRequest request)
 		{
 			request.Stream = true;
 			request.StreamOptions = new xAIChatStreamOptions { IncludeUsage = true };
@@ -114,12 +114,12 @@ namespace Zatomic.AI.Providers.xAI
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							var result = new AIStreamResult();
+							var streamResponse = new AIStreamResponse();
 
 							var rsp = line.Substring(6).Deserialize<xAIChatResponse>();
 							if (rsp.Choices.Count > 0)
 							{
-								result.Chunk = rsp.Choices[0].Delta.Content;
+								streamResponse.Chunk = rsp.Choices[0].Delta.Content;
 							}
 
 							// Using xAI's stream options to include usage means that they return an additional chunk
@@ -133,13 +133,13 @@ namespace Zatomic.AI.Providers.xAI
 								streamComplete = true;
 								stopwatch.Stop();
 
-								result.InputTokens = rsp.Usage.PromptTokens;
-								result.OutputTokens = rsp.Usage.CompletionTokens;
-								result.TotalTokens = rsp.Usage.TotalTokens;
-								result.Duration = stopwatch.ToDurationInSeconds(2);
+								streamResponse.InputTokens = rsp.Usage.PromptTokens;
+								streamResponse.OutputTokens = rsp.Usage.CompletionTokens;
+								streamResponse.TotalTokens = rsp.Usage.TotalTokens;
+								streamResponse.Duration = stopwatch.ToDurationInSeconds(2);
 							}
 
-							yield return result;
+							yield return streamResponse;
 						}
 					}
 				}
