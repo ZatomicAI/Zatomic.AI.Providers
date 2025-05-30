@@ -9,6 +9,7 @@ using Zatomic.AI.Providers.DeepInfra;
 using Zatomic.AI.Providers.Extensions;
 using Zatomic.AI.Providers.FireworksAI;
 using Zatomic.AI.Providers.GoogleGemini;
+using Zatomic.AI.Providers.Groq;
 using Zatomic.AI.Providers.HuggingFace;
 using Zatomic.AI.Providers.Hyperbolic;
 using Zatomic.AI.Providers.Lambda;
@@ -65,6 +66,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildGoogleGeminiAIException(Exception ex, GoogleGeminiChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Google Gemini", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildGroqAIException(Exception ex, GroqChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "Groq", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildHuggingFaceAIException(Exception ex, HuggingFaceChatRequest request, string responseJson = null)
