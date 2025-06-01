@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Zatomic.AI.Providers.Extensions
 {
-	public static class ListExtensions
+	internal static class ListExtensions
 	{
 		public static string ToDelimitedString(this List<string> list, string delimiter)
 		{

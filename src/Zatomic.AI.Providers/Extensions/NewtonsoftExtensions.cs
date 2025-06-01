@@ -2,7 +2,7 @@
 
 namespace Zatomic.AI.Providers.Extensions
 {
-	public static class NewtonsoftExtensions
+	internal static class NewtonsoftExtensions
 	{
 		public static T Deserialize<T>(this string value)
 		{

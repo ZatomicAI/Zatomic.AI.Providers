@@ -1,6 +1,6 @@
 ﻿namespace Zatomic.AI.Providers.Extensions
 {
-	public static class StringExtensions
+	internal static class StringExtensions
 	{
 		public static bool IsNullOrEmpty(this string value)
 		{
