@@ -16,6 +16,7 @@ using Zatomic.AI.Providers.Lambda;
 using Zatomic.AI.Providers.Meta;
 using Zatomic.AI.Providers.Mistral;
 using Zatomic.AI.Providers.OpenAI;
+using Zatomic.AI.Providers.Perplexity;
 using Zatomic.AI.Providers.TogetherAI;
 using Zatomic.AI.Providers.xAI;
 
@@ -101,6 +102,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildOpenAIAIException(Exception ex, OpenAIChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "OpenAI", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildPerplexityAIException(Exception ex, PerplexityChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "Perplexity", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildTogetherAIAIException(Exception ex, TogetherAIChatRequest request, string responseJson = null)
