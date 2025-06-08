@@ -27,6 +27,9 @@ namespace Zatomic.AI.Providers.AzureServerless
 		[JsonProperty("object")]
 		public string Object { get; set; }
 
+		[JsonProperty("prompt_filter_results")]
+		public List<AzureServerlessChatPromptFilterResult> PromptFilterResults { get; set; }
+
 		[JsonProperty("usage")]
 		public AzureServerlessChatUsage Usage { get; set; }
 
