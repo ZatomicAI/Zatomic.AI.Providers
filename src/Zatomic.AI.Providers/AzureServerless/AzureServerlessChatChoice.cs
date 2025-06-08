@@ -4,6 +4,9 @@ namespace Zatomic.AI.Providers.AzureServerless
 {
 	public class AzureServerlessChatChoice
 	{
+		[JsonProperty("content_filter_results")]
+		public AzureServerlessChatContentFilterResults ContentFilterResults { get; set; }
+
 		[JsonProperty("delta")]
 		public AzureServerlessChatDelta Delta { get; set; }
 		
