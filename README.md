@@ -2,7 +2,7 @@
 
 C# .NET library that provides chat functionality for the following AI providers: AI21 Labs, Amazon Bedrock, Anthropic, Azure OpenAI, Azure Serverless, Cohere, Deep Infra, Fireworks AI, Google Gemini, Groq, Hugging Face, Hyperbolic, Lambda, Meta, Mistral, OpenAI, Perplexity, Together AI, and xAI.
 
-The library calls the chat completions REST APIs and inference endpoints for each of the above AI providers. Everything is strongly-typed with the library handling all JSON serialization/deserialization for all requests and responses. Both non-stream and streaming functionality is supported using `async` methods for improved performance.
+The library calls the chat completions REST APIs and inference endpoints for each of the above AI providers. Everything is strongly-typed with the library handling all JSON serialization/deserialization for all requests and responses. Both non-stream and streaming functionality is supported using `async` methods for improved performance, and each client utilizes exponential retries to handle `429 Too Many Requests` responses.
 
 ## Requirements
 
