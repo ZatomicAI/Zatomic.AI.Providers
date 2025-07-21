@@ -15,6 +15,7 @@ using Zatomic.AI.Providers.Hyperbolic;
 using Zatomic.AI.Providers.Lambda;
 using Zatomic.AI.Providers.Meta;
 using Zatomic.AI.Providers.Mistral;
+using Zatomic.AI.Providers.MoonshotAI;
 using Zatomic.AI.Providers.OpenAI;
 using Zatomic.AI.Providers.Perplexity;
 using Zatomic.AI.Providers.TogetherAI;
@@ -97,6 +98,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildMistralAIException(Exception ex, MistralChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Mistral", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildMoonshotAIAIException(Exception ex, MoonshotAIChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "Moonshot AI", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildOpenAIAIException(Exception ex, OpenAIChatRequest request, string responseJson = null)
