@@ -10,7 +10,7 @@
     <Description>.NET SDK for integrating with various AI model providers.</Description>
     <RepositoryUrl>https://github.com/ZatomicAI/Zatomic.AI.Providers</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>2.9.0</Version>
+    <Version>2.10.0</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;Groq;HuggingFace;Hyperbolic;Meta;Mistral;MoonshotAI;Lambda;OpenAI;Perplexity;TogetherAI;xAI</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Bedrock" Version="4.0.9" />
+    <PackageReference Include="AWSSDK.Bedrock" Version="4.0.9.1" />
     <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.3.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
