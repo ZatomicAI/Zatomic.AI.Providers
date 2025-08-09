@@ -38,11 +38,17 @@ namespace Zatomic.AI.Providers.OpenAI
 		[JsonProperty("presence_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? PresencePenalty { get; set; }
 
+		[JsonProperty("prompt_cache_key", NullValueHandling = NullValueHandling.Ignore)]
+		public string PromptCacheKey { get; set; }
+
 		[JsonProperty("reasoning_effort", NullValueHandling = NullValueHandling.Ignore)]
 		public string ReasoningEffort { get; set; }
 
 		[JsonProperty("response_format", NullValueHandling = NullValueHandling.Ignore)]
 		public OpenAIChatResponseFormat ResponseFormat { get; set; }
+
+		[JsonProperty("safety_identifier", NullValueHandling = NullValueHandling.Ignore)]
+		public string SafetyIdentifier { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
 		public decimal? Seed { get; set; }
@@ -76,6 +82,9 @@ namespace Zatomic.AI.Providers.OpenAI
 
 		[JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
 		public string User { get; set; }
+
+		[JsonProperty("verbosity", NullValueHandling = NullValueHandling.Ignore)]
+		public string Verbosity { get; set; }
 
 		[JsonProperty("web_search_options", NullValueHandling = NullValueHandling.Ignore)]
 		public OpenAIChatWebSearchOptions WebSearchOptions { get; set; }
