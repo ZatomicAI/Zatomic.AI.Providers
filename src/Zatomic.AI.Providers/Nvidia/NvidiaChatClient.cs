@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.xAI
+namespace Zatomic.AI.Providers.Nvidia
 {
-	public class xAIChatClient : BaseClient
+	public class NvidiaChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
-		public string ApiUrl { get; } = "https://api.x.ai/v1/chat/completions";
+		public string ApiUrl { get; } = "https://integrate.api.nvidia.com/v1/chat/completions";
 
-		public xAIChatClient()
+		public NvidiaChatClient()
 		{
 		}
 
-		public xAIChatClient(string apiKey) : this()
+		public NvidiaChatClient(string apiKey) : this()
 		{
 			ApiKey = apiKey;
 		}
 
-		public async Task<xAIChatResponse> ChatAsync(xAIChatRequest request)
+		public async Task<NvidiaChatResponse> ChatAsync(NvidiaChatRequest request)
 		{
-			xAIChatResponse response = null;
+			NvidiaChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
@@ -44,15 +44,15 @@ namespace Zatomic.AI.Providers.xAI
 					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
-
+					
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<xAIChatResponse>();
+					response = responseJson.Deserialize<NvidiaChatResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildNvidiaAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -60,10 +60,9 @@ namespace Zatomic.AI.Providers.xAI
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(xAIChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(NvidiaChatRequest request)
 		{
 			request.Stream = true;
-			request.StreamOptions = new xAIChatStreamOptions { IncludeUsage = true };
 
 			using (var httpClient = new HttpClient())
 			{
@@ -85,7 +84,7 @@ namespace Zatomic.AI.Providers.xAI
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildNvidiaAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -106,36 +105,28 @@ namespace Zatomic.AI.Providers.xAI
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildxAIAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildNvidiaAIException(ex, request);
 							throw aiEx;
 						}
 
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
 						{
-							var streamResponse = new AIStreamResponse();
+							var rsp = line.Substring(6).Deserialize<NvidiaChatResponse>();
+							var streamResponse = new AIStreamResponse { Chunk = rsp.Choices[0].Delta.Content };
 
-							var rsp = line.Substring(6).Deserialize<xAIChatResponse>();
-							if (rsp.Choices.Count > 0)
-							{
-								streamResponse.Chunk = rsp.Choices[0].Delta.Content;
-							}
-
-							// Using xAI's stream options to include usage means that they return an additional chunk
-							// with the usage information right before the final [DONE] chunk (whereas all prior chunks
-							// won't have usage in them). This means that we can key off that to determine if the stream
-							// is complete instead of looking at the finish reason. The finish reason comes in the chunk
-							// just before the usage chunk, so if we keyed off that we would never get the usage information.
-
-							if (rsp.Usage != null)
+							if (!rsp.Choices[0].FinishReason.IsNullOrEmpty())
 							{
 								streamComplete = true;
 								stopwatch.Stop();
-
-								streamResponse.InputTokens = rsp.Usage.PromptTokens;
-								streamResponse.OutputTokens = rsp.Usage.CompletionTokens;
-								streamResponse.TotalTokens = rsp.Usage.TotalTokens;
 								streamResponse.Duration = stopwatch.ToDurationInSeconds(2);
+
+								if (rsp.Usage != null)
+								{
+									streamResponse.InputTokens = rsp.Usage.PromptTokens;
+									streamResponse.OutputTokens = rsp.Usage.CompletionTokens;
+									streamResponse.TotalTokens = rsp.Usage.TotalTokens;
+								}
 							}
 
 							yield return streamResponse;

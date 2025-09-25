@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			using (var httpClient = new HttpClient())
 			{
 				var requestJson = request.Serialize();
-				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
 
 				var responseJson = "";
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
-using System.Text;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
@@ -50,7 +50,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
 
 				var requestJson = request.Serialize();
-				var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
 
 				string responseJson = null;
 
@@ -88,7 +88,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				var requestJson = request.Serialize();
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
 				{
-					Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
+					Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))
 				};
 
 				HttpResponseMessage postResponse = null;
