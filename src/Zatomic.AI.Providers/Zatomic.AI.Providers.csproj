@@ -12,7 +12,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Version>2.15.0</Version>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;Groq;HuggingFace;Hyperbolic;Meta;Mistral;MoonshotAI;Lambda;OpenAI;Perplexity;TogetherAI;xAI</PackageTags>
+    <PackageTags>AI21Labs;Anthropic;AmazonBedrock;AzureOpenAI;AzureServerless;Cohere;DeepInfra;FireworksAI;GoogleGemini;Groq;HuggingFace;Hyperbolic;Lambda;Meta;Mistral;MoonshotAI;Nvidia;OpenAI;Perplexity;TogetherAI;xAI</PackageTags>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageIcon>icon.png</PackageIcon>
