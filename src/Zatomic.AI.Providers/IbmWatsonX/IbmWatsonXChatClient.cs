@@ -16,14 +16,16 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 		public string ApiStreamUrl { get; set; } = "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat_stream";
 		public string ApiUrl { get; set; } = "https://us-south.ml.cloud.ibm.com/ml/v1/text/chat";
 		public string ApiVersion { get; set; } = "2024-03-14";
+		public string ProjectId { get; set; }
 
 		public IbmWatsonXChatClient()
 		{
 		}
 
-		public IbmWatsonXChatClient(string accessToken) : this()
+		public IbmWatsonXChatClient(string accessToken, string projectId) : this()
 		{
 			AccessToken = accessToken;
+			ProjectId = projectId;
 		}
 
 		public async Task<IbmWatsonXChatResponse> ChatAsync(IbmWatsonXChatRequest request)
@@ -34,7 +36,9 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
+				request.ProjectId = ProjectId;
 				var requestJson = request.Serialize();
+
 				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
 
 				string responseJson = null;
@@ -68,7 +72,9 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
+				request.ProjectId = ProjectId;
 				var requestJson = request.Serialize();
+
 				var postRequest = new HttpRequestMessage(HttpMethod.Post, $"{ApiStreamUrl}?version={ApiVersion}")
 				{
 					Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))

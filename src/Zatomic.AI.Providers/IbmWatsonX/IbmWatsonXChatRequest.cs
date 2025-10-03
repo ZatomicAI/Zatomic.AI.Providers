@@ -61,18 +61,17 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			Messages = new List<IbmWatsonXChatInputMessage>();
 		}
 
-		public IbmWatsonXChatRequest(string projectId, string modelId) : this()
+		public IbmWatsonXChatRequest(string modelId) : this()
 		{
-			ProjectId = projectId;
 			ModelId = modelId;
 		}
 
-		public IbmWatsonXChatRequest(string projectId, string modelId, float temperature) : this(projectId, modelId)
+		public IbmWatsonXChatRequest(string modelId, float temperature) : this(modelId)
 		{
 			Temperature = temperature;
 		}
 
-		public IbmWatsonXChatRequest(string projectId, string modelId, float temperature, string responseFormat) : this(projectId, modelId, temperature)
+		public IbmWatsonXChatRequest(string modelId, float temperature, string responseFormat) : this(modelId, temperature)
 		{
 			ResponseFormat = new IbmWatsonXChatResponseFormat { Type = responseFormat };
 		}
