@@ -1,6 +1,6 @@
 # Zatomic.AI.Providers
 
-C# .NET library that provides chat functionality for the following AI providers: [AI21 Labs](https://docs.ai21.com/reference/jamba-1-6-api-ref), [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html), [Anthropic](https://docs.anthropic.com/en/api/messages), [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference), [Azure Serverless](https://learn.microsoft.com/en-us/rest/api/aifoundry/model-inference/get-chat-completions/get-chat-completions), [Cohere](https://docs.cohere.com/v2/reference/chat), [Deep Infra](https://deepinfra.com/docs/openai_api), [Fireworks AI](https://docs.fireworks.ai/api-reference/post-chatcompletions), [Google Gemini](https://ai.google.dev/api/generate-content), [Groq](https://console.groq.com/docs/api-reference#chat-create), [Hugging Face](https://huggingface.co/docs/inference-providers/en/tasks/chat-completion), [Hyperbolic](https://docs.hyperbolic.xyz/reference/create_chat_completion_v1_chat_completions_post), [IBM WatsonX](https://cloud.ibm.com/apidocs/watsonx-ai#text-chat), [Lambda](https://docs.lambda.ai/public-cloud/lambda-inference-api/), [Meta](https://llama.developer.meta.com/docs/api/chat/), [Mistral](https://docs.mistral.ai/api/), [Moonshot AI](https://platform.moonshot.ai/docs/api/chat), [Nvidia](https://docs.api.nvidia.com/nim/reference/llm-apis), [OpenAI](https://platform.openai.com/docs/api-reference/chat), [Perplexity](https://docs.perplexity.ai/api-reference/chat-completions-post), [Together AI](https://docs.together.ai/reference/chat-completions-1), and [xAI](https://docs.x.ai/docs/api-reference#messages-anthropic-compatible).
+C# .NET library that provides chat functionality for the following AI providers: [AI21 Labs](https://docs.ai21.com/reference/jamba-1-6-api-ref), [Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html), [Anthropic](https://docs.anthropic.com/en/api/messages), [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference), [Azure Serverless](https://learn.microsoft.com/en-us/rest/api/aifoundry/model-inference/get-chat-completions/get-chat-completions), [Cohere](https://docs.cohere.com/v2/reference/chat), [Deep Infra](https://deepinfra.com/docs/openai_api), [Fireworks AI](https://docs.fireworks.ai/api-reference/post-chatcompletions), [Google Gemini](https://ai.google.dev/api/generate-content), [Groq](https://console.groq.com/docs/api-reference#chat-create), [Hugging Face](https://huggingface.co/docs/inference-providers/en/tasks/chat-completion), [Hyperbolic](https://docs.hyperbolic.xyz/reference/create_chat_completion_v1_chat_completions_post), [IBM WatsonX](https://cloud.ibm.com/apidocs/watsonx-ai#text-chat), [Meta](https://llama.developer.meta.com/docs/api/chat/), [Mistral](https://docs.mistral.ai/api/), [Moonshot AI](https://platform.moonshot.ai/docs/api/chat), [Nvidia](https://docs.api.nvidia.com/nim/reference/llm-apis), [OpenAI](https://platform.openai.com/docs/api-reference/chat), [Perplexity](https://docs.perplexity.ai/api-reference/chat-completions-post), [Together AI](https://docs.together.ai/reference/chat-completions-1), and [xAI](https://docs.x.ai/docs/api-reference#messages-anthropic-compatible).
 
 The library calls the chat completions REST APIs and inference endpoints for each of the above AI providers. Everything is strongly-typed with the library handling all JSON serialization/deserialization for all requests and responses. Both non-stream and streaming functionality is supported using `async` methods for improved performance, and each client utilizes exponential retries to handle `429 Too Many Requests` responses.
 
@@ -99,10 +99,11 @@ The format of the `AppSettigns.Development.json` file is as follows:
         "ApiKey": "",
         "Model": ""
     },
-    "Lambda": {
-        "ApiKey": "",
-        "Model": ""
-    },
+    "IbmWatsonX": {
+        "AccessToken": "",
+        "ModelId": "",
+        "ProjectId": ""
+	},
     "Meta": {
         "ApiKey": "",
         "Model": ""
