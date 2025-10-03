@@ -12,6 +12,7 @@ using Zatomic.AI.Providers.GoogleGemini;
 using Zatomic.AI.Providers.Groq;
 using Zatomic.AI.Providers.HuggingFace;
 using Zatomic.AI.Providers.Hyperbolic;
+using Zatomic.AI.Providers.IbmWatsonX;
 using Zatomic.AI.Providers.Lambda;
 using Zatomic.AI.Providers.Meta;
 using Zatomic.AI.Providers.Mistral;
@@ -84,6 +85,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildHyperbolicAIException(Exception ex, HyperbolicChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Hyperbolic", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildIbmWatsonXAIException(Exception ex, IbmWatsonXChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "IBM WatsonX", request.ModelId, request, responseJson);
 		}
 
 		public static AIException BuildLambdaAIException(Exception ex, LambdaChatRequest request, string responseJson = null)

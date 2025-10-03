@@ -30,6 +30,9 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 		[JsonProperty("model_version")]
 		public string ModelVersion { get; set; }
 
+		[JsonProperty("object")]
+		public string Object { get; set; }
+
 		[JsonProperty("system")]
 		public IbmWatsonXChatSystem System { get; set; }
 
