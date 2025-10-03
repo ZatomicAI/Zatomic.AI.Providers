@@ -153,7 +153,7 @@ namespace Zatomic.AI.Providers.OpenAI
 		{
 			var msg = new OpenAIChatInputMessage { Role = role };
 			msg.Content.Add(new OpenAIChatTextContent { Type = "text", Text = content });
-			msg.Content.Add(new OpenAIChatInputAudioContent { Type = "input_audio", InputAudio = new OpenAIChatInputAudio { Data = audioData, Format = audioFormat.ToString() } });
+			msg.Content.Add(new OpenAIChatInputAudioContent { Type = "input_audio", InputAudio = new OpenAIChatInputAudio { Data = audioData, Format = audioFormat.ToString().ToLower() } });
 			Messages.Add(msg);
 		}
 

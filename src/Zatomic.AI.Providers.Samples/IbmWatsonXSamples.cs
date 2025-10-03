@@ -1,26 +1,28 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.Lambda;
+using Zatomic.AI.Providers.IbmWatsonX;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class LambdaSamples : BaseSample
+	public class IbmWatsonXSamples : BaseSample
 	{
-		private readonly string _apiKey;
-		private readonly string _model;
+		private readonly string _accessToken;
+		private readonly string _modelId;
+		private readonly string _projectId;
 
-		public LambdaSamples()
+		public IbmWatsonXSamples()
 		{
-			_apiKey = Configuration["Lambda:ApiKey"];
-			_model = Configuration["Lambda:Model"];
+			_accessToken = Configuration["IbmWatsonX:AccessToken"];
+			_modelId = Configuration["IbmWatsonX:ModelId"];
+			_projectId = Configuration["IbmWatsonX:ProjectId"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new LambdaChatClient(_apiKey);
-			var request = new LambdaChatRequest(_model);
+			var client = new IbmWatsonXChatClient(_accessToken);
+			var request = new IbmWatsonXChatRequest(_projectId, _modelId);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +34,8 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new LambdaChatClient(_apiKey);
-			var request = new LambdaChatRequest(_model);
+			var client = new IbmWatsonXChatClient(_accessToken);
+			var request = new IbmWatsonXChatRequest(_projectId, _modelId);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

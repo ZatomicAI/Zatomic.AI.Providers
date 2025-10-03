@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.Lambda
+namespace Zatomic.AI.Providers.IbmWatsonX
 {
-	public class LambdaChatDelta
+	public class IbmWatsonXChatDelta
 	{
 		[JsonProperty("content")]
 		public string Content { get; set; }

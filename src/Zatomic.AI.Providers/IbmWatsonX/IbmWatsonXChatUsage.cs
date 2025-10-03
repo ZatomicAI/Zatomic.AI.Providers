@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.Lambda
+namespace Zatomic.AI.Providers.IbmWatsonX
 {
-	public class LambdaChatUsage
+	public class IbmWatsonXChatUsage
 	{
 		[JsonProperty("completion_tokens")]
 		public int CompletionTokens { get; set; }
