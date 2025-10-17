@@ -35,7 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Bedrock" Version="4.0.13" />
-    <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.7.4" />
+    <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.7.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
