@@ -56,6 +56,14 @@ namespace Zatomic.AI.Providers.GoogleGemini
 			GenerationConfig = new GoogleGeminiChatGenerationConfig { ResponseMimeType = responseMimeType };
 		}
 
+		public void AddAssistantMessage(string content)
+		{
+			// This method exists for consistency with other providers, but it's just an
+			// alias for AddModelMessage since Google uses "model" instead of "assistant".
+
+			AddTextMessage("model", content);
+		}
+
 		public void AddModelMessage(string content)
 		{
 			AddTextMessage("model", content);

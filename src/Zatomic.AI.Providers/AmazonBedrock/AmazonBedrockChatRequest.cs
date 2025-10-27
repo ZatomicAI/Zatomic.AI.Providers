@@ -46,6 +46,11 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 			AddMessage("assistant", content);
 		}
 
+		public void AddSystemMessage(string content)
+		{
+			System = content;
+		}
+
 		public void AddUserMessage(string content)
 		{
 			AddMessage("user", content);

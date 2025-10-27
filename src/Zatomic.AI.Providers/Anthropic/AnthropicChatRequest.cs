@@ -66,6 +66,11 @@ namespace Zatomic.AI.Providers.Anthropic
 			AddTextMessage("assistant", content);
 		}
 
+		public void AddSystemMessage(string content)
+		{
+			System = content;
+		}
+
 		public void AddUserMessage(string content)
 		{
 			AddTextMessage("user", content);
