@@ -31,16 +31,19 @@ namespace Zatomic.AI.Providers.GoogleGemini
 
 			using (var httpClient = new HttpClient())
 			{
-				var requestJson = request.Serialize();
-				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
-
 				var responseJson = "";
 
 				try
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(apiUrl, content));
+					using var postResponse = await DoWithRetryAsync(() =>
+					{
+						var requestJson = request.Serialize();
+						var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
+						return httpClient.PostAsync(apiUrl, content);
+					});
+
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 

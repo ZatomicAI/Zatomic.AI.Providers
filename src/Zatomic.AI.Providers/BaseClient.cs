@@ -36,6 +36,9 @@ namespace Zatomic.AI.Providers
 				var waitSeconds = response.Headers.RetryAfter?.Delta?.TotalSeconds ?? delaySeconds;
 				waitSeconds = Math.Min(waitSeconds, maxDelaySeconds);
 
+				// Dispose the 429 response before waiting/retrying to avoid socket leak
+				response.Dispose();
+
 				// Do the wait and set the delay for the next iteration
 				await Task.Delay(TimeSpan.FromSeconds(waitSeconds));
 				delaySeconds = Math.Min(delaySeconds * 2, maxDelaySeconds);

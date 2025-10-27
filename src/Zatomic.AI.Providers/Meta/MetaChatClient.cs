@@ -32,16 +32,19 @@ namespace Zatomic.AI.Providers.Meta
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
-				var requestJson = request.Serialize();
-				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
-
 				string responseJson = null;
 
 				try
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync(ApiUrl, content));
+					using var postResponse = await DoWithRetryAsync(() =>
+					{
+						var requestJson = request.Serialize();
+						var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
+						return httpClient.PostAsync(ApiUrl, content);
+					});
+
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 

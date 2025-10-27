@@ -36,18 +36,21 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
-				request.ProjectId = ProjectId;
-				var requestJson = request.Serialize();
-
-				var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
-
 				string responseJson = null;
 
 				try
 				{
 					var stopwatch = Stopwatch.StartNew();
 
-					var postResponse = await DoWithRetryAsync(() => httpClient.PostAsync($"{ApiUrl}?version={ApiVersion}", content));
+					using var postResponse = await DoWithRetryAsync(() =>
+					{
+						request.ProjectId = ProjectId;
+						var requestJson = request.Serialize();
+
+						var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
+						return httpClient.PostAsync($"{ApiUrl}?version={ApiVersion}", content);
+					});
+
 					responseJson = await postResponse.Content.ReadAsStringAsync();
 					postResponse.EnsureSuccessStatusCode();
 
@@ -72,20 +75,24 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
-				request.ProjectId = ProjectId;
-				var requestJson = request.Serialize();
-
-				var postRequest = new HttpRequestMessage(HttpMethod.Post, $"{ApiStreamUrl}?version={ApiVersion}")
-				{
-					Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))
-				};
-
 				HttpResponseMessage postResponse = null;
 
 				try
 				{
 					// This is wrapped in a try-catch in case an error occurs at the start
-					postResponse = await DoWithRetryAsync(() => httpClient.SendAsync(postRequest, HttpCompletionOption.ResponseHeadersRead));
+					postResponse = await DoWithRetryAsync(() =>
+					{
+						request.ProjectId = ProjectId;
+						var requestJson = request.Serialize();
+
+						var req = new HttpRequestMessage(HttpMethod.Post, $"{ApiStreamUrl}?version={ApiVersion}")
+						{
+							Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))
+						};
+
+						return httpClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead);
+					});
+
 					postResponse.EnsureSuccessStatusCode();
 				}
 				catch (Exception ex)
