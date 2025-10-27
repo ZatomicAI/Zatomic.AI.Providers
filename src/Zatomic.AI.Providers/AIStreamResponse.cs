@@ -21,5 +21,8 @@ namespace Zatomic.AI.Providers
 
 		[JsonProperty("has_error")]
 		public bool HasError { get; set; }
+
+		[JsonProperty("metadata")]
+		public string Metadata { get; set; }
 	}
 }
