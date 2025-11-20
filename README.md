@@ -6,7 +6,7 @@ The library calls the chat completions REST APIs and inference endpoints for eac
 
 ## Requirements
 
-Currently, only `.net9.0` is supported.
+Currently, only `.net10` is supported.
 
 ## Installation
 
