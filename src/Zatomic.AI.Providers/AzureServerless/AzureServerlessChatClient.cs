@@ -118,7 +118,7 @@ namespace Zatomic.AI.Providers.AzureServerless
 				using (var stream = await postResponse.Content.ReadAsStreamAsync())
 				using (var reader = new StreamReader(stream))
 				{
-					while (!reader.EndOfStream && !streamComplete)
+					while (!streamComplete)
 					{
 						string line;
 
@@ -132,6 +132,9 @@ namespace Zatomic.AI.Providers.AzureServerless
 							var aiEx = AIExceptionUtility.BuildAzureServerlessAIException(ex, request);
 							throw aiEx;
 						}
+
+						// Check for end of stream
+						if (line == null) break;
 
 						// Event messages start with "data: ", so that's why we substring the line at 6
 						if (!line.IsNullOrEmpty() && line.StartsWith("data: "))
