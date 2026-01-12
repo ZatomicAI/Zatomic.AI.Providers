@@ -11,9 +11,6 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("max_completion_tokens", NullValueHandling = NullValueHandling.Ignore)]
 		public int? MaxCompletionTokens { get; set; }
 
-		[JsonProperty("max_tokens", NullValueHandling = NullValueHandling.Ignore)]
-		public int? MaxTokens { get; set; }
-
 		[JsonProperty("messages")]
 		public List<AzureOpenAIChatInputMessage> Messages { get; set; }
 
