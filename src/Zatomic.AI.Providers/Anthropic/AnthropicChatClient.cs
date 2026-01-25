@@ -41,6 +41,11 @@ namespace Zatomic.AI.Providers.Anthropic
 					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
 				}
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -84,6 +89,11 @@ namespace Zatomic.AI.Providers.Anthropic
 				if (BetaVersions.Count > 0)
 				{
 					httpClient.DefaultRequestHeaders.Add("Anthropic-Beta", BetaVersions.ToDelimitedString(","));
+				}
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
 				}
 
 				HttpResponseMessage postResponse = null;

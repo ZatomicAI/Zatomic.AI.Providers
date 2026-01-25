@@ -36,6 +36,11 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -74,6 +79,11 @@ namespace Zatomic.AI.Providers.IbmWatsonX
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 

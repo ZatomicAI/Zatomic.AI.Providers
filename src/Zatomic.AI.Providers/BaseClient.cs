@@ -7,6 +7,8 @@ namespace Zatomic.AI.Providers
 {
 	public abstract class BaseClient
 	{
+		public int? Timeout { get; set; }
+
 		public async Task<HttpResponseMessage> DoWithRetryAsync(Func<Task<HttpResponseMessage>> doAsync)
 		{
 			var retryCount = 0;

@@ -31,6 +31,11 @@ namespace Zatomic.AI.Providers.GoogleGemini
 
 			using (var httpClient = new HttpClient())
 			{
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				var responseJson = "";
 
 				try

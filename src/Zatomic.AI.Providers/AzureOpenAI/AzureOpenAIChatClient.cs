@@ -49,6 +49,11 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 			{
 				httpClient.DefaultRequestHeaders.Add("api-key", ApiKey);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -88,6 +93,11 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Add("api-key", ApiKey);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 

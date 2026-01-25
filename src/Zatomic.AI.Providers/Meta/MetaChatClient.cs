@@ -32,6 +32,11 @@ namespace Zatomic.AI.Providers.Meta
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try

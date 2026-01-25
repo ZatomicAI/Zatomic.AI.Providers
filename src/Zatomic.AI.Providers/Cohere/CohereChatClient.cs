@@ -38,6 +38,11 @@ namespace Zatomic.AI.Providers.Cohere
 					httpClient.DefaultRequestHeaders.Add("X-Client-Name", ClientName);
 				}
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -80,6 +85,11 @@ namespace Zatomic.AI.Providers.Cohere
 				if (!ClientName.IsNullOrEmpty())
 				{
 					httpClient.DefaultRequestHeaders.Add("X-Client-Name", ClientName);
+				}
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
 				}
 
 				HttpResponseMessage postResponse = null;

@@ -34,6 +34,11 @@ namespace Zatomic.AI.Providers.HuggingFace
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -73,6 +78,11 @@ namespace Zatomic.AI.Providers.HuggingFace
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 

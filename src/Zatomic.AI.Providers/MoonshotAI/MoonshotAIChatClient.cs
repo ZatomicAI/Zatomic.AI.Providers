@@ -32,6 +32,11 @@ namespace Zatomic.AI.Providers.MoonshotAI
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -70,6 +75,11 @@ namespace Zatomic.AI.Providers.MoonshotAI
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 

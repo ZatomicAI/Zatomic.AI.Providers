@@ -32,6 +32,11 @@ namespace Zatomic.AI.Providers.AI21Labs
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -72,6 +77,11 @@ namespace Zatomic.AI.Providers.AI21Labs
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 

@@ -49,6 +49,11 @@ namespace Zatomic.AI.Providers.AzureServerless
 			{
 				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
 
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
+
 				string responseJson = null;
 
 				try
@@ -87,6 +92,11 @@ namespace Zatomic.AI.Providers.AzureServerless
 			using (var httpClient = new HttpClient())
 			{
 				httpClient.DefaultRequestHeaders.Add("Authorization", ApiKey);
+
+				if (Timeout.HasValue)
+				{
+					httpClient.Timeout = TimeSpan.FromSeconds(Timeout.Value);
+				}
 
 				HttpResponseMessage postResponse = null;
 
