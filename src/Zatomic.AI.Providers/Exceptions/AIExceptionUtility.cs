@@ -5,6 +5,7 @@ using Zatomic.AI.Providers.Anthropic;
 using Zatomic.AI.Providers.AzureOpenAI;
 using Zatomic.AI.Providers.AzureServerless;
 using Zatomic.AI.Providers.Cohere;
+using Zatomic.AI.Providers.Databricks;
 using Zatomic.AI.Providers.DeepInfra;
 using Zatomic.AI.Providers.Extensions;
 using Zatomic.AI.Providers.FireworksAI;
@@ -55,6 +56,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildCohereAIException(Exception ex, CohereChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Cohere", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildDatabricksAIException(Exception ex, DatabricksChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "Databricks", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildDeepInfraAIException(Exception ex, DeepInfraChatRequest request, string responseJson = null)
