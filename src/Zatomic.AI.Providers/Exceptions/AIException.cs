@@ -12,5 +12,9 @@ namespace Zatomic.AI.Providers.Exceptions
 		public AIException(string message) : base(message)
 		{
 		}
+
+		public AIException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }
