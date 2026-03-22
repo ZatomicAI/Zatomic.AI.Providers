@@ -153,7 +153,7 @@ namespace Zatomic.AI.Providers.Exceptions
 			var clonedReq = request.Clone<T>();
 			clonedReq.ClearMessages();
 
-			var aiEx = new AIException(ex.Message)
+			var aiEx = new AIException(ex.GetBaseException().Message, ex)
 			{
 				Provider = provider,
 				Model = model,
