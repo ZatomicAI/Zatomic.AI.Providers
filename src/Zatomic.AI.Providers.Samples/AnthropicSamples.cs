@@ -22,7 +22,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AnthropicChatClient(_apiKey);
+			var client = new AnthropicChatClient(_apiKey) { Timeout = Timeout };
 			var request = new AnthropicChatRequest(_model, _maxTokens);
 			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);
@@ -35,7 +35,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AnthropicChatClient(_apiKey);
+			var client = new AnthropicChatClient(_apiKey) { Timeout = Timeout };
 			var request = new AnthropicChatRequest(_model, _maxTokens);
 			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);

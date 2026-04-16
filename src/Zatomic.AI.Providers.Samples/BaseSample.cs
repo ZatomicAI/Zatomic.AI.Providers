@@ -6,6 +6,7 @@ namespace Zatomic.AI.Providers.Samples
 	public abstract class BaseSample
 	{
 		public IConfiguration Configuration { get; set; }
+		public int Timeout { get; set; } = 300; // In seconds
 		public string SystemPrompt { get; set; } = "You are a knowledgeable and helpful assistant.";
 		public string UserPrompt { get; set; } = "Why is the sky blue? Keep it brief.";
 

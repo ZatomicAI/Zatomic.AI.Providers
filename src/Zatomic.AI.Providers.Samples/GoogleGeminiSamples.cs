@@ -19,7 +19,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new GoogleGeminiChatClient(_apiKey);
+			var client = new GoogleGeminiChatClient(_apiKey) { Timeout = Timeout };
 			var request = new GoogleGeminiChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new GoogleGeminiChatClient(_apiKey);
+			var client = new GoogleGeminiChatClient(_apiKey) { Timeout = Timeout };
 			var request = new GoogleGeminiChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

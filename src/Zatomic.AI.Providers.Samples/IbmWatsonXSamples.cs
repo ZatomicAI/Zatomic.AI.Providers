@@ -21,7 +21,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new IbmWatsonXChatClient(_accessToken, _projectId);
+			var client = new IbmWatsonXChatClient(_accessToken, _projectId) { Timeout = Timeout };
 			var request = new IbmWatsonXChatRequest(_modelId);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -34,7 +34,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new IbmWatsonXChatClient(_accessToken, _projectId);
+			var client = new IbmWatsonXChatClient(_accessToken, _projectId) { Timeout = Timeout };
 			var request = new IbmWatsonXChatRequest(_modelId);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

@@ -21,7 +21,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new HuggingFaceChatClient(_endpoint, _accessToken);
+			var client = new HuggingFaceChatClient(_endpoint, _accessToken) { Timeout = Timeout };
 			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -34,7 +34,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new HuggingFaceChatClient(_endpoint, _accessToken);
+			var client = new HuggingFaceChatClient(_endpoint, _accessToken) { Timeout = Timeout };
 			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

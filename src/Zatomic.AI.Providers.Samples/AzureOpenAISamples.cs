@@ -26,7 +26,8 @@ namespace Zatomic.AI.Providers.Samples
 			var client = new AzureOpenAIChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
-				DeploymentName = _deployment
+				DeploymentName = _deployment,
+				Timeout = Timeout
 			};
 
 			var request = new AzureOpenAIChatRequest(_model);
@@ -44,7 +45,8 @@ namespace Zatomic.AI.Providers.Samples
 			var client = new AzureOpenAIChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
-				DeploymentName = _deployment
+				DeploymentName = _deployment,
+				Timeout = Timeout
 			};
 
 			var request = new AzureOpenAIChatRequest(_model);

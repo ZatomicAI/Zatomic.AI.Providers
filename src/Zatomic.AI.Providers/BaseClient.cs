@@ -14,7 +14,7 @@ namespace Zatomic.AI.Providers
 			var retryCount = 0;
 			var maxRetries = 5;
 			var delaySeconds = 1.0;
-			var maxDelaySeconds = 30.0;
+			var maxDelaySeconds = 60.0;
 
 			while (true)
 			{

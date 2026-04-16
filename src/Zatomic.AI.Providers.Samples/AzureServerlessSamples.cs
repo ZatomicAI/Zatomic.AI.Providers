@@ -23,7 +23,8 @@ namespace Zatomic.AI.Providers.Samples
 		{
 			var client = new AzureServerlessChatClient(_endpoint, _apiKey)
 			{
-				Endpoint = _endpoint
+				Endpoint = _endpoint,
+				Timeout = Timeout
 			};
 
 			var request = new AzureServerlessChatRequest(_modelName);
@@ -40,7 +41,8 @@ namespace Zatomic.AI.Providers.Samples
 		{
 			var client = new AzureServerlessChatClient(_endpoint, _apiKey)
 			{
-				Endpoint = _endpoint
+				Endpoint = _endpoint,
+				Timeout = Timeout
 			};
 
 			var request = new AzureServerlessChatRequest(_modelName);

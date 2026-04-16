@@ -19,7 +19,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new FireworksAIChatClient(_apiKey);
+			var client = new FireworksAIChatClient(_apiKey) { Timeout = Timeout };
 			var request = new FireworksAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new FireworksAIChatClient(_apiKey);
+			var client = new FireworksAIChatClient(_apiKey) { Timeout = Timeout };
 			var request = new FireworksAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

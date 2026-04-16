@@ -19,7 +19,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new xAIChatClient(_apiKey);
+			var client = new xAIChatClient(_apiKey) { Timeout = Timeout };
 			var request = new xAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new xAIChatClient(_apiKey);
+			var client = new xAIChatClient(_apiKey) { Timeout = Timeout };
 			var request = new xAIChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

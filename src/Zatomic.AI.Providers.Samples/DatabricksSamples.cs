@@ -19,7 +19,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new DatabricksChatClient(_apiKey) { ApiUrl = _apiUrl };
+			var client = new DatabricksChatClient(_apiKey) { ApiUrl = _apiUrl, Timeout = Timeout };
 			var request = new DatabricksChatRequest();
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new DatabricksChatClient(_apiKey) { ApiUrl = _apiUrl };
+			var client = new DatabricksChatClient(_apiKey) { ApiUrl = _apiUrl, Timeout = Timeout };
 			var request = new DatabricksChatRequest();
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

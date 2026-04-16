@@ -19,7 +19,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task Chat()
 		{
-			var client = new MistralChatClient(_apiKey);
+			var client = new MistralChatClient(_apiKey) { Timeout = Timeout };
 			var request = new MistralChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -32,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new MistralChatClient(_apiKey);
+			var client = new MistralChatClient(_apiKey) { Timeout = Timeout };
 			var request = new MistralChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
