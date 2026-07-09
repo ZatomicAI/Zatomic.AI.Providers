@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.BedrockRuntime;
 using Amazon.BedrockRuntime.Model;
+using Amazon.Runtime;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
@@ -17,9 +18,11 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 		public string AccessKey { get; set; }
 		public string Region { get; set; }
 		public string SecretKey { get; set; }
+		public Dictionary<string, string> RequestHeaders { get; set; }
 
 		public AmazonBedrockChatClient()
 		{
+			RequestHeaders = new Dictionary<string, string>();
 		}
 
 		public AmazonBedrockChatClient(string accessKey, string secretKey, string region) : this()
@@ -27,6 +30,11 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 			AccessKey = accessKey;
 			SecretKey = secretKey;
 			Region = region;
+		}
+
+		public void AddRequestHeader(string key, string value)
+		{
+			RequestHeaders.Add(key, value);
 		}
 
 		public async Task<AmazonBedrockChatResponse> ChatAsync(AmazonBedrockChatRequest request)
@@ -126,6 +134,17 @@ namespace Zatomic.AI.Providers.AmazonBedrock
 		{
 			var bedrockConfig = new AmazonBedrockRuntimeConfig { RegionEndpoint = RegionEndpoint.GetBySystemName(Region) };
 			_runtimeClient = new AmazonBedrockRuntimeClient(AccessKey, SecretKey, bedrockConfig);
+
+			foreach (var header in RequestHeaders)
+			{
+				_runtimeClient.BeforeRequestEvent += (sender, args) =>
+				{
+					if (args is WebServiceRequestEventArgs requestArgs)
+					{
+						requestArgs.Headers[header.Key] = header.Value;
+					}
+				};
+			}
 		}
 
 		private ConverseRequest ConvertToConverseRequest(AmazonBedrockChatRequest request)
