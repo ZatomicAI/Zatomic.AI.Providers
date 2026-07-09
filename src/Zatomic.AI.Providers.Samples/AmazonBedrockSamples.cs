@@ -24,6 +24,8 @@ namespace Zatomic.AI.Providers.Samples
 		public async Task Chat()
 		{
 			var client = new AmazonBedrockChatClient(_accessKey, _secretKey, _region);
+			client.AddRequestHeader("User-Agent", "Test");
+
 			var request = new AmazonBedrockChatRequest(_model);
 			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);
@@ -37,6 +39,8 @@ namespace Zatomic.AI.Providers.Samples
 		public async Task ChatStream()
 		{
 			var client = new AmazonBedrockChatClient(_accessKey, _secretKey, _region);
+			client.AddRequestHeader("User-Agent", "Test");
+
 			var request = new AmazonBedrockChatRequest(_model);
 			request.System = SystemPrompt;
 			request.AddUserMessage(UserPrompt);
