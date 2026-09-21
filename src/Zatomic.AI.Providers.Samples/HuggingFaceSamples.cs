@@ -8,20 +8,18 @@ namespace Zatomic.AI.Providers.Samples
 	public class HuggingFaceSamples : BaseSample
 	{
 		private readonly string _accessToken;
-		private readonly string _endpoint;
 		private readonly string _model;
 
 		public HuggingFaceSamples()
 		{
 			_accessToken = Configuration["HuggingFace:AccessToken"];
-			_endpoint = Configuration["HuggingFace:Endpoint"];
 			_model = Configuration["HuggingFace:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new HuggingFaceChatClient(_endpoint, _accessToken) { Timeout = Timeout };
+			var client = new HuggingFaceChatClient(_accessToken) { Timeout = Timeout };
 			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
@@ -34,7 +32,7 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new HuggingFaceChatClient(_endpoint, _accessToken) { Timeout = Timeout };
+			var client = new HuggingFaceChatClient(_accessToken) { Timeout = Timeout };
 			var request = new HuggingFaceChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);

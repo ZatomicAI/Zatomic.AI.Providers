@@ -13,16 +13,14 @@ namespace Zatomic.AI.Providers.HuggingFace
 	public class HuggingFaceChatClient : BaseClient
 	{
 		public string AccessToken { get; set; }
-		public string ApiUrl { get { return new Uri(new Uri(Endpoint), "/v1/chat/completions").ToString(); } }
-		public string Endpoint { get; set; }
+		public string ApiUrl { get; } = "https://router.huggingface.co/v1/chat/completions";
 
 		public HuggingFaceChatClient()
 		{
 		}
 
-		public HuggingFaceChatClient(string endpoint, string accessToken) : this()
+		public HuggingFaceChatClient(string accessToken) : this()
 		{
-			Endpoint = endpoint;
 			AccessToken = accessToken;
 		}
 
