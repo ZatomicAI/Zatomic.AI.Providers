@@ -2,7 +2,6 @@
 using Zatomic.AI.Providers.AmazonBedrock;
 using Zatomic.AI.Providers.Anthropic;
 using Zatomic.AI.Providers.AzureOpenAI;
-using Zatomic.AI.Providers.AzureServerless;
 using Zatomic.AI.Providers.Cohere;
 using Zatomic.AI.Providers.Databricks;
 using Zatomic.AI.Providers.DeepInfra;
@@ -39,11 +38,6 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildAzureOpenAIAIException(Exception ex, AzureOpenAIChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Azure OpenAI", request.Model, request, responseJson);
-		}
-
-		public static AIException BuildAzureServerlessAIException(Exception ex, AzureServerlessChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "Azure Serverless", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildCohereAIException(Exception ex, CohereChatRequest request, string responseJson = null)
