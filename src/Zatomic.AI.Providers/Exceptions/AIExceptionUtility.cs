@@ -1,9 +1,6 @@
 ﻿using System;
-using Zatomic.AI.Providers.AI21Labs;
 using Zatomic.AI.Providers.AmazonBedrock;
 using Zatomic.AI.Providers.Anthropic;
-using Zatomic.AI.Providers.AzureOpenAI;
-using Zatomic.AI.Providers.AzureServerless;
 using Zatomic.AI.Providers.Cohere;
 using Zatomic.AI.Providers.Databricks;
 using Zatomic.AI.Providers.DeepInfra;
@@ -12,9 +9,9 @@ using Zatomic.AI.Providers.FireworksAI;
 using Zatomic.AI.Providers.GoogleGemini;
 using Zatomic.AI.Providers.Groq;
 using Zatomic.AI.Providers.HuggingFace;
-using Zatomic.AI.Providers.Hyperbolic;
 using Zatomic.AI.Providers.IbmWatsonX;
 using Zatomic.AI.Providers.Inception;
+using Zatomic.AI.Providers.MicrosoftFoundry;
 using Zatomic.AI.Providers.Mistral;
 using Zatomic.AI.Providers.MoonshotAI;
 using Zatomic.AI.Providers.Nvidia;
@@ -27,11 +24,6 @@ namespace Zatomic.AI.Providers.Exceptions
 {
 	public static class AIExceptionUtility
 	{
-		public static AIException BuildAI21LabsAIException(Exception ex, AI21LabsChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "AI21 Labs", request.Model, request, responseJson);
-		}
-
 		public static AIException BuildAmazonBedrockAIException(Exception ex, AmazonBedrockChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Amazon Bedrock", request.Model, request, responseJson);
@@ -40,16 +32,6 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildAnthropicAIException(Exception ex, AnthropicChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Anthropic", request.Model, request, responseJson);
-		}
-
-		public static AIException BuildAzureOpenAIAIException(Exception ex, AzureOpenAIChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "Azure OpenAI", request.Model, request, responseJson);
-		}
-
-		public static AIException BuildAzureServerlessAIException(Exception ex, AzureServerlessChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "Azure Serverless", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildCohereAIException(Exception ex, CohereChatRequest request, string responseJson = null)
@@ -87,11 +69,6 @@ namespace Zatomic.AI.Providers.Exceptions
 			return BuildAIException(ex, "Hugging Face", request.Model, request, responseJson);
 		}
 
-		public static AIException BuildHyperbolicAIException(Exception ex, HyperbolicChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "Hyperbolic", request.Model, request, responseJson);
-		}
-
 		public static AIException BuildIbmWatsonXAIException(Exception ex, IbmWatsonXChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "IBM WatsonX", request.ModelId, request, responseJson);
@@ -100,6 +77,11 @@ namespace Zatomic.AI.Providers.Exceptions
 		public static AIException BuildInceptionAIException(Exception ex, InceptionChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Inception", request.Model, request, responseJson);
+		}
+
+		public static AIException BuildMicrosoftFoundryAIException(Exception ex, MicrosoftFoundryChatRequest request, string responseJson = null)
+		{
+			return BuildAIException(ex, "Microsoft Foundry", request.Model, request, responseJson);
 		}
 
 		public static AIException BuildMistralAIException(Exception ex, MistralChatRequest request, string responseJson = null)

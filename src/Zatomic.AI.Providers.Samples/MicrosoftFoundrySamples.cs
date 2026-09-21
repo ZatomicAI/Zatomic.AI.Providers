@@ -1,26 +1,33 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.HuggingFace;
+using Zatomic.AI.Providers.MicrosoftFoundry;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class HuggingFaceSamples : BaseSample
+	public class MicrosoftFoundrySamples : BaseSample
 	{
-		private readonly string _accessToken;
+		private readonly string _apiKey;
+		private readonly string _endpoint;
 		private readonly string _model;
 
-		public HuggingFaceSamples()
+		public MicrosoftFoundrySamples()
 		{
-			_accessToken = Configuration["HuggingFace:AccessToken"];
-			_model = Configuration["HuggingFace:Model"];
+			_apiKey = Configuration["MicrosoftFoundry:ApiKey"];
+			_endpoint = Configuration["MicrosoftFoundry:Endpoint"];
+			_model = Configuration["MicrosoftFoundry:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new HuggingFaceChatClient(_accessToken) { Timeout = Timeout };
-			var request = new HuggingFaceChatRequest(_model);
+			var client = new MicrosoftFoundryChatClient(_apiKey)
+			{
+				Endpoint = _endpoint,
+				Timeout = Timeout
+			};
+
+			var request = new MicrosoftFoundryChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -32,8 +39,13 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new HuggingFaceChatClient(_accessToken) { Timeout = Timeout };
-			var request = new HuggingFaceChatRequest(_model);
+			var client = new MicrosoftFoundryChatClient(_apiKey)
+			{
+				Endpoint = _endpoint,
+				Timeout = Timeout
+			};
+
+			var request = new MicrosoftFoundryChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

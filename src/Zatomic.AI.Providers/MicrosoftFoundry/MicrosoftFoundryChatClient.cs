@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.HuggingFace
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class HuggingFaceChatClient : BaseClient
+	public class MicrosoftFoundryChatClient : BaseClient
 	{
-		public string AccessToken { get; set; }
-		public string ApiUrl { get; } = "https://router.huggingface.co/v1/chat/completions";
+		public string ApiKey { get; set; }
+		public string Endpoint { get; set; }
 
-		public HuggingFaceChatClient()
+		public MicrosoftFoundryChatClient()
 		{
 		}
 
-		public HuggingFaceChatClient(string accessToken) : this()
+		public MicrosoftFoundryChatClient(string apiKey) : this()
 		{
-			AccessToken = accessToken;
+			ApiKey = apiKey;
 		}
 
-		public async Task<HuggingFaceChatResponse> ChatAsync(HuggingFaceChatRequest request)
+		public async Task<MicrosoftFoundryChatResponse> ChatAsync(MicrosoftFoundryChatRequest request)
 		{
-			HuggingFaceChatResponse response = null;
+			MicrosoftFoundryChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+				httpClient.DefaultRequestHeaders.Add("api-key", ApiKey);
 
 				if (Timeout.HasValue)
 				{
@@ -47,7 +47,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 					{
 						var requestJson = request.Serialize();
 						var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
-						return httpClient.PostAsync(ApiUrl, content);
+						return httpClient.PostAsync(Endpoint, content);
 					});
 
 					responseJson = await postResponse.Content.ReadAsStringAsync();
@@ -55,12 +55,12 @@ namespace Zatomic.AI.Providers.HuggingFace
 
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<HuggingFaceChatResponse>();
+					response = responseJson.Deserialize<MicrosoftFoundryChatResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildHuggingFaceAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -68,14 +68,14 @@ namespace Zatomic.AI.Providers.HuggingFace
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(HuggingFaceChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(MicrosoftFoundryChatRequest request)
 		{
 			request.Stream = true;
-			request.StreamOptions = new HuggingFaceChatStreamOptions { IncludeUsage = true };
+			request.StreamOptions = new MicrosoftFoundryChatStreamOptions { IncludeUsage = true };
 
 			using (var httpClient = new HttpClient())
 			{
-				httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+				httpClient.DefaultRequestHeaders.Add("api-key", ApiKey);
 
 				if (Timeout.HasValue)
 				{
@@ -90,7 +90,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 					postResponse = await DoWithRetryAsync(() =>
 					{
 						var requestJson = request.Serialize();
-						var req = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
+						var req = new HttpRequestMessage(HttpMethod.Post, Endpoint)
 						{
 							Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))
 						};
@@ -102,7 +102,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildHuggingFaceAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -123,7 +123,7 @@ namespace Zatomic.AI.Providers.HuggingFace
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildHuggingFaceAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request);
 							throw aiEx;
 						}
 
@@ -135,13 +135,13 @@ namespace Zatomic.AI.Providers.HuggingFace
 						{
 							var streamResponse = new AIStreamResponse();
 
-							var rsp = line.Substring(6).Deserialize<HuggingFaceChatResponse>();
+							var rsp = line.Substring(6).Deserialize<MicrosoftFoundryChatResponse>();
 							if (rsp.Choices.Count > 0)
 							{
 								streamResponse.Chunk = rsp.Choices[0].Delta.Content;
 							}
 
-							// Using Hugging Face's stream options to include usage means that they return an additional chunk
+							// Using the stream options to include usage means that Azure OpenAI returns an additional chunk
 							// with the usage information right before the final [DONE] chunk (whereas all prior chunks
 							// won't have usage in them). This means that we can key off that to determine if the stream
 							// is complete instead of looking at the finish reason. The finish reason comes in the chunk
