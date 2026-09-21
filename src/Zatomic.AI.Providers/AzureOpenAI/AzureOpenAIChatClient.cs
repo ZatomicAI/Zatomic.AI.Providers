@@ -13,23 +13,6 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 	public class AzureOpenAIChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
-
-		public string ApiUrl
-		{
-			get
-			{
-				var apiUrl = new Uri(new Uri(Endpoint), $"/openai/deployments/{DeploymentName}/chat/completions");
-				if (!ApiVersion.IsNullOrEmpty())
-				{
-					apiUrl = new Uri(apiUrl, $"?api-version={ApiVersion}");
-				}
-
-				return apiUrl.ToString();
-			}
-		}
-
-		public string ApiVersion { get; set; } = "2024-10-21";
-		public string DeploymentName { get; set; }
 		public string Endpoint { get; set; }
 
 		public AzureOpenAIChatClient()
@@ -64,7 +47,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 					{
 						var requestJson = request.Serialize();
 						var content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"));
-						return httpClient.PostAsync(ApiUrl, content);
+						return httpClient.PostAsync(Endpoint, content);
 					});
 
 					responseJson = await postResponse.Content.ReadAsStringAsync();
@@ -107,7 +90,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 					postResponse = await DoWithRetryAsync(() =>
 					{
 						var requestJson = request.Serialize();
-						var req = new HttpRequestMessage(HttpMethod.Post, ApiUrl)
+						var req = new HttpRequestMessage(HttpMethod.Post, Endpoint)
 						{
 							Content = new StringContent(requestJson, new MediaTypeHeaderValue("application/json"))
 						};

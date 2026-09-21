@@ -9,14 +9,12 @@ namespace Zatomic.AI.Providers.Samples
 	{
 		private readonly string _apiKey;
 		private readonly string _endpoint;
-		private readonly string _deployment;
 		private readonly string _model;
 
 		public AzureOpenAISamples()
 		{
 			_apiKey = Configuration["AzureOpenAI:ApiKey"];
 			_endpoint = Configuration["AzureOpenAI:Endpoint"];
-			_deployment = Configuration["AzureOpenAI:Deployment"];
 			_model = Configuration["AzureOpenAI:Model"];
 		}
 
@@ -26,7 +24,6 @@ namespace Zatomic.AI.Providers.Samples
 			var client = new AzureOpenAIChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
-				DeploymentName = _deployment,
 				Timeout = Timeout
 			};
 
@@ -45,7 +42,6 @@ namespace Zatomic.AI.Providers.Samples
 			var client = new AzureOpenAIChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
-				DeploymentName = _deployment,
 				Timeout = Timeout
 			};
 
