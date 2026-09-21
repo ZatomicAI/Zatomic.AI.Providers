@@ -1,5 +1,4 @@
 ﻿using System;
-using Zatomic.AI.Providers.AI21Labs;
 using Zatomic.AI.Providers.AmazonBedrock;
 using Zatomic.AI.Providers.Anthropic;
 using Zatomic.AI.Providers.AzureOpenAI;
@@ -27,11 +26,6 @@ namespace Zatomic.AI.Providers.Exceptions
 {
 	public static class AIExceptionUtility
 	{
-		public static AIException BuildAI21LabsAIException(Exception ex, AI21LabsChatRequest request, string responseJson = null)
-		{
-			return BuildAIException(ex, "AI21 Labs", request.Model, request, responseJson);
-		}
-
 		public static AIException BuildAmazonBedrockAIException(Exception ex, AmazonBedrockChatRequest request, string responseJson = null)
 		{
 			return BuildAIException(ex, "Amazon Bedrock", request.Model, request, responseJson);
