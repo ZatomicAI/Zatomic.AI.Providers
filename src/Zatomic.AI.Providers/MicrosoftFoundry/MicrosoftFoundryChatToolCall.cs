@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatToolCall
+	public class MicrosoftFoundryChatToolCall
 	{
 		[JsonProperty("function")]
-		public AzureOpenAIChatToolCallFunction Function { get; set; }
+		public MicrosoftFoundryChatToolCallFunction Function { get; set; }
 
 		[JsonProperty("id")]
 		public string Id { get; set; }

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatToolFunction
+	public class MicrosoftFoundryChatToolFunction
 	{
 		[JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
 		public string Description { get; set; }

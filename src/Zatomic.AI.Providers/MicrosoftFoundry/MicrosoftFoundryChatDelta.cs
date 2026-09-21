@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatDelta
+	public class MicrosoftFoundryChatDelta
 	{
 		[JsonProperty("content")]
 		public string Content { get; set; }

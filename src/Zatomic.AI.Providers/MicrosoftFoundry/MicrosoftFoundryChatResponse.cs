@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatResponse
+	public class MicrosoftFoundryChatResponse
 	{
 		[JsonProperty("choices")]
-		public List<AzureOpenAIChatChoice> Choices { get; set; }
+		public List<MicrosoftFoundryChatChoice> Choices { get; set; }
 
 		[JsonProperty("created")]
 		public int Created { get; set; }
@@ -28,18 +28,18 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public string Object { get; set; }
 
 		[JsonProperty("prompt_filter_results")]
-		public List<AzureOpenAIChatPromptFilterResult> PromptFilterResults { get; set; }
+		public List<MicrosoftFoundryChatPromptFilterResult> PromptFilterResults { get; set; }
 
 		[JsonProperty("system_fingerprint")]
 		public string SystemFingerprint { get; set; }
 
 		[JsonProperty("usage")]
-		public AzureOpenAIChatUsage Usage { get; set; }
+		public MicrosoftFoundryChatUsage Usage { get; set; }
 
-		public AzureOpenAIChatResponse()
+		public MicrosoftFoundryChatResponse()
 		{
-			Choices = new List<AzureOpenAIChatChoice>();
-			PromptFilterResults = new List<AzureOpenAIChatPromptFilterResult>();
+			Choices = new List<MicrosoftFoundryChatChoice>();
+			PromptFilterResults = new List<MicrosoftFoundryChatPromptFilterResult>();
 		}
 	}
 }

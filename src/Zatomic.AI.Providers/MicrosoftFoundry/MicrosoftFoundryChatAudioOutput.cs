@@ -1,9 +1,9 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatAudioOutput
+	public class MicrosoftFoundryChatAudioOutput
 	{
 		[JsonProperty("data")]
 		public string Data { get; set; }

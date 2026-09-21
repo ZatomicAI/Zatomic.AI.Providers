@@ -1,33 +1,33 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using Zatomic.AI.Providers.AzureOpenAI;
+using Zatomic.AI.Providers.MicrosoftFoundry;
 
 namespace Zatomic.AI.Providers.Samples
 {
 	[TestFixture, Explicit]
-	public class AzureOpenAISamples : BaseSample
+	public class MicrosoftFoundrySamples : BaseSample
 	{
 		private readonly string _apiKey;
 		private readonly string _endpoint;
 		private readonly string _model;
 
-		public AzureOpenAISamples()
+		public MicrosoftFoundrySamples()
 		{
-			_apiKey = Configuration["AzureOpenAI:ApiKey"];
-			_endpoint = Configuration["AzureOpenAI:Endpoint"];
-			_model = Configuration["AzureOpenAI:Model"];
+			_apiKey = Configuration["MicrosoftFoundry:ApiKey"];
+			_endpoint = Configuration["MicrosoftFoundry:Endpoint"];
+			_model = Configuration["MicrosoftFoundry:Model"];
 		}
 
 		[Test]
 		public async Task Chat()
 		{
-			var client = new AzureOpenAIChatClient(_apiKey)
+			var client = new MicrosoftFoundryChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
 				Timeout = Timeout
 			};
 
-			var request = new AzureOpenAIChatRequest(_model);
+			var request = new MicrosoftFoundryChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 
@@ -39,13 +39,13 @@ namespace Zatomic.AI.Providers.Samples
 		[Test]
 		public async Task ChatStream()
 		{
-			var client = new AzureOpenAIChatClient(_apiKey)
+			var client = new MicrosoftFoundryChatClient(_apiKey)
 			{
 				Endpoint = _endpoint,
 				Timeout = Timeout
 			};
 
-			var request = new AzureOpenAIChatRequest(_model);
+			var request = new MicrosoftFoundryChatRequest(_model);
 			request.AddSystemMessage(SystemPrompt);
 			request.AddUserMessage(UserPrompt);
 

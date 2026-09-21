@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatUrlCitation
+	public class MicrosoftFoundryChatUrlCitation
 	{
 		[JsonProperty("end_index")]
 		public int EndIndex { get; set; }

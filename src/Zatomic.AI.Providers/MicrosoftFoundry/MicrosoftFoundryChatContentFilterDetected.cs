@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatContentFilterDetected
+	public class MicrosoftFoundryChatContentFilterDetected
 	{
 		[JsonProperty("filtered")]
 		public bool Filtered { get; set; }

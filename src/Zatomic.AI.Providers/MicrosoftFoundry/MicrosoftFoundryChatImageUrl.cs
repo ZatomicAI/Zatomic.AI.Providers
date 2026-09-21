@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatImageUrl
+	public class MicrosoftFoundryChatImageUrl
 	{
 		[JsonProperty("detail", NullValueHandling = NullValueHandling.Ignore)]
 		public string Detail { get; set; }

@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 using Zatomic.AI.Providers.Exceptions;
 using Zatomic.AI.Providers.Extensions;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatClient : BaseClient
+	public class MicrosoftFoundryChatClient : BaseClient
 	{
 		public string ApiKey { get; set; }
 		public string Endpoint { get; set; }
 
-		public AzureOpenAIChatClient()
+		public MicrosoftFoundryChatClient()
 		{
 		}
 
-		public AzureOpenAIChatClient(string apiKey) : this()
+		public MicrosoftFoundryChatClient(string apiKey) : this()
 		{
 			ApiKey = apiKey;
 		}
 
-		public async Task<AzureOpenAIChatResponse> ChatAsync(AzureOpenAIChatRequest request)
+		public async Task<MicrosoftFoundryChatResponse> ChatAsync(MicrosoftFoundryChatRequest request)
 		{
-			AzureOpenAIChatResponse response = null;
+			MicrosoftFoundryChatResponse response = null;
 
 			using (var httpClient = new HttpClient())
 			{
@@ -55,12 +55,12 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 
 					stopwatch.Stop();
 
-					response = responseJson.Deserialize<AzureOpenAIChatResponse>();
+					response = responseJson.Deserialize<MicrosoftFoundryChatResponse>();
 					response.Duration = stopwatch.ToDurationInSeconds(2);
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildAzureOpenAIAIException(ex, request, responseJson);
+					var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request, responseJson);
 					throw aiEx;
 				}
 			}
@@ -68,10 +68,10 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 			return response;
 		}
 
-		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(AzureOpenAIChatRequest request)
+		public async IAsyncEnumerable<AIStreamResponse> ChatStreamAsync(MicrosoftFoundryChatRequest request)
 		{
 			request.Stream = true;
-			request.StreamOptions = new AzureOpenAIChatStreamOptions { IncludeUsage = true };
+			request.StreamOptions = new MicrosoftFoundryChatStreamOptions { IncludeUsage = true };
 
 			using (var httpClient = new HttpClient())
 			{
@@ -102,7 +102,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 				}
 				catch (Exception ex)
 				{
-					var aiEx = AIExceptionUtility.BuildAzureOpenAIAIException(ex, request);
+					var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request);
 					throw aiEx;
 				}
 
@@ -123,7 +123,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 						}
 						catch (Exception ex)
 						{
-							var aiEx = AIExceptionUtility.BuildAzureOpenAIAIException(ex, request);
+							var aiEx = AIExceptionUtility.BuildMicrosoftFoundryAIException(ex, request);
 							throw aiEx;
 						}
 
@@ -135,7 +135,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 						{
 							var streamResponse = new AIStreamResponse();
 
-							var rsp = line.Substring(6).Deserialize<AzureOpenAIChatResponse>();
+							var rsp = line.Substring(6).Deserialize<MicrosoftFoundryChatResponse>();
 							if (rsp.Choices.Count > 0)
 							{
 								streamResponse.Chunk = rsp.Choices[0].Delta.Content;

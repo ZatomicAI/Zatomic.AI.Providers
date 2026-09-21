@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatRequest : BaseRequest, IChatRequest
+	public class MicrosoftFoundryChatRequest : BaseRequest, IChatRequest
 	{
 		[JsonProperty("frequency_penalty", NullValueHandling = NullValueHandling.Ignore)]
 		public float? FrequencyPenalty { get; set; }
@@ -12,7 +12,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public int? MaxCompletionTokens { get; set; }
 
 		[JsonProperty("messages")]
-		public List<AzureOpenAIChatInputMessage> Messages { get; set; }
+		public List<MicrosoftFoundryChatInputMessage> Messages { get; set; }
 
 		[JsonProperty("model")]
 		public string Model { get; set; }
@@ -27,7 +27,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public float? PresencePenalty { get; set; }
 
 		[JsonProperty("response_format", NullValueHandling = NullValueHandling.Ignore)]
-		public AzureOpenAIChatResponseFormat ResponseFormat { get; set; }
+		public MicrosoftFoundryChatResponseFormat ResponseFormat { get; set; }
 
 		[JsonProperty("seed", NullValueHandling = NullValueHandling.Ignore)]
 		public decimal? Seed { get; set; }
@@ -39,7 +39,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public bool? Stream { get; set; }
 
 		[JsonProperty("stream_options", NullValueHandling = NullValueHandling.Ignore)]
-		public AzureOpenAIChatStreamOptions StreamOptions { get; set; }
+		public MicrosoftFoundryChatStreamOptions StreamOptions { get; set; }
 
 		[JsonProperty("temperature", NullValueHandling = NullValueHandling.Ignore)]
 		public float? Temperature { get; set; }
@@ -48,7 +48,7 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		public object ToolChoice { get; set; }
 
 		[JsonProperty("tools", NullValueHandling = NullValueHandling.Ignore)]
-		public List<AzureOpenAIChatTool> Tools { get; set; }
+		public List<MicrosoftFoundryChatTool> Tools { get; set; }
 
 		[JsonProperty("top_p", NullValueHandling = NullValueHandling.Ignore)]
 		public float? TopP { get; set; }
@@ -56,24 +56,24 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 		[JsonProperty("user", NullValueHandling = NullValueHandling.Ignore)]
 		public string User { get; set; }
 
-		public AzureOpenAIChatRequest()
+		public MicrosoftFoundryChatRequest()
 		{
-			Messages = new List<AzureOpenAIChatInputMessage>();
+			Messages = new List<MicrosoftFoundryChatInputMessage>();
 		}
 
-		public AzureOpenAIChatRequest(string model) : this()
+		public MicrosoftFoundryChatRequest(string model) : this()
 		{
 			Model = model;
 		}
 
-		public AzureOpenAIChatRequest(string model, float temperature) : this(model)
+		public MicrosoftFoundryChatRequest(string model, float temperature) : this(model)
 		{
 			Temperature = temperature;
 		}
 
-		public AzureOpenAIChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
+		public MicrosoftFoundryChatRequest(string model, float temperature, string responseFormat) : this(model, temperature)
 		{
-			ResponseFormat = new AzureOpenAIChatResponseFormat { Type = responseFormat };
+			ResponseFormat = new MicrosoftFoundryChatResponseFormat { Type = responseFormat };
 		}
 
 		public void AddAssistantMessage(string content)
@@ -103,16 +103,16 @@ namespace Zatomic.AI.Providers.AzureOpenAI
 
 		private void AddImageMessage(string role, string content, string imageUrl, string imageDetail = null)
 		{
-			var msg = new AzureOpenAIChatInputMessage { Role = role };
-			msg.Content.Add(new AzureOpenAIChatTextContent { Type = "text", Text = content });
-			msg.Content.Add(new AzureOpenAIChatImageUrlContent { Type = "image_url", ImageUrl = new AzureOpenAIChatImageUrl { Url = imageUrl, Detail = imageDetail } });
+			var msg = new MicrosoftFoundryChatInputMessage { Role = role };
+			msg.Content.Add(new MicrosoftFoundryChatTextContent { Type = "text", Text = content });
+			msg.Content.Add(new MicrosoftFoundryChatImageUrlContent { Type = "image_url", ImageUrl = new MicrosoftFoundryChatImageUrl { Url = imageUrl, Detail = imageDetail } });
 			Messages.Add(msg);
 		}
 
 		private void AddTextMessage(string role, string content)
 		{
-			var msg = new AzureOpenAIChatInputMessage { Role = role };
-			msg.Content.Add(new AzureOpenAIChatTextContent { Type = "text", Text = content });
+			var msg = new MicrosoftFoundryChatInputMessage { Role = role };
+			msg.Content.Add(new MicrosoftFoundryChatTextContent { Type = "text", Text = content });
 			Messages.Add(msg);
 		}
 	}

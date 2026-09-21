@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Zatomic.AI.Providers.AzureOpenAI
+namespace Zatomic.AI.Providers.MicrosoftFoundry
 {
-	public class AzureOpenAIChatUsage
+	public class MicrosoftFoundryChatUsage
 	{
 		[JsonProperty("completion_tokens")]
 		public int CompletionTokens { get; set; }
