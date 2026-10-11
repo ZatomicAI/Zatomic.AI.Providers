@@ -28,7 +28,8 @@ namespace Zatomic.AI.Providers.Samples
 			request.AddUserMessage(UserPrompt);
 
 			var response = await client.ChatAsync(request);
-			WriteOutput(((AnthropicChatTextContent)response.Content[0]).Text);
+			var textContent = response.Content.Find(c => c.Type == "text") as AnthropicChatTextContent;
+			WriteOutput(textContent.Text);
 			WriteOutput(response.Usage.InputTokens, response.Usage.OutputTokens, response.Usage.TotalTokens, response.Duration.Value);
 		}
 
